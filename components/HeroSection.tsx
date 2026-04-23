@@ -10,6 +10,14 @@ const WORDS = [
   "Demand Engines",
 ];
 
+// Syntax colors adapted for cream/warm-white background (readable contrast)
+const C = {
+  comment: "#9d937c",  // tan — muted, readable
+  keyword: "#4a7a96",  // dark blue (cream-readable version of accent-blue)
+  value:   "#5d8a6e",  // dark muted green (cream-readable version of mint)
+  plain:   "#3d3b34",  // ash — default code text
+};
+
 const CODE_LINES = [
   { type: "comment",        text: "/// CONTENT_PIPELINE" },
   { type: "keyword",        text: "public fun", rest: " generate_at_scale() {" },
@@ -33,40 +41,40 @@ const CODE_LINES = [
   { type: "keyword-indent", text: "  ", keyword: "return", rest: " brand_system;" },
   { type: "plain",          text: "}" },
   { type: "blank",          text: " " },
-];
+] as const;
 
-function CodeLine({ line }: { line: (typeof CODE_LINES)[number] }) {
+type CodeLineType = (typeof CODE_LINES)[number];
+
+function CodeLine({ line }: { line: CodeLineType }) {
   const base = "font-mono text-[10px] leading-[1.9] whitespace-pre";
   switch (line.type) {
     case "comment":
     case "comment-indent":
-      return <div className={base} style={{ color: "var(--c-sand)" }}>{line.text}</div>;
+      return <div className={base} style={{ color: C.comment }}>{line.text}</div>;
     case "keyword":
       return (
-        <div className={base} style={{ color: "var(--c-blue)" }}>
+        <div className={base} style={{ color: C.keyword }}>
           {line.text}
-          <span style={{ color: "var(--c-sand)" }}>{line.rest}</span>
+          <span style={{ color: C.plain }}>{"rest" in line ? line.rest : ""}</span>
         </div>
       );
     case "keyword-indent":
       return (
-        <div className={base} style={{ color: "var(--c-sand)" }}>
-          {line.text}
-          <span style={{ color: "var(--c-blue)" }}>{(line as { keyword?: string }).keyword}</span>
-          {(line as { rest?: string }).rest}
+        <div className={base} style={{ color: C.plain }}>
+          {"  "}
+          <span style={{ color: C.keyword }}>{"keyword" in line ? line.keyword : ""}</span>
+          {"rest" in line ? line.rest : ""}
         </div>
       );
     case "indent":
       return (
-        <div className={base} style={{ color: "var(--c-sand)" }}>
+        <div className={base} style={{ color: C.plain }}>
           {line.text}
-          {"value" in line && line.value && (
-            <span style={{ color: "var(--c-mint)" }}>{line.value}</span>
-          )}
+          {"value" in line && <span style={{ color: C.value }}>{line.value}</span>}
         </div>
       );
     default:
-      return <div className={base} style={{ color: "var(--c-sand)" }}>{line.text}</div>;
+      return <div className={base} style={{ color: C.plain }}>{line.text}</div>;
   }
 }
 
@@ -89,28 +97,49 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen bg-mint flex items-center overflow-hidden"
+      className="relative min-h-screen flex items-center overflow-hidden"
+      style={{
+        // Hard vertical split — no gradient, no feathering
+        background: "linear-gradient(to right, #d5fad3 65%, #f9f9f0 65%)",
+      }}
     >
-      {/* Code decoration — absolutely positioned on the right, desktop only */}
+
+      {/* ── Right panel decorations (desktop only) ─────────────────── */}
+
+      {/* Stripe block — top-right of cream panel, below navbar */}
       <div
+        aria-hidden="true"
+        className="hidden lg:block absolute"
+        style={{
+          top: "72px",
+          right: "32px",
+          width: "180px",
+          height: "180px",
+          // 10 stripe pairs × 18px = 180px: black 9px / cream 9px
+          background:
+            "repeating-linear-gradient(to right, #0f0e0b 0, #0f0e0b 9px, #f9f9f0 9px, #f9f9f0 18px)",
+        }}
+      />
+
+      {/* Code decoration — sits cleanly on the cream panel */}
+      <div
+        aria-hidden="true"
         className="hidden lg:block absolute right-0 top-0 bottom-0 pointer-events-none"
-        style={{ width: "36%" }}
+        style={{ width: "35%" }}
       >
         <div
-          className="absolute rounded overflow-hidden"
-          style={{
-            inset: "18% 8% 18% 12%",
-            background: "rgba(15,14,11,0.06)",
-          }}
+          className="absolute overflow-hidden"
+          style={{ top: "22%", bottom: "18%", left: "16%", right: "6%" }}
         >
+          {/* Fade to cream at the bottom */}
           <div
             className="absolute bottom-0 left-0 right-0 z-10"
             style={{
               height: "32%",
-              background: "linear-gradient(transparent, rgba(213,250,211,0.85))",
+              background: "linear-gradient(transparent, #f9f9f0)",
             }}
           />
-          <div className="p-5 animate-code-up">
+          <div className="animate-code-up">
             {[...CODE_LINES, ...CODE_LINES].map((line, i) => (
               <CodeLine key={i} line={line} />
             ))}
@@ -118,13 +147,27 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Main content — full width, left-aligned */}
+      {/* Orange accent dot — bottom-left, below CTA (desktop only) */}
+      <div
+        aria-hidden="true"
+        className="hidden lg:block absolute"
+        style={{
+          width: "10px",
+          height: "10px",
+          borderRadius: "9999px",
+          background: "#E8754E",
+          left: "5.5vw",
+          bottom: "33%",
+        }}
+      />
+
+      {/* ── Main content — left panel ──────────────────────────────── */}
       <div className="relative z-10 w-full max-w-content mx-auto px-8 sm:px-14 lg:px-[5.5%] py-sp-24">
         <h1
           className="font-serif font-[300] tracking-[-0.03em] leading-[0.94] text-warm-black"
           style={{ fontSize: "clamp(2.5rem, 5.8vw, 5.75rem)" }}
         >
-          {/* Line 1 — "Build [ROTATING WORD]", never wraps on lg+ */}
+          {/* Line 1 — "Build [ROTATING WORD]", nowrap on lg+ */}
           <span className="block lg:whitespace-nowrap">
             Build{" "}
             <span
@@ -142,7 +185,7 @@ export function HeroSection() {
               {WORDS[wordIndex]}
             </span>
           </span>
-          {/* Line 2 — static, never wraps on lg+ */}
+          {/* Line 2 — static, nowrap on lg+ */}
           <span className="block lg:whitespace-nowrap">
             for Companies Going Global.
           </span>
@@ -163,7 +206,7 @@ export function HeroSection() {
               }}
             />
             <svg
-              className="relative z-10 group-hover:text-mint transition-colors duration-normal"
+              className="relative z-10 group-hover:text-[#d5fad3] transition-colors duration-normal"
               width="15"
               height="15"
               viewBox="0 0 15 15"
