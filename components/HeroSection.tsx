@@ -129,11 +129,10 @@ export function HeroSection() {
         }}
       />
 
-      {/* ── Code decoration — desktop: 35% width, mobile: 28% ───────── */}
+      {/* ── Code decoration — desktop: 35% width, mobile: 25% ───────── */}
       <div
         aria-hidden="true"
-        className="absolute right-0 top-0 bottom-0 pointer-events-none"
-        style={{ width: "clamp(28%, 35%, 35%)" }}
+        className="absolute right-0 top-0 bottom-0 pointer-events-none w-[25%] md:w-[35%]"
       >
         <div
           className="absolute overflow-hidden"
@@ -200,7 +199,7 @@ export function HeroSection() {
         <div className="mt-8 flex items-center gap-3">
           <a
             href="#work"
-            className="group relative overflow-hidden inline-flex items-center justify-center w-9 h-9 rounded-full border border-warm-black/20 transition-colors duration-normal"
+            className="group relative overflow-hidden inline-flex items-center justify-center w-9 h-9 rounded-full border border-warm-black/20 transition-colors duration-normal bg-[#0f0e0b]"
             aria-label="View work"
           >
             <span
@@ -211,7 +210,7 @@ export function HeroSection() {
               }}
             />
             <svg
-              className="relative z-10 group-hover:text-[#d5fad3] transition-colors duration-normal"
+              className="relative z-10 text-white transition-colors duration-normal"
               width="15"
               height="15"
               viewBox="0 0 15 15"
