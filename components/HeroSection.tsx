@@ -95,133 +95,175 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex items-center overflow-hidden"
-      style={{
-        // Hard vertical split — no gradient, no feathering
-        background: "linear-gradient(to right, #d5fad3 65%, #f9f9f0 65%)",
-      }}
-    >
+    <>
+      {/* ── Mobile layout (hidden md+) ─────────────────────────────── */}
+      <div className="flex flex-col min-h-screen md:hidden">
+        {/* Upper mint panel — title + CTA */}
+        <div className="flex-1 bg-[#d5fad3] px-8 pt-20 pb-10 flex flex-col justify-center relative">
+          <h1
+            className="font-serif font-[300] tracking-[-0.03em] leading-[0.94] text-[#0f0e0b]"
+            style={{ fontSize: "clamp(2.75rem, 13vw, 3.5rem)" }}
+          >
+            <span className="block">
+              Build{" "}
+              <span
+                style={{
+                  display: "inline-block",
+                  textDecoration: "underline",
+                  textDecorationColor: "rgba(15,14,11,0.28)",
+                  textUnderlineOffset: "0.12em",
+                  textDecorationThickness: "2px",
+                  opacity: visible ? 1 : 0,
+                  transform: visible ? "translateY(0)" : "translateY(-6px)",
+                  transition: "opacity 0.28s ease, transform 0.28s ease",
+                }}
+              >
+                {WORDS[wordIndex]}
+              </span>
+            </span>
+            <span className="block">for Companies Going Global.</span>
+          </h1>
 
-      {/* ── Right panel decorations (desktop only) ─────────────────── */}
+          {/* CTA */}
+          <div className="mt-8 flex items-center gap-3">
+            <a
+              href="#work"
+              className="group relative overflow-hidden inline-flex items-center justify-center w-9 h-9 rounded-full border border-[#0f0e0b]/20 transition-colors duration-normal"
+              aria-label="View work"
+            >
+              <span
+                className="absolute inset-0 rounded-full scale-x-0 origin-right group-hover:scale-x-100 group-hover:origin-left transition-[transform] duration-normal"
+                style={{ background: "#0f0e0b", transitionTimingFunction: "var(--ease-std)" }}
+              />
+              <svg
+                className="relative z-10 group-hover:text-[#d5fad3] transition-colors duration-normal"
+                width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5"
+              >
+                <path d="M3 7.5h9m-4-4 4 4-4 4" />
+              </svg>
+            </a>
+            <span className="font-mono text-[10px] uppercase tracking-[0.05em] text-[#0f0e0b]">
+              View Work
+            </span>
+          </div>
 
-      {/* Stripe block — top-right of cream panel, below navbar */}
-      <div
-        aria-hidden="true"
-        className="hidden lg:block absolute"
-        style={{
-          top: "72px",
-          right: "32px",
-          width: "180px",
-          height: "180px",
-          // 10 stripe pairs × 18px = 180px: black 9px / cream 9px
-          background:
-            "repeating-linear-gradient(to right, #0f0e0b 0, #0f0e0b 9px, #f9f9f0 9px, #f9f9f0 18px)",
-        }}
-      />
-
-      {/* Code decoration — sits cleanly on the cream panel */}
-      <div
-        aria-hidden="true"
-        className="hidden lg:block absolute right-0 top-0 bottom-0 pointer-events-none"
-        style={{ width: "35%" }}
-      >
-        <div
-          className="absolute overflow-hidden"
-          style={{ top: "22%", bottom: "18%", left: "16%", right: "6%" }}
-        >
-          {/* Fade to cream at the bottom */}
+          {/* Orange accent dot */}
           <div
-            className="absolute bottom-0 left-0 right-0 z-10"
-            style={{
-              height: "32%",
-              background: "linear-gradient(transparent, #f9f9f0)",
-            }}
+            aria-hidden="true"
+            className="absolute"
+            style={{ width: "8px", height: "8px", borderRadius: "9999px", background: "#E8754E", left: "32px", bottom: "28px" }}
           />
-          <div className="animate-code-up">
-            {[...CODE_LINES, ...CODE_LINES].map((line, i) => (
-              <CodeLine key={i} line={line} />
-            ))}
+        </div>
+
+        {/* Lower stripe panel */}
+        <div
+          aria-hidden="true"
+          className="shrink-0"
+          style={{
+            height: "38vh",
+            background: "repeating-linear-gradient(to right, #0f0e0b 0, #0f0e0b 9px, #f9f9f0 9px, #f9f9f0 18px)",
+          }}
+        />
+      </div>
+
+      {/* ── Desktop layout (hidden below md) ──────────────────────── */}
+      <section
+        id="hero"
+        className="relative min-h-screen items-center overflow-hidden hidden md:flex"
+        style={{ background: "linear-gradient(to right, #d5fad3 65%, #f9f9f0 65%)" }}
+      >
+        {/* Stripe block — top-right of cream panel, below navbar */}
+        <div
+          aria-hidden="true"
+          className="hidden lg:block absolute"
+          style={{
+            top: "72px",
+            right: "32px",
+            width: "180px",
+            height: "180px",
+            background: "repeating-linear-gradient(to right, #0f0e0b 0, #0f0e0b 9px, #f9f9f0 9px, #f9f9f0 18px)",
+          }}
+        />
+
+        {/* Code decoration — sits cleanly on the cream panel */}
+        <div
+          aria-hidden="true"
+          className="hidden lg:block absolute right-0 top-0 bottom-0 pointer-events-none"
+          style={{ width: "35%" }}
+        >
+          <div
+            className="absolute overflow-hidden"
+            style={{ top: "22%", bottom: "18%", left: "16%", right: "6%" }}
+          >
+            <div
+              className="absolute bottom-0 left-0 right-0 z-10"
+              style={{ height: "32%", background: "linear-gradient(transparent, #f9f9f0)" }}
+            />
+            <div className="animate-code-up">
+              {[...CODE_LINES, ...CODE_LINES].map((line, i) => (
+                <CodeLine key={i} line={line} />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Orange accent dot — bottom-left, below CTA (desktop only) */}
-      <div
-        aria-hidden="true"
-        className="hidden lg:block absolute"
-        style={{
-          width: "10px",
-          height: "10px",
-          borderRadius: "9999px",
-          background: "#E8754E",
-          left: "5.5vw",
-          bottom: "33%",
-        }}
-      />
+        {/* Orange accent dot */}
+        <div
+          aria-hidden="true"
+          className="hidden lg:block absolute"
+          style={{ width: "10px", height: "10px", borderRadius: "9999px", background: "#E8754E", left: "5.5vw", bottom: "33%" }}
+        />
 
-      {/* ── Main content — left panel ──────────────────────────────── */}
-      <div className="relative z-10 w-full max-w-content mx-auto px-8 sm:px-14 lg:px-[5.5%] py-sp-24">
-        <h1
-          className="font-serif font-[300] tracking-[-0.03em] leading-[0.94] text-warm-black"
-          style={{ fontSize: "clamp(2.5rem, 5.8vw, 5.75rem)" }}
-        >
-          {/* Line 1 — "Build [ROTATING WORD]", nowrap on lg+ */}
-          <span className="block lg:whitespace-nowrap">
-            Build{" "}
-            <span
-              style={{
-                display: "inline-block",
-                textDecoration: "underline",
-                textDecorationColor: "rgba(15,14,11,0.28)",
-                textUnderlineOffset: "0.12em",
-                textDecorationThickness: "2px",
-                opacity: visible ? 1 : 0,
-                transform: visible ? "translateY(0)" : "translateY(-6px)",
-                transition: "opacity 0.28s ease, transform 0.28s ease",
-              }}
-            >
-              {WORDS[wordIndex]}
-            </span>
-          </span>
-          {/* Line 2 — static, nowrap on lg+ */}
-          <span className="block lg:whitespace-nowrap">
-            for Companies Going Global.
-          </span>
-        </h1>
-
-        {/* CTA */}
-        <div className="mt-8 flex items-center gap-3">
-          <a
-            href="#work"
-            className="group relative overflow-hidden inline-flex items-center justify-center w-9 h-9 rounded-full border border-warm-black/20 transition-colors duration-normal"
-            aria-label="View work"
+        {/* Main content — left panel */}
+        <div className="relative z-10 w-full max-w-content mx-auto px-8 sm:px-14 lg:px-[5.5%] py-sp-24">
+          <h1
+            className="font-serif font-[300] tracking-[-0.03em] leading-[0.94] text-warm-black"
+            style={{ fontSize: "clamp(2.5rem, 5.8vw, 5.75rem)" }}
           >
-            <span
-              className="absolute inset-0 rounded-full scale-x-0 origin-right group-hover:scale-x-100 group-hover:origin-left transition-[transform] duration-normal"
-              style={{
-                background: "var(--c-black)",
-                transitionTimingFunction: "var(--ease-std)",
-              }}
-            />
-            <svg
-              className="relative z-10 group-hover:text-[#d5fad3] transition-colors duration-normal"
-              width="15"
-              height="15"
-              viewBox="0 0 15 15"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
+            <span className="block lg:whitespace-nowrap">
+              Build{" "}
+              <span
+                style={{
+                  display: "inline-block",
+                  textDecoration: "underline",
+                  textDecorationColor: "rgba(15,14,11,0.28)",
+                  textUnderlineOffset: "0.12em",
+                  textDecorationThickness: "2px",
+                  opacity: visible ? 1 : 0,
+                  transform: visible ? "translateY(0)" : "translateY(-6px)",
+                  transition: "opacity 0.28s ease, transform 0.28s ease",
+                }}
+              >
+                {WORDS[wordIndex]}
+              </span>
+            </span>
+            <span className="block lg:whitespace-nowrap">for Companies Going Global.</span>
+          </h1>
+
+          {/* CTA */}
+          <div className="mt-8 flex items-center gap-3">
+            <a
+              href="#work"
+              className="group relative overflow-hidden inline-flex items-center justify-center w-9 h-9 rounded-full border border-warm-black/20 transition-colors duration-normal"
+              aria-label="View work"
             >
-              <path d="M3 7.5h9m-4-4 4 4-4 4" />
-            </svg>
-          </a>
-          <span className="font-mono text-[10px] uppercase tracking-[0.05em] text-warm-black">
-            View Work
-          </span>
+              <span
+                className="absolute inset-0 rounded-full scale-x-0 origin-right group-hover:scale-x-100 group-hover:origin-left transition-[transform] duration-normal"
+                style={{ background: "var(--c-black)", transitionTimingFunction: "var(--ease-std)" }}
+              />
+              <svg
+                className="relative z-10 group-hover:text-[#d5fad3] transition-colors duration-normal"
+                width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5"
+              >
+                <path d="M3 7.5h9m-4-4 4 4-4 4" />
+              </svg>
+            </a>
+            <span className="font-mono text-[10px] uppercase tracking-[0.05em] text-warm-black">
+              View Work
+            </span>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
