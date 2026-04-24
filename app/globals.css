@@ -126,11 +126,10 @@
   .hero-stripe::after {
     content: '';
     position: absolute;
-    left: calc(85% - 200px);
-    top: 50%;
-    transform: translate(0, -50%);
-    width: 200px;
-    height: 200px;
+    left: 104px;
+    top: 0;
+    width: 260px;
+    height: 260px;
     border-radius: 50%;
     background: repeating-linear-gradient(
       90deg,
@@ -139,7 +138,7 @@
       #badbee 26px,
       #badbee 52px
     );
-    background-position: calc(200px - 85%) 0;
+    background-position: 0 0;
     pointer-events: none;
     z-index: 1;
   }
