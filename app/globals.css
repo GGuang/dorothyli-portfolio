@@ -98,6 +98,35 @@
     background: rgba(15, 14, 11, 0.15);
   }
 
+  /* Hero mobile stripe transition band */
+  .hero-stripe {
+    position: relative;
+    height: 120px;
+    background: repeating-linear-gradient(
+      90deg,
+      #0f0e0b 0px,
+      #0f0e0b 18px,
+      #badbee 18px,
+      #badbee 36px
+    );
+    overflow: hidden;
+    margin-top: 0;
+  }
+  .hero-stripe::after {
+    content: '';
+    position: absolute;
+    right: -40px;
+    bottom: -160px;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: #0f0e0b;
+    pointer-events: none;
+  }
+  @media (min-width: 768px) {
+    .hero-stripe { display: none; }
+  }
+
   /* Icon button fill-wipe animation util */
   .fill-wipe {
     position: absolute;

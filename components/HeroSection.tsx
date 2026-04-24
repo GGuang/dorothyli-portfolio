@@ -78,26 +78,48 @@ function CodeLine({ line }: { line: CodeLineType }) {
   }
 }
 
+type AnimPhase = "idle" | "exiting" | "pre-enter" | "entering";
+
+const EASE_REVEAL = "cubic-bezier(0.76, 0, 0.24, 1)";
+
 export function HeroSection() {
   const [wordIndex, setWordIndex] = useState(0);
-  const [visible, setVisible] = useState(true);
+  const [animPhase, setAnimPhase] = useState<AnimPhase>("idle");
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setVisible(false);
-      const id = setTimeout(() => {
+      setAnimPhase("exiting");
+      const t1 = setTimeout(() => {
         setWordIndex((i) => (i + 1) % WORDS.length);
-        setVisible(true);
-      }, 280);
-      return () => clearTimeout(id);
+        setAnimPhase("pre-enter");
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => setAnimPhase("entering"));
+        });
+      }, 300);
+      return () => clearTimeout(t1);
     }, 2600);
     return () => clearInterval(interval);
   }, []);
 
+  const wordStyle: React.CSSProperties = {
+    display: "inline-block",
+    textDecoration: "underline",
+    textDecorationColor: "rgba(15,14,11,0.28)",
+    textUnderlineOffset: "0.12em",
+    textDecorationThickness: "2px",
+    ...(animPhase === "exiting"
+      ? { opacity: 0, transform: "translateY(-12px)", transition: `opacity 0.3s ${EASE_REVEAL}, transform 0.3s ${EASE_REVEAL}` }
+      : animPhase === "pre-enter"
+      ? { opacity: 0, transform: "translateY(12px)", transition: "none" }
+      : animPhase === "entering"
+      ? { opacity: 1, transform: "translateY(0)", transition: `opacity 0.4s ${EASE_REVEAL}, transform 0.4s ${EASE_REVEAL}` }
+      : { opacity: 1, transform: "translateY(0)" }),
+  };
+
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-screen flex flex-col overflow-hidden"
       style={{
         background: "linear-gradient(to right, #d5fad3 65%, #f9f9f0 65%)",
       }}
@@ -129,10 +151,10 @@ export function HeroSection() {
         }}
       />
 
-      {/* ── Code decoration — desktop: 35% width, mobile: 25% ───────── */}
+      {/* ── Code decoration — desktop only (A1: hidden on mobile) ────── */}
       <div
         aria-hidden="true"
-        className="absolute right-0 top-0 bottom-0 pointer-events-none w-[25%] md:w-[35%]"
+        className="hidden md:block absolute right-0 top-0 bottom-0 pointer-events-none md:w-[35%]"
       >
         <div
           className="absolute overflow-hidden"
@@ -167,32 +189,17 @@ export function HeroSection() {
         }}
       />
 
-      {/* ── Main content ──────────────────────────────────────────── */}
-      <div className="relative z-10 w-full max-w-content mx-auto px-8 sm:px-14 lg:px-[5.5%] py-sp-24">
-        <h1
-          className="font-serif font-[300] tracking-[-0.03em] leading-[0.94] text-warm-black max-w-[58vw] sm:max-w-none"
-          style={{ fontSize: "clamp(1.75rem, 5.8vw, 5.75rem)" }}
-        >
-          <span className="block lg:whitespace-nowrap">
-            Build{" "}
-            <span
-              style={{
-                display: "inline-block",
-                textDecoration: "underline",
-                textDecorationColor: "rgba(15,14,11,0.28)",
-                textUnderlineOffset: "0.12em",
-                textDecorationThickness: "2px",
-                opacity: visible ? 1 : 0,
-                transform: visible ? "translateY(0)" : "translateY(-6px)",
-                transition: "opacity 0.28s ease, transform 0.28s ease",
-              }}
-            >
-              {WORDS[wordIndex]}
-            </span>
+      {/* ── Main content (A2: mobile full-width; flex-1 to push stripe down) */}
+      <div className="relative z-10 flex-1 flex items-center w-full">
+      <div className="w-full px-6 pt-[60px] pb-[40px] md:max-w-content md:mx-auto md:px-14 lg:px-[5.5%] md:py-sp-24">
+        {/* B1+B3: three fixed lines, 48px mobile / 90px desktop */}
+        <h1 className="font-serif font-[300] tracking-[-0.03em] text-warm-black text-[48px] md:text-[90px] leading-[1.0] md:leading-[0.95]">
+          <span className="block">Build</span>
+          {/* Line 2: rotating word — min-height prevents collapse during animation */}
+          <span className="block" style={{ minHeight: "1.05em" }}>
+            <span style={wordStyle}>{WORDS[wordIndex]}</span>
           </span>
-          <span className="block lg:whitespace-nowrap">
-            for Companies Going Global.
-          </span>
+          <span className="block">across Borders.</span>
         </h1>
 
         {/* CTA */}
@@ -225,7 +232,11 @@ export function HeroSection() {
             View Work
           </span>
         </div>
-      </div>
+      </div>{/* end inner content div */}
+      </div>{/* end flex-1 wrapper */}
+
+      {/* ── A3: Mobile stripe transition band ─────────────────────────── */}
+      <div className="hero-stripe" aria-hidden="true" />
     </section>
   );
 }
