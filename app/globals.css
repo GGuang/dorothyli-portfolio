@@ -115,9 +115,9 @@
     background: repeating-linear-gradient(
       90deg,
       #0f0e0b 0px,
-      #0f0e0b 27px,
-      #badbee 27px,
-      #badbee 45px
+      #0f0e0b 22px,
+      #badbee 22px,
+      #badbee 44px
     );
     overflow: hidden;
     margin-top: 0;
@@ -125,12 +125,19 @@
   .hero-stripe::after {
     content: '';
     position: absolute;
-    right: -60px;
-    bottom: -240px;
-    width: 360px;
-    height: 360px;
+    right: -120px;
+    bottom: -320px;
+    width: 480px;
+    height: 480px;
     border-radius: 50%;
-    background: #0f0e0b;
+    background: repeating-linear-gradient(
+      90deg,
+      #badbee 0px,
+      #badbee 22px,
+      #0f0e0b 22px,
+      #0f0e0b 44px
+    );
+    background-position: 0 0;
     pointer-events: none;
   }
   @media (min-width: 768px) {
@@ -147,8 +154,8 @@
     background: repeating-linear-gradient(
       90deg,
       #0f0e0b 0px,
-      #0f0e0b 36px,
-      #badbee 36px,
+      #0f0e0b 30px,
+      #badbee 30px,
       #badbee 60px
     );
     overflow: hidden;
@@ -159,13 +166,18 @@
     content: '';
     position: absolute;
     left: -380px;
-    top: auto;
     bottom: -180px;
-    transform: none;
     width: 680px;
     height: 680px;
     border-radius: 50%;
-    background: #0f0e0b;
+    background: repeating-linear-gradient(
+      90deg,
+      #badbee 0px,
+      #badbee 30px,
+      #0f0e0b 30px,
+      #0f0e0b 60px
+    );
+    background-position: 380px 0;
     pointer-events: none;
   }
   @media (max-width: 767px) {
