@@ -98,20 +98,20 @@
     background: rgba(15, 14, 11, 0.15);
   }
 
-  /* Hero section responsive background (1b: mobile=full green, desktop=45/55 split) */
+  /* Hero section responsive background */
   .hero-bg {
     background: #d5fad3;
   }
   @media (min-width: 768px) {
     .hero-bg {
-      background: linear-gradient(to right, #d5fad3 45%, #f9f9f0 45%);
+      background: linear-gradient(to right, #d5fad3 60%, #f9f9f0 60%);
     }
   }
 
-  /* Hero mobile stripe transition band (1c: height 180px, larger circle) */
+  /* Hero mobile stripe transition band (2a: height 260px, 2b: larger circle) */
   .hero-stripe {
     position: relative;
-    height: 180px;
+    height: 260px;
     background: repeating-linear-gradient(
       90deg,
       #0f0e0b 0px,
@@ -126,9 +126,9 @@
     content: '';
     position: absolute;
     right: -60px;
-    bottom: -200px;
-    width: 320px;
-    height: 320px;
+    bottom: -240px;
+    width: 360px;
+    height: 360px;
     border-radius: 50%;
     background: #0f0e0b;
     pointer-events: none;
@@ -137,13 +137,13 @@
     .hero-stripe { display: none; }
   }
 
-  /* Hero desktop right stripe column (3b) */
+  /* Hero desktop right stripe overlay (1b: absolute, 18% width, z-index 2) */
   .hero-stripe-desktop {
     position: absolute;
-    right: 0;
     top: 0;
+    right: 0;
     bottom: 0;
-    width: 25%;
+    width: 18%;
     background: repeating-linear-gradient(
       90deg,
       #0f0e0b 0px,
@@ -152,15 +152,17 @@
       #badbee 48px
     );
     overflow: hidden;
+    z-index: 2;
+    pointer-events: none;
   }
   .hero-stripe-desktop::before {
     content: '';
     position: absolute;
-    left: -180px;
+    left: -280px;
     top: 50%;
     transform: translateY(-50%);
-    width: 420px;
-    height: 420px;
+    width: 480px;
+    height: 480px;
     border-radius: 50%;
     background: #0f0e0b;
     pointer-events: none;

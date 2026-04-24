@@ -122,11 +122,11 @@ export function HeroSection() {
       className="hero-bg relative min-h-screen flex flex-col overflow-hidden"
     >
 
-      {/* ── Code decoration — desktop only, middle column (30%) ─────── */}
+      {/* ── Code decoration — desktop only, right 40% (z-index 1, behind stripe) */}
       <div
         aria-hidden="true"
-        className="hidden md:block absolute top-0 bottom-0 pointer-events-none"
-        style={{ right: "25%", width: "30%" }}
+        className="hidden md:block absolute top-0 right-0 bottom-0 pointer-events-none"
+        style={{ width: "40%", zIndex: 1 }}
       >
         <div
           className="absolute overflow-hidden"
@@ -150,7 +150,7 @@ export function HeroSection() {
 
       {/* ── Main content (A2: mobile full-width; flex-1 to push stripe down) */}
       <div className="relative z-10 flex-1 flex items-center w-full">
-      <div className="w-full px-6 pt-[60px] pb-[40px] md:max-w-content md:mx-auto md:px-14 lg:px-[5.5%] md:py-sp-24">
+      <div className="w-full px-6 pt-[60px] pb-[20px] md:max-w-content md:mx-auto md:px-14 lg:px-[5.5%] md:py-sp-24">
         {/* B1+B3: three fixed lines, 48px mobile / 90px desktop */}
         <h1 className="font-serif font-[300] tracking-[-0.03em] text-warm-black text-[48px] md:text-[90px] leading-[1.0] md:leading-[0.95]">
           <span className="block">Build</span>
