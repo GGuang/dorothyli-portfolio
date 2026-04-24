@@ -114,52 +114,53 @@
     height: 260px;
     background: repeating-linear-gradient(
       90deg,
+      #badbee 0px,
+      #badbee 26px,
+      #0f0e0b 26px,
+      #0f0e0b 52px
+    );
+    overflow: hidden;
+    margin-top: 0;
+  }
+  /* Left circle */
+  .hero-stripe::before {
+    content: '';
+    position: absolute;
+    left: 15%;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: repeating-linear-gradient(
+      90deg,
       #0f0e0b 0px,
       #0f0e0b 26px,
       #badbee 26px,
       #badbee 52px
     );
-    overflow: hidden;
-    margin-top: 0;
-  }
-  /* Right semicircle — self-adapts to any viewport width */
-  .hero-stripe::before {
-    content: '';
-    position: absolute;
-    left: calc(100% - 560px);
-    bottom: -260px;
-    width: 520px;
-    height: 520px;
-    border-radius: 50%;
-    background: repeating-linear-gradient(
-      90deg,
-      #badbee 0px,
-      #badbee 26px,
-      #0f0e0b 26px,
-      #0f0e0b 52px
-    );
-    background-position: calc(560px - 100%) 0;
+    background-position: calc(-15% + 0px) 0;
     pointer-events: none;
     z-index: 1;
   }
-
-  /* Left large circle — top arc only visible */
+  /* Right circle */
   .hero-stripe::after {
     content: '';
     position: absolute;
-    left: -200px;
-    bottom: -600px;
-    width: 800px;
-    height: 800px;
+    left: calc(85% - 200px);
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     background: repeating-linear-gradient(
       90deg,
-      #badbee 0px,
-      #badbee 26px,
+      #0f0e0b 0px,
       #0f0e0b 26px,
-      #0f0e0b 52px
+      #badbee 26px,
+      #badbee 52px
     );
-    background-position: 200px 0;
+    background-position: calc(200px - 85%) 0;
     pointer-events: none;
     z-index: 1;
   }
@@ -212,7 +213,7 @@
     position: absolute;
     inset: 0;
     border-radius: 9999px;
-    background: var(--inv-100);
+    background: var(--surface-100);
     transform: scaleX(0);
     transform-origin: right;
     transition: transform 150ms var(--ease-std), transform-origin 0s 75ms;
