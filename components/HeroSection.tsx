@@ -165,16 +165,10 @@ export function HeroSection() {
         <div className="mt-8 flex items-center gap-3">
           <a
             href="#work"
-            className="group relative overflow-hidden inline-flex items-center justify-center w-9 h-9 rounded-full border border-warm-black/20 transition-colors duration-normal bg-[#0f0e0b]"
+            className="shimmer-trigger group relative overflow-hidden inline-flex items-center justify-center w-9 h-9 rounded-full border border-warm-black/20 transition-colors duration-normal bg-[#0f0e0b]"
             aria-label="View work"
           >
-            <span
-              className="absolute inset-0 rounded-full scale-x-0 origin-right group-hover:scale-x-100 group-hover:origin-left transition-[transform] duration-normal"
-              style={{
-                background: "var(--c-black)",
-                transitionTimingFunction: "var(--ease-std)",
-              }}
-            />
+            <span className="shimmer" />
             <svg
               className="relative z-10 text-white transition-colors duration-normal"
               width="15"
