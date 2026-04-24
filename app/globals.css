@@ -125,10 +125,10 @@
   .hero-stripe::after {
     content: '';
     position: absolute;
-    right: -80px;
-    bottom: -320px;
-    width: 580px;
-    height: 580px;
+    right: -120px;
+    bottom: -260px;
+    width: 480px;
+    height: 480px;
     border-radius: 50%;
     background: repeating-linear-gradient(
       90deg,
@@ -137,7 +137,6 @@
       #0f0e0b 26px,
       #0f0e0b 52px
     );
-    background-position: 0 0;
     pointer-events: none;
   }
   @media (min-width: 768px) {
@@ -165,9 +164,9 @@
   .hero-stripe-desktop::before {
     content: '';
     position: absolute;
-    left: 50%;
+    right: -200px;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateY(-50%);
     width: 560px;
     height: 560px;
     border-radius: 50%;
@@ -178,7 +177,7 @@
       #0f0e0b 36px,
       #0f0e0b 72px
     );
-    background-position: calc(50% - 280px) 0;
+    background-position: 200px 0;
     pointer-events: none;
   }
   @media (max-width: 767px) {
