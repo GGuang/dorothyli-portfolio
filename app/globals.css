@@ -120,25 +120,20 @@
       #0f0e0b 52px
     );
     overflow: hidden;
+    isolation: isolate;
     margin-top: 0;
   }
-  /* Circle */
+  /* Circle — mix-blend-mode:difference with #C9E9F9 = #badbee+#0f0e0b inverts both stripe colors */
   .hero-stripe::after {
     content: '';
     position: absolute;
-    left: 104px;
+    left: calc(100% - 130px);
     top: 0;
     width: 260px;
     height: 260px;
     border-radius: 50%;
-    background: repeating-linear-gradient(
-      90deg,
-      #0f0e0b 0px,
-      #0f0e0b 26px,
-      #badbee 26px,
-      #badbee 52px
-    );
-    background-position: 0 0;
+    background: #C9E9F9;
+    mix-blend-mode: difference;
     pointer-events: none;
     z-index: 1;
   }
