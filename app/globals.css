@@ -122,13 +122,14 @@
     overflow: hidden;
     margin-top: 0;
   }
-  .hero-stripe::after {
+  /* Right semicircle — self-adapts to any viewport width */
+  .hero-stripe::before {
     content: '';
     position: absolute;
-    right: -120px;
+    left: calc(100% - 560px);
     bottom: -260px;
-    width: 480px;
-    height: 480px;
+    width: 520px;
+    height: 520px;
     border-radius: 50%;
     background: repeating-linear-gradient(
       90deg,
@@ -137,7 +138,30 @@
       #0f0e0b 26px,
       #0f0e0b 52px
     );
+    background-position: calc(560px - 100%) 0;
     pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Left large circle — top arc only visible */
+  .hero-stripe::after {
+    content: '';
+    position: absolute;
+    left: -200px;
+    bottom: -600px;
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    background: repeating-linear-gradient(
+      90deg,
+      #badbee 0px,
+      #badbee 26px,
+      #0f0e0b 26px,
+      #0f0e0b 52px
+    );
+    background-position: 200px 0;
+    pointer-events: none;
+    z-index: 1;
   }
   @media (min-width: 768px) {
     .hero-stripe { display: none; }
