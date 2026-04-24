@@ -98,10 +98,20 @@
     background: rgba(15, 14, 11, 0.15);
   }
 
-  /* Hero mobile stripe transition band */
+  /* Hero section responsive background (1b: mobile=full green, desktop=45/55 split) */
+  .hero-bg {
+    background: #d5fad3;
+  }
+  @media (min-width: 768px) {
+    .hero-bg {
+      background: linear-gradient(to right, #d5fad3 45%, #f9f9f0 45%);
+    }
+  }
+
+  /* Hero mobile stripe transition band (1c: height 180px, larger circle) */
   .hero-stripe {
     position: relative;
-    height: 120px;
+    height: 180px;
     background: repeating-linear-gradient(
       90deg,
       #0f0e0b 0px,
@@ -115,16 +125,48 @@
   .hero-stripe::after {
     content: '';
     position: absolute;
-    right: -40px;
-    bottom: -160px;
-    width: 260px;
-    height: 260px;
+    right: -60px;
+    bottom: -200px;
+    width: 320px;
+    height: 320px;
     border-radius: 50%;
     background: #0f0e0b;
     pointer-events: none;
   }
   @media (min-width: 768px) {
     .hero-stripe { display: none; }
+  }
+
+  /* Hero desktop right stripe column (3b) */
+  .hero-stripe-desktop {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 25%;
+    background: repeating-linear-gradient(
+      90deg,
+      #0f0e0b 0px,
+      #0f0e0b 24px,
+      #badbee 24px,
+      #badbee 48px
+    );
+    overflow: hidden;
+  }
+  .hero-stripe-desktop::before {
+    content: '';
+    position: absolute;
+    left: -180px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: #0f0e0b;
+    pointer-events: none;
+  }
+  @media (max-width: 767px) {
+    .hero-stripe-desktop { display: none; }
   }
 
   /* Icon button fill-wipe animation util */

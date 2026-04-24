@@ -119,42 +119,14 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col overflow-hidden"
-      style={{
-        background: "linear-gradient(to right, #d5fad3 65%, #f9f9f0 65%)",
-      }}
+      className="hero-bg relative min-h-screen flex flex-col overflow-hidden"
     >
-      {/* ── Stripe block ─────────────────────────────────────────── */}
-      {/* Desktop: 180×180 at top-right. Mobile: 90×90 centred in the cream strip */}
-      <div
-        aria-hidden="true"
-        className="absolute z-10 hidden sm:block"
-        style={{
-          top: "72px",
-          right: "32px",
-          width: "180px",
-          height: "180px",
-          background:
-            "repeating-linear-gradient(to right, #0f0e0b 0, #0f0e0b 9px, #f9f9f0 9px, #f9f9f0 18px)",
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="absolute z-10 sm:hidden"
-        style={{
-          top: "64px",
-          right: "calc(17.5% - 45px)",
-          width: "90px",
-          height: "90px",
-          background:
-            "repeating-linear-gradient(to right, #0f0e0b 0, #0f0e0b 9px, #f9f9f0 9px, #f9f9f0 18px)",
-        }}
-      />
 
-      {/* ── Code decoration — desktop only (A1: hidden on mobile) ────── */}
+      {/* ── Code decoration — desktop only, middle column (30%) ─────── */}
       <div
         aria-hidden="true"
-        className="hidden md:block absolute right-0 top-0 bottom-0 pointer-events-none md:w-[35%]"
+        className="hidden md:block absolute top-0 bottom-0 pointer-events-none"
+        style={{ right: "25%", width: "30%" }}
       >
         <div
           className="absolute overflow-hidden"
@@ -175,19 +147,6 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* ── Orange accent dot ──────────────────────────────────────── */}
-      <div
-        aria-hidden="true"
-        className="absolute"
-        style={{
-          width: "10px",
-          height: "10px",
-          borderRadius: "9999px",
-          background: "#E8754E",
-          left: "5.5vw",
-          bottom: "33%",
-        }}
-      />
 
       {/* ── Main content (A2: mobile full-width; flex-1 to push stripe down) */}
       <div className="relative z-10 flex-1 flex items-center w-full">
@@ -235,7 +194,10 @@ export function HeroSection() {
       </div>{/* end inner content div */}
       </div>{/* end flex-1 wrapper */}
 
-      {/* ── A3: Mobile stripe transition band ─────────────────────────── */}
+      {/* ── Desktop right stripe column (3b) ──────────────────────────── */}
+      <div className="hero-stripe-desktop" aria-hidden="true" />
+
+      {/* ── Mobile stripe transition band ──────────────────────────────── */}
       <div className="hero-stripe" aria-hidden="true" />
     </section>
   );
