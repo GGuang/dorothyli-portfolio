@@ -108,16 +108,16 @@
     }
   }
 
-  /* Hero mobile stripe transition band (2a: height 260px, 2b: larger circle) */
+  /* Hero mobile stripe transition band */
   .hero-stripe {
     position: relative;
     height: 260px;
     background: repeating-linear-gradient(
       90deg,
       #0f0e0b 0px,
-      #0f0e0b 18px,
-      #badbee 18px,
-      #badbee 36px
+      #0f0e0b 27px,
+      #badbee 27px,
+      #badbee 45px
     );
     overflow: hidden;
     margin-top: 0;
@@ -137,7 +137,7 @@
     .hero-stripe { display: none; }
   }
 
-  /* Hero desktop right stripe overlay (1b: absolute, 18% width, z-index 2) */
+  /* Hero desktop right stripe overlay */
   .hero-stripe-desktop {
     position: absolute;
     top: 0;
@@ -147,9 +147,9 @@
     background: repeating-linear-gradient(
       90deg,
       #0f0e0b 0px,
-      #0f0e0b 24px,
-      #badbee 24px,
-      #badbee 48px
+      #0f0e0b 36px,
+      #badbee 36px,
+      #badbee 60px
     );
     overflow: hidden;
     z-index: 2;
@@ -158,11 +158,12 @@
   .hero-stripe-desktop::before {
     content: '';
     position: absolute;
-    left: -280px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 480px;
-    height: 480px;
+    left: -380px;
+    top: auto;
+    bottom: -180px;
+    transform: none;
+    width: 680px;
+    height: 680px;
     border-radius: 50%;
     background: #0f0e0b;
     pointer-events: none;

@@ -152,7 +152,7 @@ export function HeroSection() {
       <div className="relative z-10 flex-1 flex items-center w-full">
       <div className="w-full px-6 pt-[60px] pb-[20px] md:max-w-content md:mx-auto md:px-14 lg:px-[5.5%] md:py-sp-24">
         {/* B1+B3: three fixed lines, 48px mobile / 90px desktop */}
-        <h1 className="font-serif font-[300] tracking-[-0.03em] text-warm-black text-[48px] md:text-[90px] leading-[1.0] md:leading-[0.95]">
+        <h1 className="font-serif font-[300] tracking-[-0.03em] text-warm-black text-[clamp(38px,11vw,52px)] md:text-[90px] leading-[1.0] md:leading-[0.95]">
           <span className="block">Build</span>
           {/* Line 2: rotating word — min-height prevents collapse during animation */}
           <span className="block" style={{ minHeight: "1.05em" }}>
