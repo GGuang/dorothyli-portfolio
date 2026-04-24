@@ -122,28 +122,7 @@
     overflow: hidden;
     margin-top: 0;
   }
-  /* Left circle */
-  .hero-stripe::before {
-    content: '';
-    position: absolute;
-    left: 15%;
-    top: 50%;
-    transform: translate(0, -50%);
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: repeating-linear-gradient(
-      90deg,
-      #0f0e0b 0px,
-      #0f0e0b 26px,
-      #badbee 26px,
-      #badbee 52px
-    );
-    background-position: calc(-15% + 0px) 0;
-    pointer-events: none;
-    z-index: 1;
-  }
-  /* Right circle */
+  /* Circle */
   .hero-stripe::after {
     content: '';
     position: absolute;
