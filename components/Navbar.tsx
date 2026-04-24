@@ -28,17 +28,17 @@ export function Navbar() {
     <nav
       style={{ left: "50%", transform: "translateX(-50%)" }}
       className={[
-        "flex fixed z-50 items-center gap-3 md:gap-6",
+        "flex fixed z-50 items-center gap-3 md:gap-8",
         "bg-[var(--surface-100)] rounded-full border",
         "transition-[top,border-color] duration-normal ease-standard",
-        // Mobile: 88vw wide; md+: auto width
-        "w-[92vw] md:w-auto",
+        "w-[70vw] md:w-auto",
+        "py-1.5 md:py-3 pl-5 md:pl-7 pr-1.5",
         scrolled
-          ? "top-3 md:top-4 px-2 md:pr-1.5 py-1.5 md:py-2.5 pl-4 md:pl-6 border-black/15"
-          : "top-2 px-2 md:pr-1.5 py-1.5 md:py-2.5 pl-4 md:pl-6 border-black/10",
+          ? "top-3 md:top-5 border-black/15"
+          : "top-4 md:top-6 border-black/10",
       ].join(" ")}
     >
-      <a href="/" className="font-serif text-[14px] md:text-[17px] font-semibold tracking-tight leading-none select-none shrink-0">
+      <a href="/" className="font-serif text-[18px] md:text-[19px] font-bold md:font-semibold tracking-tight leading-none select-none shrink-0">
         DL
       </a>
       <ul className="hidden md:flex items-center gap-0 md:gap-1 flex-1 justify-center md:flex-none md:justify-start" role="menubar">
@@ -46,7 +46,7 @@ export function Navbar() {
           <li key={item}>
             <a
               href={`#${item.toLowerCase()}`}
-              className="block px-2.5 md:px-3.5 py-1.5 font-mono text-[11px] md:text-[12px] uppercase tracking-[0.05em] rounded-full hover:bg-black/[0.06] transition-colors duration-normal"
+              className="block px-2.5 md:px-4 py-1.5 font-mono text-[11px] md:text-[13px] uppercase tracking-[0.05em] rounded-full hover:bg-black/[0.06] transition-colors duration-normal"
             >
               {item}
             </a>
@@ -55,14 +55,14 @@ export function Navbar() {
       </ul>
       <button
         onClick={() => setMenuOpen(true)}
-        className="fill-wipe-trigger group relative overflow-hidden inline-flex items-center justify-center w-10 h-10 md:w-10 md:h-10 rounded-full bg-[var(--inv-100)] border-0 transition-colors duration-normal shrink-0 md:hidden"
+        className="fill-wipe-trigger group relative overflow-hidden inline-flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-full bg-[var(--inv-100)] border-0 transition-colors duration-normal shrink-0 ml-auto md:ml-0 md:hidden"
         aria-label="Open menu"
       >
         <span className="fill-wipe" />
         <svg
           className="relative z-10 text-[var(--surface-100)] transition-colors duration-normal"
-          width="15"
-          height="15"
+          width="16"
+          height="16"
           viewBox="0 0 15 15"
           fill="none"
           stroke="currentColor"
@@ -73,14 +73,14 @@ export function Navbar() {
       </button>
       <a
         href="#work"
-        className="fill-wipe-trigger group relative overflow-hidden hidden md:inline-flex items-center justify-center w-10 h-10 rounded-full bg-[var(--inv-100)] border-0 transition-colors duration-normal shrink-0"
+        className="fill-wipe-trigger group relative overflow-hidden hidden md:inline-flex items-center justify-center w-11 h-11 rounded-full bg-[var(--inv-100)] border-0 transition-colors duration-normal shrink-0"
         aria-label="View work"
       >
         <span className="fill-wipe" />
         <svg
           className="relative z-10 text-[var(--surface-100)] transition-colors duration-normal"
-          width="15"
-          height="15"
+          width="16"
+          height="16"
           viewBox="0 0 15 15"
           fill="none"
           stroke="currentColor"
