@@ -105,13 +105,12 @@ function GlobeDecoration({ mobile = false }: { mobile?: boolean }) {
   const meridianAngles = [30, 60];
 
   return (
-    <div style={{ perspective: "1200px", perspectiveOrigin: "center" }}>
+    <div>
       <svg
         viewBox={`0 0 ${size} ${size}`}
         width={size}
         height={size}
-        className="text-ink/30 animate-globe-spin"
-        style={{ willChange: "transform", transformOrigin: "center" }}
+        className="text-ink/30"
         aria-hidden="true"
       >
         <defs>
@@ -241,8 +240,8 @@ export function StatsSection() {
             aria-hidden="true"
           >
             <div className="absolute inset-0 overflow-hidden">
-              <div className="animate-code-up">
-                {[...STRIP_LINES, ...STRIP_LINES].map((line, i) => (
+              <div>
+                {STRIP_LINES.map((line, i) => (
                   <StripLine key={i} line={line} />
                 ))}
               </div>

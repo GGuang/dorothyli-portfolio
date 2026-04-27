@@ -90,16 +90,13 @@ const config: Config = {
           from: { transform: "translateY(0)" },
           to:   { transform: "translateY(-50%)" },
         },
-        "globe-spin": {
-          from: { transform: "rotateY(0deg)" },
-          to:   { transform: "rotateY(360deg)" },
-        },
+
       },
       animation: {
         "marquee-rtl": "marquee-rtl 10s linear infinite",
         "marquee-ltr": "marquee-ltr 10s linear infinite",
         "code-up":     "code-up 10s linear infinite",
-        "globe-spin":  "globe-spin 60s linear infinite",
+
       },
       gridTemplateColumns: {
         "16": "repeat(16, minmax(0, 1fr))",
