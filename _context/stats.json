@@ -1,0 +1,70 @@
+{
+  "stats": [
+    {
+      "id": "01",
+      "value": "00",
+      "suffix": "+",
+      "label_en": "[label placeholder 01]",
+      "label_zh": "[标签占位 01]",
+      "footnote_en": "[footnote placeholder 01]",
+      "footnote_zh": "[脚注占位 01]",
+      "source": "internal",
+      "year": "2024"
+    },
+    {
+      "id": "02",
+      "value": "00",
+      "suffix": "%",
+      "label_en": "[label placeholder 02]",
+      "label_zh": "[标签占位 02]",
+      "footnote_en": "",
+      "footnote_zh": "",
+      "source": "internal",
+      "year": "2024"
+    },
+    {
+      "id": "03",
+      "value": "00",
+      "suffix": "+",
+      "label_en": "[label placeholder 03]",
+      "label_zh": "[标签占位 03]",
+      "footnote_en": "[footnote placeholder 03]",
+      "footnote_zh": "[脚注占位 03]",
+      "source": "internal",
+      "year": "2023"
+    },
+    {
+      "id": "04",
+      "value": "00",
+      "suffix": "→",
+      "label_en": "[label placeholder 04]",
+      "label_zh": "[标签占位 04]",
+      "footnote_en": "",
+      "footnote_zh": "",
+      "source": "internal",
+      "year": "2024"
+    },
+    {
+      "id": "05",
+      "value": "00",
+      "suffix": "×",
+      "label_en": "[label placeholder 05]",
+      "label_zh": "[标签占位 05]",
+      "footnote_en": "[footnote placeholder 05]",
+      "footnote_zh": "[脚注占位 05]",
+      "source": "internal",
+      "year": "2023"
+    },
+    {
+      "id": "06",
+      "value": "00",
+      "suffix": "",
+      "label_en": "[label placeholder 06]",
+      "label_zh": "[标签占位 06]",
+      "footnote_en": "",
+      "footnote_zh": "",
+      "source": "internal",
+      "year": "2024"
+    }
+  ]
+}
