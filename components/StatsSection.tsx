@@ -83,31 +83,26 @@ function StripLine({ line }: { line: StripLineType }) {
   }
 }
 
-// ─── Animation variants (cubic-bezier only, no spring, no blur) ───────────────
+// ─── Animation constants (cubic-bezier only, no spring, no blur) ─────────────
 const EXPO_OUT = [0.32, 0.72, 0, 1] as [number, number, number, number];
 
-const PARENT_VARIANTS: Variants = {
-  initial: { opacity: 0, y: 8 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EXPO_OUT } },
-  exit:    { opacity: 0, y: -8, transition: { duration: 0.55, ease: EXPO_OUT } },
-};
-
+// Stagger container for char spans — no visual properties, just orchestration
 const NUM_CONTAINER_VARIANTS: Variants = {
   initial: {},
-  animate: { transition: { staggerChildren: 0.025, delayChildren: 0, staggerDirection: 1 } },
-  exit:    { transition: { staggerChildren: 0.015, staggerDirection: -1 } },
+  animate: { transition: { staggerChildren: 0.025 } },
+  exit:    { transition: { staggerChildren: 0.018 } },
 };
 
-const CHAR_VARIANTS: Variants = {
-  initial: { opacity: 0, y: 16 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EXPO_OUT } },
-  exit:    { opacity: 0, y: -16, transition: { duration: 0.45, ease: EXPO_OUT } },
-};
-
-const BLOCK_VARIANTS: Variants = {
+const LABEL_VARIANTS: Variants = {
   initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0, 0, 0.2, 1] as [number, number, number, number] } },
-  exit:    { opacity: 0, y: -12, transition: { duration: 0.2, ease: [0.4, 0, 1, 1] as [number, number, number, number] } },
+  animate: { opacity: 1, y: 0,   transition: { duration: 0.45, ease: EXPO_OUT, delay: 0.1 } },
+  exit:    { opacity: 0, y: -12, transition: { duration: 0.45, ease: EXPO_OUT } },
+};
+
+const FOOTNOTE_VARIANTS: Variants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.35, ease: EXPO_OUT, delay: 0.2 } },
+  exit:    { opacity: 0, transition: { duration: 0.35, ease: EXPO_OUT } },
 };
 
 const REDUCED_VARIANTS: Variants = {
@@ -115,6 +110,41 @@ const REDUCED_VARIANTS: Variants = {
   animate: { opacity: 1, transition: { duration: 0.15 } },
   exit:    { opacity: 0, transition: { duration: 0.15 } },
 };
+
+// ─── Per-character drift ──────────────────────────────────────────────────────
+
+function charGroup(i: number, total: number): "anchor" | "drift" | "tail" {
+  if (total <= 3) return "drift";
+  if (total <= 7) return i === 0 ? "anchor" : i === total - 1 ? "tail" : "drift";
+  return i < Math.ceil(total * 0.2) ? "anchor" : i >= Math.floor(total * 0.75) ? "tail" : "drift";
+}
+
+function charVariants(i: number, total: number): Variants {
+  const group = charGroup(i, total);
+
+  if (group === "anchor") {
+    return {
+      initial: { opacity: 0, x: 8 },
+      animate: { opacity: 1, x: 0, transition: { duration: 0.4,  ease: EXPO_OUT } },
+      exit:    { opacity: 0, x: -8, transition: { duration: 0.4, ease: EXPO_OUT } },
+    };
+  }
+  if (group === "tail") {
+    return {
+      initial: { opacity: 0, x: -30 },
+      animate: { opacity: 1, x: 0,   transition: { duration: 0.45, ease: EXPO_OUT } },
+      exit:    { opacity: 0, x: 30,  transition: { duration: 0.45, ease: EXPO_OUT } },
+    };
+  }
+  // drift: alternating x and slight y per index
+  const driftI = total <= 3 ? i : i - 1; // relative position within drift group
+  const even   = driftI % 2 === 0;
+  return {
+    initial: { opacity: 0, x: even ? 50 : -35, y: even ? 8 : -6 },
+    animate: { opacity: 1, x: 0, y: 0, transition: { duration: 0.55, ease: EXPO_OUT } },
+    exit:    { opacity: 0, x: even ? -50 : 35, y: even ? -8 : 6, transition: { duration: 0.5, ease: EXPO_OUT } },
+  };
+}
 
 // ─── Geodesic icosphere (frequency-2, computed once at module level) ──────────
 type Vec3 = [number, number, number];
@@ -331,8 +361,7 @@ export function StatsSection() {
     ...stat.value.split(""),
     ...(stat.suffix ? stat.suffix.split("") : []),
   ];
-
-  const parentVars = prefersReduced ? REDUCED_VARIANTS : PARENT_VARIANTS;
+  const total = allChars.length;
 
   return (
     <section className="relative z-20 bg-surface-100 overflow-x-hidden">
@@ -350,69 +379,66 @@ export function StatsSection() {
               onMouseEnter={() => setPaused(true)}
               onMouseLeave={() => setPaused(false)}
             >
+              {/* Number + suffix: per-character x/y drift */}
               <AnimatePresence mode="wait">
-                <motion.div
-                  key={stat.id}
-                  variants={parentVars}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                >
-                  {/* Number + suffix: per-character stagger */}
-                  {prefersReduced ? (
-                    <div className="flex items-baseline">
-                      {allChars.map((char, i) => (
-                        <span key={i} className={NUM_CLASS}>{char}</span>
-                      ))}
-                    </div>
-                  ) : (
-                    <motion.div
-                      variants={NUM_CONTAINER_VARIANTS}
-                      className="flex items-baseline"
-                    >
-                      {allChars.map((char, i) => (
-                        <motion.span
-                          key={i}
-                          variants={CHAR_VARIANTS}
-                          className={NUM_CLASS}
-                          style={{ display: "inline-block" }}
-                        >
-                          {char}
-                        </motion.span>
-                      ))}
-                    </motion.div>
-                  )}
-
-                  {/* Label — block animation */}
-                  {prefersReduced ? (
-                    <p className="font-serif font-[400] text-3xl lg:text-4xl leading-tight mt-2 text-ink">
-                      {stat.label_en}
-                    </p>
-                  ) : (
-                    <motion.p
-                      variants={BLOCK_VARIANTS}
-                      className="font-serif font-[400] text-3xl lg:text-4xl leading-tight mt-2 text-ink"
-                    >
-                      {stat.label_en}
-                    </motion.p>
-                  )}
-
-                  {/* Footnote — block animation, conditional */}
-                  {stat.footnote_en && (
-                    prefersReduced ? (
-                      <p className="font-mono text-xs uppercase tracking-widest text-ink/60 mt-6">
-                        {stat.footnote_en}
-                      </p>
-                    ) : (
-                      <motion.p
-                        variants={BLOCK_VARIANTS}
-                        className="font-mono text-xs uppercase tracking-widest text-ink/60 mt-6"
+                {prefersReduced ? (
+                  <motion.div
+                    key={stat.id}
+                    variants={REDUCED_VARIANTS}
+                    initial="initial" animate="animate" exit="exit"
+                    className="flex items-baseline"
+                  >
+                    {allChars.map((char, i) => (
+                      <span key={i} className={NUM_CLASS}>{char}</span>
+                    ))}
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key={stat.id}
+                    variants={NUM_CONTAINER_VARIANTS}
+                    initial="initial" animate="animate" exit="exit"
+                    className="flex items-baseline"
+                  >
+                    {allChars.map((char, i) => (
+                      <motion.span
+                        key={i}
+                        variants={charVariants(i, total)}
+                        className={NUM_CLASS}
+                        style={{ display: "inline-block" }}
                       >
-                        {stat.footnote_en}
-                      </motion.p>
-                    )
-                  )}
-                </motion.div>
+                        {char}
+                      </motion.span>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Label — separate AnimatePresence, block animation */}
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={stat.id}
+                  variants={prefersReduced ? REDUCED_VARIANTS : LABEL_VARIANTS}
+                  initial="initial" animate="animate" exit="exit"
+                  className="font-serif font-[400] text-3xl lg:text-4xl leading-tight mt-2 text-ink"
+                >
+                  {stat.label_en}
+                </motion.p>
+              </AnimatePresence>
+
+              {/* Footnote — separate AnimatePresence, opacity only */}
+              <AnimatePresence mode="wait">
+                {stat.footnote_en ? (
+                  <motion.p
+                    key={stat.id}
+                    variants={prefersReduced ? REDUCED_VARIANTS : FOOTNOTE_VARIANTS}
+                    initial="initial" animate="animate" exit="exit"
+                    className="font-mono text-xs uppercase tracking-widest text-ink/60 mt-6"
+                  >
+                    {stat.footnote_en}
+                  </motion.p>
+                ) : (
+                  <div key={stat.id} className="mt-6 h-4" />
+                )}
               </AnimatePresence>
             </div>
 
@@ -432,7 +458,7 @@ export function StatsSection() {
             className="hidden lg:flex lg:flex-1 items-center justify-center"
             aria-hidden="true"
           >
-            <div style={{ transform: "translateX(-18%)" }}>
+            <div style={{ transform: "translateX(-120px)" }}>
               <GlobeDecoration />
             </div>
           </div>
