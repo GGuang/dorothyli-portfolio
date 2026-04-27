@@ -172,7 +172,7 @@ export function StatsSection() {
           {/* Left column */}
           <div className="w-full lg:w-[40%] lg:flex-none flex flex-col">
             <p className="font-mono text-xs tracking-widest uppercase text-ink/60 mb-12 lg:mb-16">
-              // 03 — proof
+              {"// 03 — proof"}
             </p>
 
             {/* Animated stat block */}

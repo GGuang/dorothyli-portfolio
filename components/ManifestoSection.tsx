@@ -8,7 +8,7 @@ export function ManifestoSection() {
 
         {/* Label */}
         <p className="font-mono text-xs tracking-widest uppercase text-ink/60 mb-16">
-          // 02 — manifesto
+          {"// 02 — manifesto"}
         </p>
 
         {/* Positioning sentence — constrained to ~65% on desktop */}
