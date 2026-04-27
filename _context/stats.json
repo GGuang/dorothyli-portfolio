@@ -2,69 +2,69 @@
   "stats": [
     {
       "id": "01",
-      "value": "00",
-      "suffix": "+",
-      "label_en": "[label placeholder 01]",
-      "label_zh": "[标签占位 01]",
-      "footnote_en": "[footnote placeholder 01]",
-      "footnote_zh": "[脚注占位 01]",
-      "source": "internal",
-      "year": "2024"
+      "value": "1",
+      "suffix": "",
+      "label_en": "Global Site Rebuilt",
+      "label_zh": "全球官网重构",
+      "footnote_en": "Structure, messaging, multilingual content",
+      "footnote_zh": "结构、信息架构、多语种内容",
+      "source": "POCSTARS",
+      "year": "2025"
     },
     {
       "id": "02",
-      "value": "00",
-      "suffix": "%",
-      "label_en": "[label placeholder 02]",
-      "label_zh": "[标签占位 02]",
-      "footnote_en": "",
-      "footnote_zh": "",
-      "source": "internal",
-      "year": "2024"
+      "value": "4",
+      "suffix": "",
+      "label_en": "Global Brand Experience",
+      "label_zh": "全球品牌经验",
+      "footnote_en": "Nestlé · Honda · Dell · Garmin",
+      "footnote_zh": "雀巢 · 本田 · 戴尔 · 佳明",
+      "source": "Fage / Garmin",
+      "year": "2014–2018"
     },
     {
       "id": "03",
-      "value": "00",
-      "suffix": "+",
-      "label_en": "[label placeholder 03]",
-      "label_zh": "[标签占位 03]",
-      "footnote_en": "[footnote placeholder 03]",
-      "footnote_zh": "[脚注占位 03]",
-      "source": "internal",
-      "year": "2023"
+      "value": "#3",
+      "suffix": " + AIO",
+      "label_en": "Answer-Ready Visibility",
+      "label_zh": "AI 搜索可见度",
+      "footnote_en": "MCX solution · Google + AI Overview",
+      "footnote_zh": "MCX 解决方案 · Google + AI Overview",
+      "source": "POCSTARS",
+      "year": "2025"
     },
     {
       "id": "04",
-      "value": "00",
-      "suffix": "→",
-      "label_en": "[label placeholder 04]",
-      "label_zh": "[标签占位 04]",
-      "footnote_en": "",
-      "footnote_zh": "",
-      "source": "internal",
-      "year": "2024"
+      "value": "3",
+      "suffix": "×",
+      "label_en": "Qualified Demand Lift",
+      "label_zh": "高质量询盘增长",
+      "footnote_en": "Inbound enquiries growth, monthly",
+      "footnote_zh": "月度有效询盘增长",
+      "source": "POCSTARS",
+      "year": "2025"
     },
     {
       "id": "05",
-      "value": "00",
-      "suffix": "×",
-      "label_en": "[label placeholder 05]",
-      "label_zh": "[标签占位 05]",
-      "footnote_en": "[footnote placeholder 05]",
-      "footnote_zh": "[脚注占位 05]",
-      "source": "internal",
-      "year": "2023"
+      "value": "230",
+      "suffix": "M",
+      "label_en": "Integrated Campaign Reach",
+      "label_zh": "整合营销覆盖",
+      "footnote_en": "SAIC Roewe RX5 launch · +540% UGC",
+      "footnote_zh": "上汽荣威 RX5 上市项目 · UGC 增长 540%",
+      "source": "Creyi",
+      "year": "2018"
     },
     {
       "id": "06",
-      "value": "00",
-      "suffix": "",
-      "label_en": "[label placeholder 06]",
-      "label_zh": "[标签占位 06]",
-      "footnote_en": "",
-      "footnote_zh": "",
-      "source": "internal",
-      "year": "2024"
+      "value": "1B",
+      "suffix": "+",
+      "label_en": "Viral Content Reach",
+      "label_zh": "现象级内容传播",
+      "footnote_en": "Single video case",
+      "footnote_zh": "单条视频案例",
+      "source": "Creyi",
+      "year": "2018–2020"
     }
   ]
 }

@@ -423,7 +423,7 @@ export function StatsSection() {
 
             {/* Static descriptive paragraph */}
             <p className="font-sans font-[400] text-base lg:text-lg leading-[1.6] text-ink/85 max-w-md mt-10 lg:mt-32">
-              [DESCRIPTIVE_PARAGRAPH — to be supplied]
+              A selected set of measurable proof points across brand, content, search, website, and demand work — showing how marketing communication can be turned into repeatable systems, not one-off execution.
             </p>
           </div>
 
