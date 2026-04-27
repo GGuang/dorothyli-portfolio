@@ -432,7 +432,9 @@ export function StatsSection() {
             className="hidden lg:flex lg:flex-1 items-center justify-center"
             aria-hidden="true"
           >
-            <GlobeDecoration />
+            <div style={{ transform: "translateX(-18%)" }}>
+              <GlobeDecoration />
+            </div>
           </div>
 
         </div>
@@ -444,8 +446,8 @@ export function StatsSection() {
         style={{ width: "70px" }}
         aria-hidden="true"
       >
-        <div className="lg:pt-32">
-          {STRIP_LINES.map((line, i) => (
+        <div className="pt-6">
+          {[...STRIP_LINES, ...STRIP_LINES, ...STRIP_LINES].map((line, i) => (
             <StripLine key={i} line={line} />
           ))}
         </div>
