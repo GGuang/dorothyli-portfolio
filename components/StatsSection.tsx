@@ -453,17 +453,16 @@ export function StatsSection() {
             </p>
           </div>
 
-          {/* ── Center column: Globe (desktop only, fills remaining width) ── */}
-          <div
-            className="hidden lg:flex lg:flex-1 items-center justify-center"
-            aria-hidden="true"
-          >
-            <div style={{ transform: "translateX(-120px)" }}>
-              <GlobeDecoration />
-            </div>
-          </div>
-
         </div>
+      </div>
+
+      {/* ── Globe: desktop only, center anchored to 52vw ── */}
+      <div
+        className="hidden lg:block absolute pointer-events-none"
+        style={{ left: "52vw", top: "50%", transform: "translate(-50%, -50%)" }}
+        aria-hidden="true"
+      >
+        <GlobeDecoration />
       </div>
 
       {/* ── Code strip: absolute right edge, bleeds off viewport — desktop only ── */}
