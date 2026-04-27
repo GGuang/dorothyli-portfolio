@@ -83,29 +83,31 @@ function StripLine({ line }: { line: StripLineType }) {
   }
 }
 
-// ─── Animation variants ───────────────────────────────────────────────────────
+// ─── Animation variants (cubic-bezier only, no spring, no blur) ───────────────
+const EXPO_OUT = [0.32, 0.72, 0, 1] as [number, number, number, number];
+
 const PARENT_VARIANTS: Variants = {
-  initial: { x: 60 },
-  animate: { x: 0, transition: { type: "spring", stiffness: 260, damping: 24 } },
-  exit:    { x: -60, transition: { type: "spring", stiffness: 260, damping: 24 } },
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EXPO_OUT } },
+  exit:    { opacity: 0, y: -8, transition: { duration: 0.55, ease: EXPO_OUT } },
 };
 
 const NUM_CONTAINER_VARIANTS: Variants = {
   initial: {},
-  animate: { transition: { staggerChildren: 0.04, delayChildren: 0 } },
-  exit:    { transition: { staggerChildren: 0.025, staggerDirection: -1 } },
+  animate: { transition: { staggerChildren: 0.025, delayChildren: 0, staggerDirection: 1 } },
+  exit:    { transition: { staggerChildren: 0.015, staggerDirection: -1 } },
 };
 
 const CHAR_VARIANTS: Variants = {
-  initial: { opacity: 0, y: 24, filter: "blur(4px)" },
-  animate: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 380, damping: 28 } },
-  exit:    { opacity: 0, y: -24, filter: "blur(4px)", transition: { duration: 0.25, ease: [0.4, 0, 0.6, 1] } },
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EXPO_OUT } },
+  exit:    { opacity: 0, y: -16, transition: { duration: 0.45, ease: EXPO_OUT } },
 };
 
 const BLOCK_VARIANTS: Variants = {
   initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0, 0, 0.2, 1] } },
-  exit:    { opacity: 0, y: -12, transition: { duration: 0.2, ease: [0.4, 0, 1, 1] } },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0, 0, 0.2, 1] as [number, number, number, number] } },
+  exit:    { opacity: 0, y: -12, transition: { duration: 0.2, ease: [0.4, 0, 1, 1] as [number, number, number, number] } },
 };
 
 const REDUCED_VARIANTS: Variants = {
@@ -114,175 +116,193 @@ const REDUCED_VARIANTS: Variants = {
   exit:    { opacity: 0, transition: { duration: 0.15 } },
 };
 
+// ─── Geodesic icosphere (frequency-2, computed once at module level) ──────────
+type Vec3 = [number, number, number];
+
+function norm3([x, y, z]: Vec3): Vec3 {
+  const l = Math.sqrt(x * x + y * y + z * z);
+  return [x / l, y / l, z / l];
+}
+
+const PHI = (1 + Math.sqrt(5)) / 2;
+
+// 12 icosahedron base vertices (unit sphere)
+const ICO_BASE: Vec3[] = [
+  [0, 1, PHI],  [0, -1, PHI],  [0, 1, -PHI],  [0, -1, -PHI],
+  [1, PHI, 0],  [-1, PHI, 0],  [1, -PHI, 0],  [-1, -PHI, 0],
+  [PHI, 0, 1],  [-PHI, 0, 1], [PHI, 0, -1],  [-PHI, 0, -1],
+].map(v => norm3(v as Vec3));
+
+// 20 icosahedron faces
+const ICO_BASE_FACES: [number, number, number][] = [
+  [0,1,8],  [0,8,4],   [0,4,5],  [0,5,9],  [0,9,1],
+  [1,6,8],  [8,6,10],  [8,10,4], [4,10,2], [4,2,5],
+  [5,2,11], [5,11,9],  [9,11,7], [9,7,1],  [1,7,6],
+  [3,6,7],  [3,10,6],  [3,2,10], [3,11,2], [3,7,11],
+];
+
+// One subdivision pass → 42 verts, 80 faces
+function subdivide(verts: Vec3[], faces: [number, number, number][]) {
+  const v = [...verts];
+  const cache = new Map<string, number>();
+  const mid = (a: number, b: number): number => {
+    const k = a < b ? `${a}:${b}` : `${b}:${a}`;
+    if (cache.has(k)) return cache.get(k)!;
+    const i = v.length;
+    v.push(norm3([(v[a][0]+v[b][0])/2, (v[a][1]+v[b][1])/2, (v[a][2]+v[b][2])/2]));
+    cache.set(k, i);
+    return i;
+  };
+  const f: [number, number, number][] = [];
+  for (const [a, b, c] of faces) {
+    const ab = mid(a, b), bc = mid(b, c), ca = mid(c, a);
+    f.push([a, ab, ca], [b, bc, ab], [c, ca, bc], [ab, bc, ca]);
+  }
+  return { verts: v, faces: f };
+}
+
+const { verts: ICO_VERTS, faces: ICO_FACES } = subdivide(ICO_BASE, ICO_BASE_FACES);
+
+// Extract unique edges
+const ICO_EDGES: [number, number][] = (() => {
+  const seen = new Set<string>();
+  const edges: [number, number][] = [];
+  for (const [a, b, c] of ICO_FACES) {
+    for (const [x, y] of [[a, b], [b, c], [c, a]] as [number, number][]) {
+      const k = x < y ? `${x}:${y}` : `${y}:${x}`;
+      if (!seen.has(k)) {
+        seen.add(k);
+        edges.push([Math.min(x, y), Math.max(x, y)]);
+      }
+    }
+  }
+  return edges;
+})();
+
 // ─── Globe SVG ────────────────────────────────────────────────────────────────
 //
-// Fixed coordinate system: 380×380 viewBox, R=182, center=(190,190).
-// Orthographic projection centered at lat=0, lon=0 (prime meridian facing viewer).
-// Visibility: cos(lat)*cos(lon) > 0 → lon ∈ (−90°, 90°).
-// Visible market nodes: Spain, Germany, USA East. China+Indonesia are on back hemisphere.
+// Orthographic projection: x = R·Vx, y = -R·Vy  (z-axis faces viewer)
+// Visibility: Vz > 0 (front hemisphere)
+// Front edges:      both endpoints Vz > 0 → solid ink/40, stroke 1
+// Silhouette edges: one endpoint Vz ≤ 0  → dashed ink/20, stroke 0.5
+// Back edges:       both endpoints Vz ≤ 0 → skip
 
 function GlobeDecoration({ mobile = false }: { mobile?: boolean }) {
-  const R  = 182;
-  const cx = 190;
-  const cy = 190;
-  const displaySize = mobile ? 240 : 380;
-  const clipId    = `globe-clip-${mobile ? "m" : "d"}`;
-  const patternId = `globe-stripe-${mobile ? "m" : "d"}`;
+  const displaySize = mobile ? 240 : 520;
+  const cx = displaySize / 2;
+  const cy = displaySize / 2;
+  const R  = displaySize / 2 - 15;
+  const clipId    = `geo-clip-${mobile ? "m" : "d"}`;
+  const patternId = `geo-stripe-${mobile ? "m" : "d"}`;
 
-  const toRad = (d: number) => (d * Math.PI) / 180;
+  // Project unit-sphere vertex to SVG coordinates
+  const proj = ([vx, vy, vz]: Vec3) => ({ x: cx + R * vx, y: cy - R * vy, vz });
+  const projected = ICO_VERTS.map(proj);
 
-  // Orthographic projection: x = R·cos(lat)·sin(lon), y = −R·sin(lat)
-  const project = (latDeg: number, lonDeg: number) => {
-    const lat = toRad(latDeg);
-    const lon = toRad(lonDeg);
-    return {
-      x: cx + R * Math.cos(lat) * Math.sin(lon),
-      y: cy - R * Math.sin(lat),
-      visible: Math.cos(lat) * Math.cos(lon) > 0,
-    };
-  };
+  // Categorize edges
+  const frontEdges: [number, number][] = [];
+  const silEdges:   [number, number][] = [];
+  for (const [a, b] of ICO_EDGES) {
+    const af = projected[a].vz > 0;
+    const bf = projected[b].vz > 0;
+    if (af && bf)        frontEdges.push([a, b]);
+    else if (af || bf)   silEdges.push([a, b]);
+  }
 
-  // Layer 1 — Primary latitudes (7)
-  const primLatDeg = [-67.5, -45, -22.5, 0, 22.5, 45, 67.5];
-  const primLats = primLatDeg.map((deg) => {
-    const rad = toRad(deg);
-    return {
-      y:  cy - R * Math.sin(rad),
-      rx: Math.max(0, R * Math.cos(rad)),
-      ry: Math.max(2, R * 0.072 * Math.cos(rad)),
-    };
-  });
-
-  // Layer 1 — Primary meridians: 0°, ±15°, ±30°, ±45°, ±60°, ±75° (12 arcs)
-  const primLonDeg = [0, 15, 30, 45, 60, 75];
-  const primMeridians = primLonDeg.map((deg) => ({
-    rx: R * Math.sin(toRad(deg)),
-    isLine: deg === 0,
-  }));
-
-  // Layer 2 — Secondary dashed latitudes (14)
-  const secLatDeg = [-78, -62, -54, -38, -30, -15, -8, 8, 15, 30, 38, 54, 62, 78];
-  const secLats = secLatDeg.map((deg) => {
-    const rad = toRad(deg);
-    return {
-      y:  cy - R * Math.sin(rad),
-      rx: Math.max(0, R * Math.cos(rad)),
-      ry: Math.max(1, R * 0.055 * Math.cos(rad)),
-    };
-  });
-
-  // Layer 3 — Vertex markers: ~12 hollow squares at primary grid intersections
-  const vertexData: [number, number][] = [
-    [0, -60], [0, -30], [0, 0], [0, 30], [0, 60],
-    [45, -45], [45, 0], [45, 45],
-    [-45, -45], [-45, 0], [-45, 45],
-    [22.5, -75],
-  ];
-  const vertices = vertexData.map(([la, lo]) => project(la, lo)).filter((p) => p.visible);
-
-  // Layer 4 — Market nodes (filled; back-hemisphere nodes filtered out)
-  const marketRaw = [
-    { lat: 35,  lon: 105  },  // China — back hemisphere, filtered
-    { lat: 0,   lon: 115  },  // Indonesia — back hemisphere, filtered
-    { lat: 40,  lon: -3   },  // Spain
-    { lat: 51,  lon: 10   },  // Germany
-    { lat: 40,  lon: -75  },  // USA East Coast
-  ];
-  const markets = marketRaw.map(({ lat, lon }) => project(lat, lon)).filter((p) => p.visible);
-
-  // Layer 5 — Connecting threads (skip if either endpoint is on back hemisphere)
-  const threadPairs = [
-    [{ lat: 35, lon: 105 }, { lat: 0,  lon: 115 }],  // China–Indonesia (both back)
-    [{ lat: 35, lon: 105 }, { lat: 51, lon: 10  }],  // China–Germany (China back)
-    [{ lat: 40, lon: -3  }, { lat: 40, lon: -75 }],  // Spain–USA ✓
-    [{ lat: 51, lon: 10  }, { lat: 40, lon: -75 }],  // Germany–USA ✓
-  ];
-  const threads = threadPairs
-    .map(([a, b]) => ({ a: project(a.lat, a.lon), b: project(b.lat, b.lon) }))
-    .filter(({ a, b }) => a.visible && b.visible);
+  // Antenna sources: 7 front-hemisphere verts closest to silhouette (smallest +vz)
+  const antennas = ICO_VERTS
+    .map((v, i) => ({ v, p: projected[i] }))
+    .filter(({ v }) => v[2] > 0)
+    .sort((a, b) => a.v[2] - b.v[2])
+    .slice(0, 7)
+    .map(({ v: [vx, vy] }) => {
+      const pLen = Math.sqrt(vx * vx + vy * vy);
+      const s    = pLen > 0.001 ? 1.3 / pLen : 1.3;
+      return {
+        x1: cx + R * vx,    y1: cy - R * vy,
+        x2: cx + R * vx * s, y2: cy - R * vy * s,
+      };
+    });
 
   return (
-    <svg viewBox="0 0 380 380" width={displaySize} height={displaySize} aria-hidden="true">
+    <svg
+      viewBox={`0 0 ${displaySize} ${displaySize}`}
+      width={displaySize}
+      height={displaySize}
+      aria-hidden="true"
+    >
       <defs>
         <clipPath id={clipId}>
-          <circle cx={cx} cy={cy} r={R - 1} />
+          <circle cx={cx} cy={cy} r={R} />
         </clipPath>
-        {/* Diagonal stripe pattern for focal circle — 45°, 4px band / 4px gap */}
+        {/* 45° diagonal stripe pattern for focal circle */}
         <pattern
-          id={patternId}
-          x="0" y="0" width="8" height="8"
-          patternUnits="userSpaceOnUse"
-          patternTransform="rotate(45)"
+          id={patternId} x="0" y="0" width="8" height="8"
+          patternUnits="userSpaceOnUse" patternTransform="rotate(45)"
         >
           <rect x="0" y="0" width="4" height="8" fill="rgba(23,22,18,0.6)" />
         </pattern>
       </defs>
 
-      {/* Globe outline */}
-      <circle cx={cx} cy={cy} r={R} fill="none" stroke="rgba(23,22,18,0.35)" strokeWidth="1" />
-
-      {/* Layer 2 — Secondary dashed latitudes */}
+      {/* Silhouette-crossing edges (dashed, clipped to globe) */}
       <g clipPath={`url(#${clipId})`}>
-        {secLats.map((lat, i) => (
-          <ellipse
-            key={i} cx={cx} cy={lat.y} rx={lat.rx} ry={lat.ry}
-            fill="none" stroke="rgba(23,22,18,0.15)" strokeWidth="0.5" strokeDasharray="2 3"
+        {silEdges.map(([a, b], i) => (
+          <line
+            key={i}
+            x1={projected[a].x} y1={projected[a].y}
+            x2={projected[b].x} y2={projected[b].y}
+            stroke="rgba(23,22,18,0.2)" strokeWidth="0.5" strokeDasharray="2 3"
           />
         ))}
       </g>
 
-      {/* Layer 1 — Primary latitudes */}
+      {/* Front-facing edges (solid, clipped to globe) */}
       <g clipPath={`url(#${clipId})`}>
-        {primLats.map((lat, i) => (
-          <ellipse
-            key={i} cx={cx} cy={lat.y} rx={lat.rx} ry={lat.ry}
-            fill="none" stroke="rgba(23,22,18,0.35)" strokeWidth="1"
+        {frontEdges.map(([a, b], i) => (
+          <line
+            key={i}
+            x1={projected[a].x} y1={projected[a].y}
+            x2={projected[b].x} y2={projected[b].y}
+            stroke="rgba(23,22,18,0.4)" strokeWidth="1"
           />
         ))}
       </g>
 
-      {/* Layer 1 — Primary meridians */}
-      <g clipPath={`url(#${clipId})`}>
-        {primMeridians.map((mer, i) =>
-          mer.isLine ? (
-            <line
-              key={i} x1={cx} y1={cy - R} x2={cx} y2={cy + R}
-              stroke="rgba(23,22,18,0.35)" strokeWidth="1"
-            />
-          ) : (
-            <ellipse
-              key={i} cx={cx} cy={cy} rx={mer.rx} ry={R}
-              fill="none" stroke="rgba(23,22,18,0.35)" strokeWidth="1"
-            />
-          )
-        )}
-      </g>
+      {/* Globe outline ring */}
+      <circle cx={cx} cy={cy} r={R} fill="none" stroke="rgba(23,22,18,0.3)" strokeWidth="1" />
 
-      {/* Layer 5 — Connecting threads */}
-      {threads.map(({ a, b }, i) => (
+      {/* Antenna lines — extend outside silhouette, not clipped */}
+      {antennas.map((a, i) => (
         <line
-          key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y}
-          stroke="rgba(23,22,18,0.2)" strokeWidth="0.5" strokeDasharray="1 4"
+          key={i}
+          x1={a.x1} y1={a.y1} x2={a.x2} y2={a.y2}
+          stroke="rgba(23,22,18,0.2)" strokeWidth="0.5" strokeDasharray="1 3"
         />
       ))}
 
-      {/* Layer 3 — Vertex markers (hollow squares 4×4) */}
-      {vertices.map((pt, i) => (
+      {/* Vertex markers: hollow 3×3 squares at every front-hemisphere vertex */}
+      <g clipPath={`url(#${clipId})`}>
+        {projected
+          .filter(p => p.vz > 0)
+          .map((p, i) => (
+            <rect
+              key={i}
+              x={p.x - 1.5} y={p.y - 1.5} width={3} height={3}
+              fill="none" stroke="rgba(23,22,18,0.5)" strokeWidth="1"
+            />
+          ))}
+      </g>
+
+      {/* Antenna endpoint markers: hollow 4×4 squares outside silhouette */}
+      {antennas.map((a, i) => (
         <rect
-          key={i} x={pt.x - 2} y={pt.y - 2} width={4} height={4}
-          fill="none" stroke="rgba(23,22,18,0.5)" strokeWidth="1"
+          key={i}
+          x={a.x2 - 2} y={a.y2 - 2} width={4} height={4}
+          fill="none" stroke="rgba(23,22,18,0.4)" strokeWidth="1"
         />
       ))}
 
-      {/* Layer 4 — Market nodes (filled squares 4×4) */}
-      {markets.map((pt, i) => (
-        <rect
-          key={i} x={pt.x - 2} y={pt.y - 2} width={4} height={4}
-          fill="rgba(23,22,18,0.7)"
-        />
-      ))}
-
-      {/* Layer 6 — Striped focal circle at globe center */}
+      {/* Striped focal circle at visual center */}
       <circle cx={cx} cy={cy} r={12} fill={`url(#${patternId})`} />
     </svg>
   );
@@ -315,7 +335,7 @@ export function StatsSection() {
   const parentVars = prefersReduced ? REDUCED_VARIANTS : PARENT_VARIANTS;
 
   return (
-    <section className="relative z-20 bg-surface-100">
+    <section className="relative z-20 bg-surface-100 overflow-x-hidden">
       <div className="w-full px-6 pt-20 pb-20 lg:max-w-content lg:mx-auto lg:px-14 xl:px-[5.5%] lg:pt-32 lg:pb-32">
         <div className="flex lg:items-stretch">
 
@@ -338,7 +358,7 @@ export function StatsSection() {
                   animate="animate"
                   exit="exit"
                 >
-                  {/* Number + suffix — per-character stagger (or plain for reduced-motion) */}
+                  {/* Number + suffix: per-character stagger */}
                   {prefersReduced ? (
                     <div className="flex items-baseline">
                       {allChars.map((char, i) => (
@@ -396,7 +416,7 @@ export function StatsSection() {
               </AnimatePresence>
             </div>
 
-            {/* Globe — mobile only (between stat block and paragraph) */}
+            {/* Globe — mobile only (sits between stat and paragraph) */}
             <div className="mt-10 flex justify-center lg:hidden" aria-hidden="true">
               <GlobeDecoration mobile />
             </div>
@@ -407,30 +427,30 @@ export function StatsSection() {
             </p>
           </div>
 
-          {/* ── Center column: Globe (desktop only) ── */}
+          {/* ── Center column: Globe (desktop only, fills remaining width) ── */}
           <div
-            className="hidden lg:flex lg:w-[45%] items-center justify-center"
+            className="hidden lg:flex lg:flex-1 items-center justify-center"
             aria-hidden="true"
           >
             <GlobeDecoration />
           </div>
 
-          {/* ── Right column: Code strip (desktop only) ── */}
-          <div
-            className="hidden lg:block lg:w-[15%] overflow-hidden relative"
-            aria-hidden="true"
-          >
-            <div className="absolute inset-0 overflow-hidden">
-              <div>
-                {STRIP_LINES.map((line, i) => (
-                  <StripLine key={i} line={line} />
-                ))}
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
+
+      {/* ── Code strip: absolute right edge, bleeds off viewport — desktop only ── */}
+      <div
+        className="hidden lg:block absolute right-0 top-0 bottom-0 overflow-hidden pointer-events-none"
+        style={{ width: "70px" }}
+        aria-hidden="true"
+      >
+        <div className="lg:pt-32">
+          {STRIP_LINES.map((line, i) => (
+            <StripLine key={i} line={line} />
+          ))}
+        </div>
+      </div>
+
     </section>
   );
 }
