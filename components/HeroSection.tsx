@@ -119,7 +119,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="hero-bg relative min-h-screen flex flex-col overflow-hidden"
+      className="hero-bg relative h-full flex flex-col overflow-hidden"
     >
 
       {/* ── Code decoration — desktop only, right 40% (z-index 1, behind stripe) */}
