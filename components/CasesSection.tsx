@@ -13,21 +13,21 @@ function IconPlaceholder({ hovered }: { hovered: boolean }) {
   const strokeOpacity = hovered ? 0.7 : 0.3;
   return (
     <svg
-      width="240"
-      height="240"
+      width="160"
+      height="160"
       viewBox="-100 -100 200 200"
       fill="none"
       aria-hidden="true"
     >
       <circle
         cx="0" cy="0" r="70"
-        stroke="currentColor" strokeWidth="1"
+        stroke="currentColor" strokeWidth="1.5"
         strokeOpacity={strokeOpacity}
         style={{ transition: "stroke-opacity 400ms" }}
       />
       <rect
         x="-30" y="-30" width="60" height="60"
-        stroke="currentColor" strokeWidth="1"
+        stroke="currentColor" strokeWidth="1.5"
         strokeOpacity={strokeOpacity}
         style={{ transition: "stroke-opacity 400ms" }}
       />
@@ -58,15 +58,12 @@ function CaseCard({ c, prefersReduced }: { c: Case; prefersReduced: boolean }) {
   return (
     <Link
       href={`/cases/${c.slug}`}
-      className="block flex-none snap-start snap-always focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream/60 rounded-sm
-        w-[min(86vw,360px)] h-[min(115vw,500px)]
-        lg:w-[580px] lg:h-[720px]"
+      className="case-card block flex-none snap-start snap-always focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream/60 rounded-sm"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <motion.div
-        className="relative w-full h-full bg-ink text-cream flex flex-col overflow-hidden
-          p-6 lg:p-10"
+        className="relative w-full h-full bg-ink text-cream flex flex-col overflow-hidden p-5 lg:p-8"
         animate={prefersReduced ? {} : { y: hovered ? -6 : 0 }}
         transition={
           hovered
@@ -80,22 +77,19 @@ function CaseCard({ c, prefersReduced }: { c: Case; prefersReduced: boolean }) {
         }
       >
         {/* Zone 1 — top content */}
-        <div className="flex flex-col">
-          <p className="font-mono text-xs tracking-widest uppercase text-cream/55">
+        <div className="flex-none flex flex-col">
+          <p className="font-mono text-[11px] tracking-widest uppercase text-cream/55">
             {c.meta}
           </p>
-          <h3 className="font-serif text-2xl lg:text-4xl font-normal leading-[1.1] tracking-[-0.02em] text-cream mt-4">
+          <h3 className="font-serif text-xl lg:text-2xl font-normal leading-[1.15] tracking-[-0.02em] text-cream mt-3 lg:mt-4">
             {c.title}
           </h3>
-          <p
-            className="font-sans text-sm lg:text-base text-cream/70 leading-[1.55] mt-4"
-            style={{ maxWidth: "80%" }}
-          >
+          <p className="font-sans text-xs lg:text-sm text-cream/70 leading-[1.5] mt-3 lg:mt-4 line-clamp-3">
             {c.description}
           </p>
         </div>
 
-        {/* Zone 2 — icon (grows to fill remaining space) */}
+        {/* Zone 2 — icon (absorbs remaining space) */}
         <div
           className="flex-1 flex items-center justify-center text-cream min-h-0"
           style={iconStyle}
@@ -104,14 +98,14 @@ function CaseCard({ c, prefersReduced }: { c: Case; prefersReduced: boolean }) {
         </div>
 
         {/* Zone 3 — footer */}
-        <div className="flex items-center justify-between">
-          <span className="font-mono text-xs tracking-widest text-cream/50">
+        <div className="flex-none flex items-center justify-between">
+          <span className="font-mono text-[11px] tracking-widest text-cream/55">
             {"// " + c.id}
           </span>
-          <div className="flex items-center gap-2">
-            <span className="font-mono text-xs text-cream/85">View case</span>
+          <div className="flex items-center gap-1.5">
+            <span className="font-mono text-[11px] text-cream/85">View case</span>
             <motion.span
-              className="font-mono text-xs text-cream/85 inline-block"
+              className="font-mono text-[11px] text-cream/85 inline-block"
               animate={prefersReduced ? {} : { x: hovered ? 4 : 0 }}
               transition={
                 hovered
@@ -151,9 +145,9 @@ export function CasesSection() {
   const cases = casesData.cases as Case[];
 
   return (
-    <section className="relative z-30 bg-surface-200 pt-32 pb-32">
+    <section className="relative z-30 bg-surface-200 pt-20 pb-12">
       {/* Section header */}
-      <div className="px-6 lg:px-14 xl:px-[5.5vw] mb-20">
+      <div className="px-6 lg:px-14 xl:px-[5.5vw] mb-12">
         <div className="section-label mb-sp-6">{"// 04 — cases"}</div>
         <h2 className="font-serif text-token-3xl lg:text-token-4xl font-light tracking-[-0.02em] leading-[1.0] text-ink mb-sp-6 max-w-[70vw]">
           Selected Systems in Practice
@@ -166,8 +160,7 @@ export function CasesSection() {
       {/* Horizontal scroll track */}
       <div
         ref={trackRef}
-        className="flex gap-5 lg:gap-8 overflow-x-auto snap-x snap-mandatory no-scrollbar
-          pl-6 lg:pl-14 xl:pl-[5.5vw] pr-6"
+        className="flex gap-5 lg:gap-8 overflow-x-auto snap-x snap-mandatory no-scrollbar pl-6 lg:pl-14 xl:pl-[5.5vw] pr-6"
       >
         {cases.map((c) => (
           <CaseCard key={c.id} c={c} prefersReduced={prefersReduced} />
@@ -177,7 +170,7 @@ export function CasesSection() {
       </div>
 
       {/* Scroll progress bar — desktop only */}
-      <div className="hidden lg:block px-14 xl:px-[5.5vw] mt-12">
+      <div className="hidden lg:block px-14 xl:px-[5.5vw] mt-10">
         <div className="h-px w-full bg-ink/10 relative overflow-hidden">
           <motion.div
             className="absolute inset-y-0 left-0 bg-ink/40 origin-left"

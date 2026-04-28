@@ -200,6 +200,19 @@
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
 
+  /* Case card — mobile: width-driven; desktop: height-driven via clamp */
+  .case-card {
+    width: min(80vw, 320px);
+    aspect-ratio: 4 / 5;
+  }
+  @media (min-width: 1024px) {
+    .case-card {
+      height: clamp(440px, 56vh, 540px);
+      width: auto;
+      aspect-ratio: 4 / 5;
+    }
+  }
+
   /* ── Shimmer sweep effect ───────────────────────── */
   /* Usage: add "shimmer-trigger" to button, put <span class="shimmer" /> inside */
   /* Requires: button must have position:relative + overflow:hidden              */
