@@ -179,6 +179,27 @@ const ICO_EDGES: [number, number][] = (() => {
   return edges;
 })();
 
+// ─── Vertex highlight map — 6 front-hemisphere verts evenly distributed ───────
+// Computed once from ICO_VERTS: filter to vz > 0.2 (clearly front-facing),
+// sort by screen angle, pick every n-th for angular coverage.
+const HIGHLIGHTED_VERTS: number[] = (() => {
+  const candidates = ICO_VERTS
+    .map((v, i) => ({ i, v, angle: Math.atan2(v[1], v[0]) }))
+    .filter(({ v }) => v[2] > 0.2)
+    .sort((a, b) => a.angle - b.angle);
+  const step = Math.max(1, Math.floor(candidates.length / 6));
+  return Array.from({ length: 6 }, (_, k) => candidates[(k * step) % candidates.length].i);
+})();
+
+const STAT_VERTEX_MAP: Record<string, number> = {
+  "01": HIGHLIGHTED_VERTS[0], // website
+  "02": HIGHLIGHTED_VERTS[1], // brand
+  "03": HIGHLIGHTED_VERTS[2], // search
+  "04": HIGHLIGHTED_VERTS[3], // demand
+  "05": HIGHLIGHTED_VERTS[4], // campaign
+  "06": HIGHLIGHTED_VERTS[5], // content
+};
+
 // ─── Globe SVG ────────────────────────────────────────────────────────────────
 //
 // Orthographic projection: x = R·Vx, y = -R·Vy  (z-axis faces viewer)
@@ -187,7 +208,15 @@ const ICO_EDGES: [number, number][] = (() => {
 // Silhouette edges: one endpoint Vz ≤ 0  → dashed ink/20, stroke 0.5
 // Back edges:       both endpoints Vz ≤ 0 → skip
 
-function GlobeDecoration({ mobile = false }: { mobile?: boolean }) {
+function GlobeDecoration({
+  mobile = false,
+  activeVertex,
+  prefersReduced = false,
+}: {
+  mobile?: boolean;
+  activeVertex?: number;
+  prefersReduced?: boolean;
+}) {
   const displaySize = mobile ? 240 : 520;
   const cx = displaySize / 2;
   const cy = displaySize / 2;
@@ -301,10 +330,10 @@ function GlobeDecoration({ mobile = false }: { mobile?: boolean }) {
         />
       ))}
 
-      {/* Vertex markers: hollow 3×3 squares at every front-hemisphere vertex */}
+      {/* Vertex markers: hollow 3×3 squares — active vertex excluded (drawn separately) */}
       <g clipPath={`url(#${clipId})`}>
         {projected
-          .filter(p => p.vz > 0)
+          .filter((p, i) => p.vz > 0 && i !== activeVertex)
           .map((p, i) => (
             <rect
               key={i}
@@ -312,6 +341,35 @@ function GlobeDecoration({ mobile = false }: { mobile?: boolean }) {
               fill="none" stroke="rgba(23,22,18,0.5)" strokeWidth="1"
             />
           ))}
+      </g>
+
+      {/* Active vertex highlight — 7×7 filled square + 14×14 concentric ring */}
+      <g clipPath={`url(#${clipId})`}>
+        <AnimatePresence>
+          {activeVertex !== undefined && projected[activeVertex]?.vz > 0 && (() => {
+            const p = projected[activeVertex];
+            return (
+              <motion.g
+                key={activeVertex}
+                initial={prefersReduced ? { opacity: 0 } : { scale: 0.6, opacity: 0 }}
+                animate={prefersReduced
+                  ? { opacity: 1, transition: { duration: 0.2 } }
+                  : { scale: 1, opacity: 1, transition: { duration: 0.6, ease: EXPO_OUT, delay: 0.2 } }
+                }
+                exit={prefersReduced
+                  ? { opacity: 0, transition: { duration: 0.2 } }
+                  : { scale: 0.6, opacity: 0, transition: { duration: 0.4, ease: STD_EASE } }
+                }
+                style={{ transformOrigin: `${p.x}px ${p.y}px` }}
+              >
+                <rect x={p.x - 7}   y={p.y - 7}   width={14} height={14}
+                  fill="none" stroke="rgba(23,22,18,0.3)" strokeWidth="0.5" />
+                <rect x={p.x - 3.5} y={p.y - 3.5} width={7}  height={7}
+                  fill="rgba(23,22,18,0.85)" />
+              </motion.g>
+            );
+          })()}
+        </AnimatePresence>
       </g>
 
       {/* Striped focal circle — anchor */}
@@ -324,7 +382,7 @@ function GlobeDecoration({ mobile = false }: { mobile?: boolean }) {
 const INTERVAL_MS = 4000;
 
 const NUM_CLASS =
-  "font-serif font-[400] tracking-tight tabular-nums text-6xl lg:text-7xl xl:text-8xl leading-none text-ink";
+  "font-display font-[500] tracking-[-0.02em] tabular-nums text-6xl lg:text-7xl xl:text-8xl leading-none text-ink";
 
 export function StatsSection() {
   const [index, setIndex]   = useState(0);
@@ -332,6 +390,7 @@ export function StatsSection() {
   const prefersReduced      = useReducedMotion();
   const stats               = statsData.stats as Stat[];
   const stat                = stats[index];
+  const activeVertex        = STAT_VERTEX_MAP[stat.id];
 
   useEffect(() => {
     if (paused) return;
@@ -398,12 +457,12 @@ export function StatsSection() {
 
             {/* Globe — mobile only (sits between stat and paragraph) */}
             <div className="mt-10 flex justify-center lg:hidden" aria-hidden="true">
-              <GlobeDecoration mobile />
+              <GlobeDecoration mobile activeVertex={activeVertex} prefersReduced={!!prefersReduced} />
             </div>
 
             {/* Static descriptive paragraph */}
             <p className="font-sans font-[400] text-base lg:text-lg leading-[1.6] text-ink/85 max-w-md mt-10 lg:mt-32">
-              A selected set of measurable proof points across brand, content, search, website, and demand work — showing how marketing communication can be turned into repeatable systems, not one-off execution.
+              A selected set of measurable proof points across brand, content, search, website, and demand work, showing how scattered marketing efforts can become repeatable systems, not one-off execution.
             </p>
           </div>
 
@@ -416,7 +475,7 @@ export function StatsSection() {
         style={{ left: "52vw", top: "50%", transform: "translate(-50%, -50%)" }}
         aria-hidden="true"
       >
-        <GlobeDecoration />
+        <GlobeDecoration activeVertex={activeVertex} prefersReduced={!!prefersReduced} />
       </div>
 
       {/* ── Code strip: absolute right edge, bleeds off viewport — desktop only ── */}

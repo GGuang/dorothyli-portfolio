@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant, DM_Sans, Space_Mono } from "next/font/google";
+import { Cormorant, DM_Sans, Space_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const cormorant = Cormorant({
@@ -21,6 +21,13 @@ const spaceMono = Space_Mono({
   subsets: ["latin"],
   weight: ["400", "700"],
   variable: "--font-mono",
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500"],
+  variable: "--font-display",
   display: "swap",
 });
 
@@ -47,7 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${cormorant.variable} ${dmSans.variable} ${spaceMono.variable}`}
+        className={`${cormorant.variable} ${dmSans.variable} ${spaceMono.variable} ${spaceGrotesk.variable}`}
       >
         {children}
       </body>

@@ -31,9 +31,10 @@ const config: Config = {
         "inv-200": "var(--inv-200)",
       },
       fontFamily: {
-        serif: ["var(--font-serif)", "Georgia", "serif"],
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "'Courier New'", "monospace"],
+        serif:   ["var(--font-serif)",   "Georgia",      "serif"],
+        sans:    ["var(--font-sans)",    "system-ui",    "sans-serif"],
+        mono:    ["var(--font-mono)",    "'Courier New'","monospace"],
+        display: ["var(--font-display)", "system-ui",    "sans-serif"],
       },
       fontSize: {
         "2xs":       ["0.563rem", { lineHeight: "1.3",  letterSpacing: "0.02em"  }],
