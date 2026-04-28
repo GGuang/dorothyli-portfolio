@@ -200,16 +200,15 @@
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
 
-  /* Case card — mobile: width-driven; desktop: height-driven via clamp */
+  /* Case card sizing — fixed dimensions per breakpoint */
   .case-card {
-    width: min(80vw, 320px);
-    aspect-ratio: 4 / 5;
+    width: min(85vw, 360px);
+    height: min(125vw, 540px);
   }
   @media (min-width: 1024px) {
     .case-card {
-      height: clamp(440px, 56vh, 540px);
-      width: auto;
-      aspect-ratio: 4 / 5;
+      width: 560px;
+      height: 860px;
     }
   }
 

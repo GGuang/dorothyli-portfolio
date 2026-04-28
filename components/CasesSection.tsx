@@ -13,8 +13,8 @@ function IconPlaceholder({ hovered }: { hovered: boolean }) {
   const strokeOpacity = hovered ? 0.7 : 0.3;
   return (
     <svg
-      width="160"
-      height="160"
+      width="200"
+      height="200"
       viewBox="-100 -100 200 200"
       fill="none"
       aria-hidden="true"
@@ -58,12 +58,12 @@ function CaseCard({ c, prefersReduced }: { c: Case; prefersReduced: boolean }) {
   return (
     <Link
       href={`/cases/${c.slug}`}
-      className="case-card block flex-none snap-start snap-always focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream/60 rounded-sm"
+      className="case-card block flex-none snap-start snap-always focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream/60"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <motion.div
-        className="relative w-full h-full bg-ink text-cream flex flex-col overflow-hidden p-5 lg:p-8"
+        className="relative w-full h-full bg-ink text-cream flex flex-col overflow-hidden p-6 lg:p-11"
         animate={prefersReduced ? {} : { y: hovered ? -6 : 0 }}
         transition={
           hovered
@@ -73,18 +73,18 @@ function CaseCard({ c, prefersReduced }: { c: Case; prefersReduced: boolean }) {
         whileHover={
           prefersReduced
             ? { boxShadow: "0 0 0 1px rgba(239,236,202,0.2)" }
-            : { boxShadow: "0 16px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(239,236,202,0.12)" }
+            : { boxShadow: "0 20px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(239,236,202,0.12)" }
         }
       >
         {/* Zone 1 — top content */}
         <div className="flex-none flex flex-col">
-          <p className="font-mono text-[11px] tracking-widest uppercase text-cream/55">
+          <p className="font-mono text-xs tracking-widest uppercase text-cream/55">
             {c.meta}
           </p>
-          <h3 className="font-serif text-xl lg:text-2xl font-normal leading-[1.15] tracking-[-0.02em] text-cream mt-3 lg:mt-4">
+          <h3 className="font-serif text-2xl lg:text-3xl font-normal leading-tight tracking-[-0.02em] text-cream mt-4 lg:mt-5">
             {c.title}
           </h3>
-          <p className="font-sans text-xs lg:text-sm text-cream/70 leading-[1.5] mt-3 lg:mt-4 line-clamp-3">
+          <p className="font-sans text-sm lg:text-base text-cream/70 leading-relaxed mt-3 lg:mt-4 line-clamp-3">
             {c.description}
           </p>
         </div>
@@ -99,13 +99,13 @@ function CaseCard({ c, prefersReduced }: { c: Case; prefersReduced: boolean }) {
 
         {/* Zone 3 — footer */}
         <div className="flex-none flex items-center justify-between">
-          <span className="font-mono text-[11px] tracking-widest text-cream/55">
+          <span className="font-mono text-xs tracking-widest text-cream/55">
             {"// " + c.id}
           </span>
-          <div className="flex items-center gap-1.5">
-            <span className="font-mono text-[11px] text-cream/85">View case</span>
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs text-cream/85">View case</span>
             <motion.span
-              className="font-mono text-[11px] text-cream/85 inline-block"
+              className="font-mono text-xs text-cream/85 inline-block"
               animate={prefersReduced ? {} : { x: hovered ? 4 : 0 }}
               transition={
                 hovered
@@ -145,35 +145,38 @@ export function CasesSection() {
   const cases = casesData.cases as Case[];
 
   return (
-    <section className="relative z-30 bg-surface-200 pt-20 pb-12">
-      {/* Section header */}
-      <div className="px-6 lg:px-14 xl:px-[5.5vw] mb-12">
+    <section
+      className="relative z-30 bg-surface-200 pt-[8vh] pb-[8vh]"
+      style={{ minHeight: "max(140vh, calc(60vh + 960px))" }}
+    >
+      {/* Zone B — header block, 52vh tall on desktop so cards start at ~60vh */}
+      <div className="px-6 lg:px-14 xl:px-[5.5vw] mb-6 lg:h-[52vh] flex flex-col">
         <div className="section-label mb-sp-6">{"// 04 — cases"}</div>
-        <h2 className="font-serif text-token-3xl lg:text-token-4xl font-light tracking-[-0.02em] leading-[1.0] text-ink mb-sp-6 max-w-[70vw]">
+        <h2 className="font-serif text-4xl lg:text-7xl font-light tracking-[-0.02em] leading-[1.0] text-ink mb-4 lg:mb-6">
           Selected Systems in Practice
         </h2>
-        <p className="font-sans text-token-sm text-ink/55 leading-[1.6]">
+        <p className="font-sans text-sm lg:text-lg text-ink/75 leading-[1.6]">
           Marketing built as systems. Each one a piece of infrastructure.
         </p>
       </div>
 
-      {/* Horizontal scroll track */}
+      {/* Zone C — horizontal scroll track */}
       <div
         ref={trackRef}
-        className="flex gap-5 lg:gap-8 overflow-x-auto snap-x snap-mandatory no-scrollbar pl-6 lg:pl-14 xl:pl-[5.5vw] pr-6"
+        className="flex gap-4 lg:gap-6 overflow-x-auto snap-x snap-mandatory no-scrollbar pl-6 lg:pl-14 xl:pl-[5.5vw] pr-6"
       >
         {cases.map((c) => (
           <CaseCard key={c.id} c={c} prefersReduced={prefersReduced} />
         ))}
-        {/* Trailing spacer so last card can scroll fully into view */}
+        {/* Trailing spacer so last card scrolls fully into view */}
         <div className="flex-none w-6 lg:w-14 xl:w-[5.5vw]" aria-hidden="true" />
       </div>
 
-      {/* Scroll progress bar — desktop only */}
+      {/* Zone D — scroll progress bar, desktop only */}
       <div className="hidden lg:block px-14 xl:px-[5.5vw] mt-10">
-        <div className="h-px w-full bg-ink/10 relative overflow-hidden">
+        <div className="h-px w-full bg-ink/15 relative overflow-hidden">
           <motion.div
-            className="absolute inset-y-0 left-0 bg-ink/40 origin-left"
+            className="absolute inset-y-0 left-0 bg-ink/60 origin-left"
             style={{ scaleX: progress }}
           />
         </div>
