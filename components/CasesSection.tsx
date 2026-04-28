@@ -13,8 +13,8 @@ function IconPlaceholder({ hovered }: { hovered: boolean }) {
   const strokeOpacity = hovered ? 0.7 : 0.3;
   return (
     <svg
-      width="280"
-      height="280"
+      width="240"
+      height="240"
       viewBox="-100 -100 200 200"
       fill="none"
       aria-hidden="true"
@@ -31,22 +31,6 @@ function IconPlaceholder({ hovered }: { hovered: boolean }) {
         strokeOpacity={strokeOpacity}
         style={{ transition: "stroke-opacity 400ms" }}
       />
-      {[[-100, -100], [100, -100], [-100, 100], [100, 100]].map(([cx, cy], i) => (
-        <g key={i}>
-          <line
-            x1={cx} y1={cy} x2={cx + (cx < 0 ? 8 : -8)} y2={cy}
-            stroke="currentColor" strokeWidth="0.75"
-            strokeOpacity={strokeOpacity * 0.5}
-            style={{ transition: "stroke-opacity 400ms" }}
-          />
-          <line
-            x1={cx} y1={cy} x2={cx} y2={cy + (cy < 0 ? 8 : -8)}
-            stroke="currentColor" strokeWidth="0.75"
-            strokeOpacity={strokeOpacity * 0.5}
-            style={{ transition: "stroke-opacity 400ms" }}
-          />
-        </g>
-      ))}
     </svg>
   );
 }
@@ -75,14 +59,14 @@ function CaseCard({ c, prefersReduced }: { c: Case; prefersReduced: boolean }) {
     <Link
       href={`/cases/${c.slug}`}
       className="block flex-none snap-start snap-always focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream/60 rounded-sm
-        w-[min(86vw,380px)] h-[min(120vw,540px)]
-        lg:w-[700px] lg:h-[980px]"
+        w-[min(86vw,360px)] h-[min(115vw,500px)]
+        lg:w-[580px] lg:h-[720px]"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <motion.div
         className="relative w-full h-full bg-ink text-cream flex flex-col overflow-hidden
-          p-7 lg:p-12"
+          p-6 lg:p-10"
         animate={prefersReduced ? {} : { y: hovered ? -6 : 0 }}
         transition={
           hovered
@@ -182,7 +166,7 @@ export function CasesSection() {
       {/* Horizontal scroll track */}
       <div
         ref={trackRef}
-        className="flex gap-5 lg:gap-10 overflow-x-auto snap-x snap-mandatory no-scrollbar
+        className="flex gap-5 lg:gap-8 overflow-x-auto snap-x snap-mandatory no-scrollbar
           pl-6 lg:pl-14 xl:pl-[5.5vw] pr-6"
       >
         {cases.map((c) => (
