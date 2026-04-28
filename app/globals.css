@@ -196,6 +196,10 @@
     transform-origin: left;
   }
 
+  /* Horizontal scroll track — hide scrollbar */
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+
   /* ── Shimmer sweep effect ───────────────────────── */
   /* Usage: add "shimmer-trigger" to button, put <span class="shimmer" /> inside */
   /* Requires: button must have position:relative + overflow:hidden              */
@@ -216,5 +220,11 @@
   }
   .shimmer-trigger:hover .shimmer {
     left: 100%;
+  }
+
+  /* Icon slow spin for Cases card hover */
+  @keyframes icon-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
   }
 }

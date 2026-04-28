@@ -1,0 +1,44 @@
+{
+  "cases": [
+    {
+      "id": "01",
+      "slug": "web-demand-engine",
+      "meta": "POCSTARS · 2025",
+      "title": "Web Demand Engine",
+      "description": "Rebuilt the website, content, search, and form journey into a clearer inbound demand path.",
+      "icon_concept": "circular funnel / inbound pipeline diagram"
+    },
+    {
+      "id": "02",
+      "slug": "answer-ready-visibility",
+      "meta": "POCSTARS · MCX / AEO · 2025",
+      "title": "Answer-Ready B2B Visibility",
+      "description": "Restructured technical product content to improve discoverability across Google search and AI-assisted answers.",
+      "icon_concept": "search prism / query-to-answer diagram"
+    },
+    {
+      "id": "03",
+      "slug": "technical-content-localisation",
+      "meta": "GARMIN · 2017–2018",
+      "title": "Technical Content Localisation",
+      "description": "Turned global product specifications into localised content narratives for the China market.",
+      "icon_concept": "specs-to-story transformation diagram"
+    },
+    {
+      "id": "04",
+      "slug": "content-at-scale",
+      "meta": "CREYI · 2018–2020",
+      "title": "Content at Scale",
+      "description": "Built repeatable creative formats and platform logic for high-reach short-video growth.",
+      "icon_concept": "hexagonal content engine"
+    },
+    {
+      "id": "05",
+      "slug": "global-marketing-infrastructure",
+      "meta": "POCSTARS · 2025",
+      "title": "Global Marketing Infrastructure",
+      "description": "Unified website, social, exhibition, and sales materials into a more consistent global-facing marketing system.",
+      "icon_concept": "modular grid / infrastructure blueprint"
+    }
+  ]
+}
