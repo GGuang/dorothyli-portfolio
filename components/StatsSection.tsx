@@ -83,68 +83,38 @@ function StripLine({ line }: { line: StripLineType }) {
   }
 }
 
-// ─── Animation constants (cubic-bezier only, no spring, no blur) ─────────────
-const EXPO_OUT = [0.32, 0.72, 0, 1] as [number, number, number, number];
+// ─── Animation variants — three-row staircase slide ─────────────────────────
+// Each row slides left (x: 0 → -80) on exit and enters from left (x: -80 → 0).
+// Exit delays stagger the three rows: 0s / 0.15s / 0.30s.
+// Each row uses a separate AnimatePresence mode="wait", so row 1 starts
+// entering at t≈0.5s while rows 2/3 are still exiting — creating the cascade.
 
-// Stagger container for char spans — no visual properties, just orchestration
-const NUM_CONTAINER_VARIANTS: Variants = {
-  initial: {},
-  animate: { transition: { staggerChildren: 0.025 } },
-  exit:    { transition: { staggerChildren: 0.018 } },
+const STD_EASE  = [0.4, 0, 0.2, 1]    as [number, number, number, number];
+const EXPO_OUT  = [0.32, 0.72, 0, 1]  as [number, number, number, number];
+
+const VALUE_ROW_VARIANTS: Variants = {
+  initial: { x: -80, opacity: 0 },
+  animate: { x: 0, opacity: 1, transition: { duration: 0.6, ease: EXPO_OUT } },
+  exit:    { x: -80, opacity: 0, transition: { duration: 0.5, ease: STD_EASE } },
 };
 
-const LABEL_VARIANTS: Variants = {
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0,   transition: { duration: 0.45, ease: EXPO_OUT, delay: 0.1 } },
-  exit:    { opacity: 0, y: -12, transition: { duration: 0.45, ease: EXPO_OUT } },
+const LABEL_ROW_VARIANTS: Variants = {
+  initial: { x: -80, opacity: 0 },
+  animate: { x: 0, opacity: 1, transition: { duration: 0.6, ease: EXPO_OUT } },
+  exit:    { x: -80, opacity: 0, transition: { duration: 0.5, ease: STD_EASE, delay: 0.15 } },
 };
 
-const FOOTNOTE_VARIANTS: Variants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 0.35, ease: EXPO_OUT, delay: 0.2 } },
-  exit:    { opacity: 0, transition: { duration: 0.35, ease: EXPO_OUT } },
+const FOOTNOTE_ROW_VARIANTS: Variants = {
+  initial: { x: -80, opacity: 0 },
+  animate: { x: 0, opacity: 1, transition: { duration: 0.6, ease: EXPO_OUT } },
+  exit:    { x: -80, opacity: 0, transition: { duration: 0.5, ease: STD_EASE, delay: 0.30 } },
 };
 
 const REDUCED_VARIANTS: Variants = {
   initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 0.15 } },
-  exit:    { opacity: 0, transition: { duration: 0.15 } },
+  animate: { opacity: 1, transition: { duration: 0.2 } },
+  exit:    { opacity: 0, transition: { duration: 0.2 } },
 };
-
-// ─── Per-character drift ──────────────────────────────────────────────────────
-
-function charGroup(i: number, total: number): "anchor" | "drift" | "tail" {
-  if (total <= 3) return "drift";
-  if (total <= 7) return i === 0 ? "anchor" : i === total - 1 ? "tail" : "drift";
-  return i < Math.ceil(total * 0.2) ? "anchor" : i >= Math.floor(total * 0.75) ? "tail" : "drift";
-}
-
-function charVariants(i: number, total: number): Variants {
-  const group = charGroup(i, total);
-
-  if (group === "anchor") {
-    return {
-      initial: { opacity: 0, x: 8 },
-      animate: { opacity: 1, x: 0, transition: { duration: 0.4,  ease: EXPO_OUT } },
-      exit:    { opacity: 0, x: -8, transition: { duration: 0.4, ease: EXPO_OUT } },
-    };
-  }
-  if (group === "tail") {
-    return {
-      initial: { opacity: 0, x: -30 },
-      animate: { opacity: 1, x: 0,   transition: { duration: 0.45, ease: EXPO_OUT } },
-      exit:    { opacity: 0, x: 30,  transition: { duration: 0.45, ease: EXPO_OUT } },
-    };
-  }
-  // drift: alternating x and slight y per index
-  const driftI = total <= 3 ? i : i - 1; // relative position within drift group
-  const even   = driftI % 2 === 0;
-  return {
-    initial: { opacity: 0, x: even ? 50 : -35, y: even ? 8 : -6 },
-    animate: { opacity: 1, x: 0, y: 0, transition: { duration: 0.55, ease: EXPO_OUT } },
-    exit:    { opacity: 0, x: even ? -50 : 35, y: even ? -8 : 6, transition: { duration: 0.5, ease: EXPO_OUT } },
-  };
-}
 
 // ─── Geodesic icosphere (frequency-2, computed once at module level) ──────────
 type Vec3 = [number, number, number];
@@ -239,33 +209,45 @@ function GlobeDecoration({ mobile = false }: { mobile?: boolean }) {
     else if (af || bf)   silEdges.push([a, b]);
   }
 
-  // Antenna sources: 7 front-hemisphere verts closest to silhouette (smallest +vz)
-  const antennas = ICO_VERTS
-    .map((v, i) => ({ v, p: projected[i] }))
-    .filter(({ v }) => v[2] > 0)
-    .sort((a, b) => a.v[2] - b.v[2])
-    .slice(0, 7)
-    .map(({ v: [vx, vy] }) => {
-      const pLen = Math.sqrt(vx * vx + vy * vy);
-      const s    = pLen > 0.001 ? 1.3 / pLen : 1.3;
-      return {
-        x1: cx + R * vx,    y1: cy - R * vy,
-        x2: cx + R * vx * s, y2: cy - R * vy * s,
-      };
-    });
+  // Outer ring: 16 hollow square markers at 1.35 × R (outside the polyhedron)
+  const outerR = R * 1.35;
+  const outerMarkers = Array.from({ length: 16 }, (_, i) => {
+    const angle = (i / 16) * 2 * Math.PI;
+    return { x: cx + outerR * Math.cos(angle), y: cy + outerR * Math.sin(angle), angle };
+  });
+
+  // Connecting threads: 8 front-hemisphere verts evenly distributed by screen angle,
+  // each tethered to the nearest outer ring marker
+  const frontAngledVerts = ICO_VERTS
+    .map((_v, i) => ({ p: projected[i], screenAngle: Math.atan2(projected[i].y - cy, projected[i].x - cx) }))
+    .filter(({ p }) => p.vz > 0)
+    .sort((a, b) => a.screenAngle - b.screenAngle);
+
+  const threadStep = Math.max(1, Math.floor(frontAngledVerts.length / 8));
+  const threads = Array.from({ length: 8 }, (_, i) => {
+    const vert = frontAngledVerts[(i * threadStep) % frontAngledVerts.length];
+    let nearest = outerMarkers[0];
+    let minDiff = Infinity;
+    for (const m of outerMarkers) {
+      let diff = Math.abs(m.angle - vert.screenAngle);
+      if (diff > Math.PI) diff = 2 * Math.PI - diff;
+      if (diff < minDiff) { minDiff = diff; nearest = m; }
+    }
+    return { x1: vert.p.x, y1: vert.p.y, x2: nearest.x, y2: nearest.y };
+  });
 
   return (
     <svg
       viewBox={`0 0 ${displaySize} ${displaySize}`}
       width={displaySize}
       height={displaySize}
+      overflow="visible"
       aria-hidden="true"
     >
       <defs>
         <clipPath id={clipId}>
           <circle cx={cx} cy={cy} r={R} />
         </clipPath>
-        {/* 45° diagonal stripe pattern for focal circle */}
         <pattern
           id={patternId} x="0" y="0" width="8" height="8"
           patternUnits="userSpaceOnUse" patternTransform="rotate(45)"
@@ -286,7 +268,7 @@ function GlobeDecoration({ mobile = false }: { mobile?: boolean }) {
         ))}
       </g>
 
-      {/* Front-facing edges (solid, clipped to globe) */}
+      {/* Front-facing edges — loudest layer */}
       <g clipPath={`url(#${clipId})`}>
         {frontEdges.map(([a, b], i) => (
           <line
@@ -301,12 +283,21 @@ function GlobeDecoration({ mobile = false }: { mobile?: boolean }) {
       {/* Globe outline ring */}
       <circle cx={cx} cy={cy} r={R} fill="none" stroke="rgba(23,22,18,0.3)" strokeWidth="1" />
 
-      {/* Antenna lines — extend outside silhouette, not clipped */}
-      {antennas.map((a, i) => (
+      {/* Connecting threads — quietest layer, dashed, not clipped */}
+      {threads.map((t, i) => (
         <line
           key={i}
-          x1={a.x1} y1={a.y1} x2={a.x2} y2={a.y2}
-          stroke="rgba(23,22,18,0.2)" strokeWidth="0.5" strokeDasharray="1 3"
+          x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
+          stroke="rgba(23,22,18,0.2)" strokeWidth="0.5" strokeDasharray="1 4"
+        />
+      ))}
+
+      {/* Outer ring — 16 hollow 5×5 squares, gestalt implied circle */}
+      {outerMarkers.map((m, i) => (
+        <rect
+          key={i}
+          x={m.x - 2.5} y={m.y - 2.5} width={5} height={5}
+          fill="none" stroke="rgba(23,22,18,0.45)" strokeWidth="1"
         />
       ))}
 
@@ -323,16 +314,7 @@ function GlobeDecoration({ mobile = false }: { mobile?: boolean }) {
           ))}
       </g>
 
-      {/* Antenna endpoint markers: hollow 4×4 squares outside silhouette */}
-      {antennas.map((a, i) => (
-        <rect
-          key={i}
-          x={a.x2 - 2} y={a.y2 - 2} width={4} height={4}
-          fill="none" stroke="rgba(23,22,18,0.4)" strokeWidth="1"
-        />
-      ))}
-
-      {/* Striped focal circle at visual center */}
+      {/* Striped focal circle — anchor */}
       <circle cx={cx} cy={cy} r={12} fill={`url(#${patternId})`} />
     </svg>
   );
@@ -357,12 +339,6 @@ export function StatsSection() {
     return () => clearInterval(id);
   }, [paused, stats.length]);
 
-  const allChars = [
-    ...stat.value.split(""),
-    ...(stat.suffix ? stat.suffix.split("") : []),
-  ];
-  const total = allChars.length;
-
   return (
     <section className="relative z-20 bg-surface-100 overflow-x-hidden">
       <div className="w-full px-6 pt-20 pb-20 lg:max-w-content lg:mx-auto lg:px-14 xl:px-[5.5%] lg:pt-32 lg:pb-32">
@@ -374,50 +350,28 @@ export function StatsSection() {
               {"// 03 — proof"}
             </p>
 
-            {/* Animated stat block */}
+            {/* Animated stat block — three-row staircase slide */}
             <div
+              className="overflow-hidden"
               onMouseEnter={() => setPaused(true)}
               onMouseLeave={() => setPaused(false)}
             >
-              {/* Number + suffix: per-character x/y drift */}
+              {/* Row 1: value + suffix */}
               <AnimatePresence mode="wait">
-                {prefersReduced ? (
-                  <motion.div
-                    key={stat.id}
-                    variants={REDUCED_VARIANTS}
-                    initial="initial" animate="animate" exit="exit"
-                    className="flex items-baseline"
-                  >
-                    {allChars.map((char, i) => (
-                      <span key={i} className={NUM_CLASS}>{char}</span>
-                    ))}
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key={stat.id}
-                    variants={NUM_CONTAINER_VARIANTS}
-                    initial="initial" animate="animate" exit="exit"
-                    className="flex items-baseline"
-                  >
-                    {allChars.map((char, i) => (
-                      <motion.span
-                        key={i}
-                        variants={charVariants(i, total)}
-                        className={NUM_CLASS}
-                        style={{ display: "inline-block" }}
-                      >
-                        {char}
-                      </motion.span>
-                    ))}
-                  </motion.div>
-                )}
+                <motion.div
+                  key={stat.id}
+                  variants={prefersReduced ? REDUCED_VARIANTS : VALUE_ROW_VARIANTS}
+                  initial="initial" animate="animate" exit="exit"
+                >
+                  <span className={NUM_CLASS}>{stat.value}{stat.suffix}</span>
+                </motion.div>
               </AnimatePresence>
 
-              {/* Label — separate AnimatePresence, block animation */}
+              {/* Row 2: label */}
               <AnimatePresence mode="wait">
                 <motion.p
                   key={stat.id}
-                  variants={prefersReduced ? REDUCED_VARIANTS : LABEL_VARIANTS}
+                  variants={prefersReduced ? REDUCED_VARIANTS : LABEL_ROW_VARIANTS}
                   initial="initial" animate="animate" exit="exit"
                   className="font-serif font-[400] text-3xl lg:text-4xl leading-tight mt-2 text-ink"
                 >
@@ -425,12 +379,12 @@ export function StatsSection() {
                 </motion.p>
               </AnimatePresence>
 
-              {/* Footnote — separate AnimatePresence, opacity only */}
+              {/* Row 3: footnote */}
               <AnimatePresence mode="wait">
                 {stat.footnote_en ? (
                   <motion.p
                     key={stat.id}
-                    variants={prefersReduced ? REDUCED_VARIANTS : FOOTNOTE_VARIANTS}
+                    variants={prefersReduced ? REDUCED_VARIANTS : FOOTNOTE_ROW_VARIANTS}
                     initial="initial" animate="animate" exit="exit"
                     className="font-mono text-xs uppercase tracking-widest text-ink/60 mt-6"
                   >
