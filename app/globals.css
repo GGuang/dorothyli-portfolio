@@ -202,13 +202,14 @@
 
   /* Case card sizing — fixed dimensions per breakpoint */
   .case-card {
-    width: min(85vw, 360px);
-    height: min(125vw, 540px);
+    width: min(85vw, 320px);
+    height: min(120vw, 440px);
+    flex-shrink: 0;
   }
   @media (min-width: 1024px) {
     .case-card {
-      width: 560px;
-      height: 860px;
+      width: 590px;
+      height: 650px;
     }
   }
 
