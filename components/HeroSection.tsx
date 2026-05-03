@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence, useReducedMotion, useMotionValue, animate } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useReducedMotion,
+  useMotionValue,
+  animate,
+} from "framer-motion";
 
 const WORDS = [
   "Product Narratives",
@@ -11,6 +17,10 @@ const WORDS = [
   "Demand Pathways",
   "Marketing Systems",
 ];
+
+/* Longest word by character count — used as the invisible layout spacer
+   so the headline never reflows as words rotate.                         */
+const LONGEST_WORD = WORDS.reduce((a, b) => (a.length >= b.length ? a : b));
 
 const C = {
   comment: "#9d937c",
@@ -82,10 +92,16 @@ function CodeLine({ line }: { line: CodeLineType }) {
 /* ── Easing ──────────────────────────────────────── */
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-/* ── Rotating word — slot replacement ───────────── */
+/* ── Rotating word ───────────────────────────────── */
 function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
   const prefersRM = useReducedMotion();
-  const phraseX = useMotionValue("0em");
+  /*
+   * Numeric px MotionValue. String em keyframes are unreliable in framer-motion's
+   * imperative animate(); font-size is read from the DOM so pixel values
+   * correctly represent the intended em fractions at every viewport size.
+   */
+  const phraseX = useMotionValue(0);
+  const phraseRef = useRef<HTMLSpanElement>(null);
   const mountedRef = useRef(false);
 
   useEffect(() => {
@@ -95,16 +111,23 @@ function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
     }
     if (prefersRM || word === prevWord) return;
 
+    const fontSize = phraseRef.current
+      ? parseFloat(getComputedStyle(phraseRef.current).fontSize)
+      : 96;
+
+    const push = fontSize * 0.85;
+    const over = -fontSize * 0.04;
+
     /*
-     * Starts at 0em (phrase aligned), drifts right while chars replace,
-     * then snaps back. Leading gap appears naturally from the drift —
-     * there is no pre-offset at the start.
+     * x starts at 0 (phrase fully aligned). Drifts right as chars replace,
+     * peaks just after replacement completes, then snaps back left and settles.
+     * The leading gap is a consequence of the drift, never a pre-offset.
      */
     const ctrl = animate(
       phraseX,
-      ["0em", "0.16em", "0.38em", "0.72em", "0.88em", "-0.04em", "0em"],
+      [0, push * 0.2, push * 0.45, push, over, 0],
       {
-        times: [0, 0.18, 0.42, 0.68, 0.82, 0.94, 1],
+        times: [0, 0.22, 0.52, 0.82, 0.94, 1],
         duration: 1.1,
         ease: EASE,
       }
@@ -112,7 +135,7 @@ function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
     return () => ctrl.stop();
   }, [word]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  /* Reduced-motion: simple crossfade, no push */
+  /* Reduced-motion: plain opacity crossfade, no push */
   if (prefersRM) {
     return (
       <span
@@ -138,89 +161,90 @@ function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
     );
   }
 
-  const numSlots = Math.max(word.length, prevWord.length);
+  /* True only on the very first render before any word has cycled */
+  const isInitial = word === prevWord;
 
   return (
     /*
-     * Phrase-level motion wrapper — phraseX drives both chars and underline
-     * so the underline tracks the rightward push and snap-back.
+     * phraseX wrapper — both word layers and the underline live here so they
+     * all translate together during the rightward push and snap-back.
      */
     <motion.span
-      style={{
-        x: phraseX,
-        display: "inline-block",
-        position: "relative",
-        paddingBottom: "0.05em",
-      }}
+      ref={phraseRef}
+      className="relative inline-block"
+      style={{ x: phraseX, paddingBottom: "0.05em" }}
     >
-      {/* Character slots */}
-      <span style={{ display: "inline-flex", whiteSpace: "pre" }}>
-        {Array.from({ length: numSlots }, (_, i) => {
-          const nc = i < word.length ? word[i] : null;
-          const oc = i < prevWord.length ? prevWord[i] : null;
-          const changed = nc !== oc;
-          const delay = i * 0.035;
-
-          return (
-            <span key={i} style={{ display: "inline-block", position: "relative" }}>
-              {/*
-               * Width reference uses the incoming char so the layout width
-               * reflects the new word immediately. Trailing exit-only slots
-               * (nc=null) are 0-width; their old chars exit from absolute pos.
-               */}
-              <span aria-hidden style={{ visibility: "hidden", userSelect: "none" }}>
-                {nc !== null ? (nc === " " ? " " : nc) : ""}
-              </span>
-
-              {/*
-               * Old char uses animate (not exit) so it fires immediately on
-               * mount, not 2.8 s later when prevWord changes on the next tick.
-               */}
-              {changed && oc !== null && (
-                <motion.span
-                  key={`old-${i}-${prevWord}`}
-                  style={{ position: "absolute", left: 0, top: 0, display: "inline-block" }}
-                  initial={{ opacity: 1, x: 0 }}
-                  animate={{ opacity: 0, x: 8 }}
-                  transition={{ duration: 0.22, delay, ease: "easeIn" }}
-                >
-                  {oc === " " ? " " : oc}
-                </motion.span>
-              )}
-
-              {/* New char enters from left, overlapping with old during replacement */}
-              {nc !== null && (
-                <motion.span
-                  /*
-                   * Unchanged chars keep key=stable-${i} so React does not
-                   * remount them. Changed chars get a word-scoped key to
-                   * trigger a fresh enter animation each cycle.
-                   */
-                  key={changed ? `new-${i}-${word}` : `stable-${i}`}
-                  style={{ position: "absolute", left: 0, top: 0, display: "inline-block" }}
-                  initial={changed ? { opacity: 0, x: -4 } : false}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={changed ? { duration: 0.28, delay, ease: EASE } : { duration: 0 }}
-                >
-                  {nc === " " ? " " : nc}
-                </motion.span>
-              )}
-            </span>
-          );
-        })}
-      </span>
-
-      {/* Underline — inside phrase motion wrapper so it moves with phraseX */}
+      {/*
+       * Invisible layout spacer: always renders LONGEST_WORD so the wrapper
+       * width is stable and the headline never reflows between rotations.
+       */}
       <span
         aria-hidden="true"
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 0,
-          height: "2px",
-          background: "rgba(15,14,11,0.28)",
-        }}
+        className="whitespace-pre select-none"
+        style={{ visibility: "hidden" }}
+      >
+        {LONGEST_WORD}
+      </span>
+
+      {/*
+       * OUTGOING word layer — absolute, same origin as spacer.
+       * Chars animate to opacity 0 via the animate prop (not exit), so they
+       * start fading immediately on mount rather than waiting for the next
+       * word change. Key tied to prevWord forces a fresh mount each cycle.
+       */}
+      {!isInitial && (
+        <span
+          key={`out-${prevWord}`}
+          aria-hidden="true"
+          className="absolute left-0 top-0 whitespace-pre pointer-events-none select-none"
+        >
+          {prevWord.split("").map((char, i) => (
+            <motion.span
+              key={`o-${i}-${prevWord}`}
+              className="inline-block"
+              initial={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 0, x: 8 }}
+              transition={{ duration: 0.24, delay: i * 0.028, ease: "easeIn" }}
+            >
+              {char === " " ? " " : char}
+            </motion.span>
+          ))}
+        </span>
+      )}
+
+      {/*
+       * INCOMING word layer — absolute, same origin as spacer.
+       * Key tied to word forces a fresh mount each cycle. When this span
+       * remounts, the outgoing layer simultaneously mounts at full opacity,
+       * so the word is never blank between cycles.
+       * On the very first render (isInitial) chars appear with no animation.
+       */}
+      <span
+        key={`in-${word}`}
+        className="absolute left-0 top-0 whitespace-pre"
+      >
+        {word.split("").map((char, i) => (
+          <motion.span
+            key={`n-${i}-${word}`}
+            className="inline-block"
+            initial={isInitial ? false : { opacity: 0, x: -4 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={
+              isInitial
+                ? { duration: 0 }
+                : { duration: 0.3, delay: i * 0.028, ease: EASE }
+            }
+          >
+            {char === " " ? " " : char}
+          </motion.span>
+        ))}
+      </span>
+
+      {/* Underline — inside phraseX wrapper, moves with text */}
+      <span
+        aria-hidden="true"
+        className="absolute left-0 right-0 bottom-0"
+        style={{ height: "2px", background: "rgba(15,14,11,0.28)" }}
       />
     </motion.span>
   );
