@@ -54,6 +54,7 @@
 
   html {
     font-size: 16px;
+    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -202,8 +203,8 @@
 
   /* Case card sizing — fixed dimensions per breakpoint */
   .case-card {
-    width: min(85vw, 320px);
-    height: min(120vw, 440px);
+    width: min(82vw, 360px);
+    height: clamp(500px, 66vh, 560px);
     flex-shrink: 0;
   }
   @media (min-width: 1024px) {
@@ -233,6 +234,30 @@
   }
   .shimmer-trigger:hover .shimmer {
     left: 100%;
+  }
+
+  /* AI Lab bottom stripe band — mirrors Hero stripe rhythm */
+  .ai-lab-stripe {
+    /* Mobile: same rhythm as .hero-stripe (26px + 26px) */
+    background: repeating-linear-gradient(
+      90deg,
+      #badbee 0px,
+      #badbee 26px,
+      #0f0e0b 26px,
+      #0f0e0b 52px
+    );
+  }
+  @media (min-width: 1024px) {
+    /* Desktop: same rhythm as .hero-stripe-desktop (40px + 40px) */
+    .ai-lab-stripe {
+      background: repeating-linear-gradient(
+        90deg,
+        #0f0e0b 0px,
+        #0f0e0b 40px,
+        #badbee 40px,
+        #badbee 80px
+      );
+    }
   }
 
   /* Icon slow spin for Cases card hover */

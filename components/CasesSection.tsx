@@ -12,7 +12,7 @@ const STD_EASE = [0.4, 0, 0.2, 1] as [number, number, number, number];
 
 // Card 01 — Web Demand Engine: radial inbound pipeline
 function DiagramDemandEngine({ hovered }: { hovered: boolean }) {
-  const op = hovered ? 0.55 : 0.28;
+  const op = hovered ? 0.62 : 0.42;
   // 5 nodes on orbit ring, starting at top (270°), 72° apart
   const cx = 250, cy = 130, r = 95;
   const nodes = [
@@ -54,7 +54,7 @@ function DiagramDemandEngine({ hovered }: { hovered: boolean }) {
 
 // Card 02 — Answer-Ready B2B Visibility: query → content blocks → AI answer
 function DiagramVisibility({ hovered }: { hovered: boolean }) {
-  const op = hovered ? 0.55 : 0.28;
+  const op = hovered ? 0.62 : 0.42;
   // Content block y positions
   const blockYs = [72, 96, 120, 144, 168];
   const blockLeft = 155, blockW = 100;
@@ -99,7 +99,7 @@ function DiagramVisibility({ hovered }: { hovered: boolean }) {
 
 // Card 03 — Technical Content Localisation: spec grid → bridge → narrative text
 function DiagramLocalisation({ hovered }: { hovered: boolean }) {
-  const op = hovered ? 0.55 : 0.28;
+  const op = hovered ? 0.62 : 0.42;
   // 4×5 grid of small spec squares — left
   const gridCols = 5, gridRows = 4, sq = 13, gap = 4;
   const gx0 = 55, gy0 = 92;
@@ -149,7 +149,7 @@ function DiagramLocalisation({ hovered }: { hovered: boolean }) {
 
 // Card 04 — Content at Scale: hexagonal engine with radial output nodes
 function DiagramContentScale({ hovered }: { hovered: boolean }) {
-  const op = hovered ? 0.55 : 0.28;
+  const op = hovered ? 0.62 : 0.42;
   const cx = 250, cy = 130;
   // Flat-top hexagon vertices at r=34
   const hexR = 34;
@@ -194,7 +194,7 @@ function DiagramContentScale({ hovered }: { hovered: boolean }) {
 
 // Card 05 — Global Marketing Infrastructure: connected block blueprint
 function DiagramInfrastructure({ hovered }: { hovered: boolean }) {
-  const op = hovered ? 0.55 : 0.28;
+  const op = hovered ? 0.62 : 0.42;
   // 6 blocks: hub + 5 modules
   const hub  = { x: 200, y: 107, w: 100, h: 46 };
   const blocks = [
@@ -280,12 +280,12 @@ function CaseCard({ c, prefersReduced }: { c: Case; prefersReduced: boolean }) {
   return (
     <Link
       href={`/cases/${c.slug}`}
-      className="case-card block snap-start snap-always focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream/60"
+      className="case-card relative overflow-hidden block snap-start snap-always focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream/60"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       <motion.div
-        className="relative w-full h-full bg-ink text-cream flex flex-col overflow-hidden p-8 lg:p-10"
+        className="relative w-full h-full bg-ink text-cream flex flex-col overflow-hidden px-7 py-8 lg:p-10"
         animate={prefersReduced ? {} : { y: hovered ? -5 : 0 }}
         transition={
           hovered
@@ -298,33 +298,35 @@ function CaseCard({ c, prefersReduced }: { c: Case; prefersReduced: boolean }) {
             : { boxShadow: "0 18px 56px rgba(0,0,0,0.42), 0 0 0 1px rgba(239,236,202,0.1)" }
         }
       >
-        {/* Zone 1 — text content (~30% of card) */}
-        <div className="flex-none flex flex-col">
-          <p className="font-mono text-[12px] tracking-widest uppercase text-cream/55 leading-none">
+        {/* Zone 1 — text content */}
+        <div className="flex-none flex flex-col min-h-[200px] lg:min-h-[220px]">
+          <p className="font-mono text-[11px] tracking-[0.12em] uppercase text-cream/45 leading-none">
             {c.meta}
           </p>
-          <h3 className="font-serif text-[22px] lg:text-[30px] font-normal leading-tight tracking-[-0.02em] text-cream mt-4">
+          <h3 className="font-serif text-[28px] lg:text-[36px] font-[400] leading-[1.04] tracking-[-0.025em] text-cream mt-5 max-w-[92%]">
             {c.title}
           </h3>
-          <p className="font-sans text-[14px] lg:text-[15px] text-cream/70 leading-[1.55] mt-3 line-clamp-3">
+          <p className="font-sans text-[15px] lg:text-[16px] text-cream/64 leading-[1.62] mt-4 max-w-[88%]">
             {c.description}
           </p>
         </div>
 
-        {/* Zone 2 — diagram (~50% of card, flex grows to fill) */}
-        <div className="flex-1 flex items-center justify-center text-cream min-h-0 py-4">
-          <Diagram hovered={hovered} />
+        {/* Zone 2 — diagram */}
+        <div className="flex-none flex items-center justify-center text-cream h-[160px] py-2 lg:h-auto lg:flex-1 lg:min-h-[260px]">
+          <div className="w-[58vw] min-w-[190px] max-w-[250px] lg:w-[88%] lg:max-w-[460px] mx-auto">
+            <Diagram hovered={hovered} />
+          </div>
         </div>
 
-        {/* Zone 3 — footer CTA (~20% of card) */}
-        <div className="flex-none flex items-end justify-between">
-          <span className="font-mono text-[12px] tracking-widest text-cream/50">
+        {/* Zone 3 — footer CTA */}
+        <div className="mt-auto flex-none flex items-end justify-between pt-5 lg:pt-6">
+          <span className="font-mono text-[11px] tracking-[0.08em] text-cream/45">
             {"// " + c.id}
           </span>
           <div className="flex items-center gap-2">
-            <span className="font-mono text-[12px] text-cream/80">View case</span>
+            <span className="font-mono text-[11px] tracking-[0.08em] text-cream/70">View case</span>
             <motion.span
-              className="font-mono text-[12px] text-cream/80 inline-block"
+              className="font-mono text-[11px] tracking-[0.08em] text-cream/70 inline-block"
               animate={prefersReduced ? {} : { x: hovered ? 4 : 0 }}
               transition={
                 hovered
@@ -357,27 +359,33 @@ export function CasesSection() {
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
+    onScroll();
     el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, [onScroll]);
 
   const cases = casesData.cases as Case[];
 
   return (
     <section
-      className="relative z-30 bg-surface-200"
-      style={{ minHeight: "125vh", paddingTop: "120px", paddingBottom: "140px" }}
+      className="relative z-30 bg-mint pt-20 lg:pt-24 pb-20 lg:pb-24"
     >
-      {/* Header — ~32–36vh of vertical space */}
-      <div
-        className="px-6 lg:px-14 xl:px-[5.5vw]"
-        style={{ marginBottom: "120px" }}
-      >
-        <div className="section-label mb-6">{"// 04 — cases"}</div>
-        <h2 className="font-serif text-4xl lg:text-5xl font-light tracking-[-0.02em] leading-[1.05] text-ink mb-5">
+      {/* Header */}
+      <div className="px-6 lg:px-14 xl:px-[5.5vw] mb-16 lg:mb-20">
+        <p className="font-mono text-xs tracking-widest uppercase text-ink/60 mb-12 lg:mb-16">
+          {"// 04 — CASES"}
+        </p>
+        <h2
+          className="font-serif font-[400] tracking-tight leading-[1.02] text-ink max-w-[880px] mb-6"
+          style={{ fontSize: "clamp(2.75rem, 4.1vw, 4.75rem)" }}
+        >
           Selected Systems in Practice
         </h2>
-        <p className="font-sans text-base lg:text-lg text-ink/70 leading-[1.6]">
+        <p className="font-sans font-[400] text-[15px] lg:text-[17px] leading-[1.65] text-ink/70 max-w-[560px]">
           Marketing built as systems. Each one a piece of infrastructure.
         </p>
       </div>
@@ -396,12 +404,13 @@ export function CasesSection() {
         <div className="flex-none w-6 lg:w-14 xl:w-[5.5vw]" aria-hidden="true" />
       </div>
 
-      {/* Progress bar — desktop only */}
-      <div className="hidden lg:block px-14 xl:px-[5.5vw] mt-10">
-        <div className="relative h-px w-full bg-ink/15">
-          <motion.div
-            className="absolute inset-y-0 left-0 bg-ink/55 origin-left"
-            style={{ scaleX: progress }}
+      {/* Scroll progress indicator */}
+      <div aria-hidden="true" className="flex justify-center mt-9 lg:mt-16">
+        <div className="relative h-[2px] w-[48vw] min-w-[140px] max-w-[220px] lg:w-[44vw] lg:min-w-[260px] lg:max-w-[520px]">
+          <div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-ink/15" />
+          <div
+            className="absolute left-0 top-1/2 h-[2px] w-full -translate-y-1/2 origin-left bg-ink/55"
+            style={{ transform: `scaleX(${progress})` }}
           />
         </div>
       </div>

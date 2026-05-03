@@ -224,11 +224,9 @@ function GlobeDecoration({
   const clipId    = `geo-clip-${mobile ? "m" : "d"}`;
   const patternId = `geo-stripe-${mobile ? "m" : "d"}`;
 
-  // Project unit-sphere vertex to SVG coordinates
   const proj = ([vx, vy, vz]: Vec3) => ({ x: cx + R * vx, y: cy - R * vy, vz });
   const projected = ICO_VERTS.map(proj);
 
-  // Categorize edges
   const frontEdges: [number, number][] = [];
   const silEdges:   [number, number][] = [];
   for (const [a, b] of ICO_EDGES) {
@@ -238,22 +236,27 @@ function GlobeDecoration({
     else if (af || bf)   silEdges.push([a, b]);
   }
 
-  // Outer ring: 16 hollow square markers at 1.35 × R (outside the polyhedron)
-  const outerR = R * 1.35;
-  const outerMarkers = Array.from({ length: 16 }, (_, i) => {
-    const angle = (i / 16) * 2 * Math.PI;
-    return { x: cx + outerR * Math.cos(angle), y: cy + outerR * Math.sin(angle), angle };
+  // Outer markers — 8, mostly dots, 1 square, close to globe at 1.16–1.26R
+  const outerMarkers = Array.from({ length: 8 }, (_, i) => {
+    const angle = (i / 8) * 2 * Math.PI + (i % 2 === 0 ? 0.06 : -0.05);
+    const radiusFactor = i % 3 === 0 ? 1.16 : i % 3 === 1 ? 1.21 : 1.26;
+    return {
+      x: cx + R * radiusFactor * Math.cos(angle),
+      y: cy + R * radiusFactor * Math.sin(angle),
+      angle,
+      type: (i === 3 ? "square" : "dot") as "square" | "dot",
+      opacity: i % 4 === 0 ? 0.24 : 0.16,
+    };
   });
 
-  // Connecting threads: 8 front-hemisphere verts evenly distributed by screen angle,
-  // each tethered to the nearest outer ring marker
+  // Connecting threads — 6, from front-hemisphere verts to nearest outer markers
   const frontAngledVerts = ICO_VERTS
     .map((_v, i) => ({ p: projected[i], screenAngle: Math.atan2(projected[i].y - cy, projected[i].x - cx) }))
     .filter(({ p }) => p.vz > 0)
     .sort((a, b) => a.screenAngle - b.screenAngle);
 
-  const threadStep = Math.max(1, Math.floor(frontAngledVerts.length / 8));
-  const threads = Array.from({ length: 8 }, (_, i) => {
+  const threadStep = Math.max(1, Math.floor(frontAngledVerts.length / 6));
+  const threads = Array.from({ length: 6 }, (_, i) => {
     const vert = frontAngledVerts[(i * threadStep) % frontAngledVerts.length];
     let nearest = outerMarkers[0];
     let minDiff = Infinity;
@@ -262,7 +265,7 @@ function GlobeDecoration({
       if (diff > Math.PI) diff = 2 * Math.PI - diff;
       if (diff < minDiff) { minDiff = diff; nearest = m; }
     }
-    return { x1: vert.p.x, y1: vert.p.y, x2: nearest.x, y2: nearest.y };
+    return { x1: vert.p.x, y1: vert.p.y, x2: nearest.x, y2: nearest.y, i };
   });
 
   return (
@@ -285,65 +288,77 @@ function GlobeDecoration({
         </pattern>
       </defs>
 
-      {/* Silhouette-crossing edges (dashed, clipped to globe) */}
+      {/* Globe outline ring — static boundary */}
+      <circle cx={cx} cy={cy} r={R} fill="none" stroke="rgba(23,22,18,0.23)" strokeWidth="0.8" />
+
+      {/* Internal arcs — 3 max, tilted, suggest spatial depth */}
       <g clipPath={`url(#${clipId})`}>
-        {silEdges.map(([a, b], i) => (
-          <line
-            key={i}
-            x1={projected[a].x} y1={projected[a].y}
-            x2={projected[b].x} y2={projected[b].y}
-            stroke="rgba(23,22,18,0.2)" strokeWidth="0.5" strokeDasharray="2 3"
-          />
-        ))}
+        <ellipse cx={cx} cy={cy} rx={R * 0.34} ry={R * 0.91}
+          fill="none" stroke="rgba(23,22,18,0.11)" strokeWidth="0.6"
+          transform={`rotate(-16 ${cx} ${cy})`} />
+        <ellipse cx={cx} cy={cy} rx={R * 0.91} ry={R * 0.25}
+          fill="none" stroke="rgba(23,22,18,0.09)" strokeWidth="0.55" strokeDasharray="2 6"
+          transform={`rotate(10 ${cx} ${cy})`} />
+        <ellipse cx={cx} cy={cy} rx={R * 0.60} ry={R * 0.78}
+          fill="none" stroke="rgba(23,22,18,0.08)" strokeWidth="0.5"
+          transform={`rotate(-46 ${cx} ${cy})`} />
       </g>
 
-      {/* Front-facing edges — loudest layer */}
-      <g clipPath={`url(#${clipId})`}>
-        {frontEdges.map(([a, b], i) => (
-          <line
-            key={i}
-            x1={projected[a].x} y1={projected[a].y}
-            x2={projected[b].x} y2={projected[b].y}
-            stroke="rgba(23,22,18,0.4)" strokeWidth="1"
-          />
-        ))}
-      </g>
-
-      {/* Globe outline ring */}
-      <circle cx={cx} cy={cy} r={R} fill="none" stroke="rgba(23,22,18,0.3)" strokeWidth="1" />
-
-      {/* Connecting threads — quietest layer, dashed, not clipped */}
-      {threads.map((t, i) => (
-        <line
-          key={i}
-          x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
-          stroke="rgba(23,22,18,0.2)" strokeWidth="0.5" strokeDasharray="1 4"
-        />
-      ))}
-
-      {/* Outer ring — 16 hollow 5×5 squares, gestalt implied circle */}
-      {outerMarkers.map((m, i) => (
-        <rect
-          key={i}
-          x={m.x - 2.5} y={m.y - 2.5} width={5} height={5}
-          fill="none" stroke="rgba(23,22,18,0.45)" strokeWidth="1"
-        />
-      ))}
-
-      {/* Vertex markers: hollow 3×3 squares — active vertex excluded (drawn separately) */}
-      <g clipPath={`url(#${clipId})`}>
-        {projected
-          .filter((p, i) => p.vz > 0 && i !== activeVertex)
-          .map((p, i) => (
-            <rect
-              key={i}
-              x={p.x - 1.5} y={p.y - 1.5} width={3} height={3}
-              fill="none" stroke="rgba(23,22,18,0.5)" strokeWidth="1"
+      {/* Geodesic edges — slow drift oscillation */}
+      <motion.g
+        animate={prefersReduced ? {} : { rotate: [-1, 1, -1] }}
+        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+        style={{ transformOrigin: `${cx}px ${cy}px` }}
+      >
+        <g clipPath={`url(#${clipId})`}>
+          {silEdges.map(([a, b], i) => (
+            <line key={i}
+              x1={projected[a].x} y1={projected[a].y}
+              x2={projected[b].x} y2={projected[b].y}
+              stroke="rgba(23,22,18,0.13)" strokeWidth="0.5" strokeDasharray="2 3"
             />
           ))}
-      </g>
+        </g>
+        <g clipPath={`url(#${clipId})`}>
+          {frontEdges.map(([a, b], i) => (
+            <line key={i}
+              x1={projected[a].x} y1={projected[a].y}
+              x2={projected[b].x} y2={projected[b].y}
+              stroke="rgba(23,22,18,0.34)" strokeWidth="0.75"
+            />
+          ))}
+        </g>
+        {/* Vertex markers — hollow 3×3 squares, active excluded */}
+        <g clipPath={`url(#${clipId})`}>
+          {projected
+            .filter((p, i) => p.vz > 0 && i !== activeVertex)
+            .map((p, i) => (
+              <rect key={i}
+                x={p.x - 1.5} y={p.y - 1.5} width={3} height={3}
+                fill="none" stroke="rgba(23,22,18,0.38)" strokeWidth="0.8"
+              />
+            ))}
+        </g>
+      </motion.g>
 
-      {/* Active vertex highlight — 7×7 filled square + 14×14 concentric ring */}
+      {/* Connecting threads — 6 signal paths, varied dash */}
+      {threads.map((t, i) => (
+        <line key={i}
+          x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
+          stroke="rgba(23,22,18,0.11)" strokeWidth="0.5"
+          strokeDasharray={i % 2 === 0 ? "1 5" : "2 6"}
+        />
+      ))}
+
+      {/* Outer markers — mixed types, irregular radii */}
+      {outerMarkers.map((m, i) =>
+        m.type === "dot"
+          ? <circle key={i} cx={m.x} cy={m.y} r={1.6} fill={`rgba(23,22,18,${m.opacity})`} />
+          : <rect key={i} x={m.x - 2} y={m.y - 2} width={4} height={4}
+              fill="none" stroke={`rgba(23,22,18,${m.opacity})`} strokeWidth="0.8" />
+      )}
+
+      {/* Active vertex — pulsing signal ring + filled dot */}
       <g clipPath={`url(#${clipId})`}>
         <AnimatePresence>
           {activeVertex !== undefined && projected[activeVertex]?.vz > 0 && (() => {
@@ -362,18 +377,23 @@ function GlobeDecoration({
                 }
                 style={{ transformOrigin: `${p.x}px ${p.y}px` }}
               >
-                <rect x={p.x - 7}   y={p.y - 7}   width={14} height={14}
-                  fill="none" stroke="rgba(23,22,18,0.3)" strokeWidth="0.5" />
-                <rect x={p.x - 3.5} y={p.y - 3.5} width={7}  height={7}
-                  fill="rgba(23,22,18,0.85)" />
+                <motion.circle
+                  cx={p.x} cy={p.y} r={8}
+                  fill="none" stroke="rgba(23,22,18,0.20)" strokeWidth="0.6"
+                  animate={prefersReduced ? {} : { r: [7, 11, 7], opacity: [0.28, 0.10, 0.28] }}
+                  transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <circle cx={p.x} cy={p.y} r={3.0} fill="rgba(23,22,18,0.58)" />
               </motion.g>
             );
           })()}
         </AnimatePresence>
       </g>
 
-      {/* Striped focal circle — anchor */}
-      <circle cx={cx} cy={cy} r={12} fill={`url(#${patternId})`} />
+      {/* Center anchor — quiet */}
+      <g opacity="0.38">
+        <circle cx={cx} cy={cy} r={12} fill={`url(#${patternId})`} />
+      </g>
     </svg>
   );
 }

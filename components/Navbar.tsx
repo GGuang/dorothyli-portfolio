@@ -28,7 +28,7 @@ export function Navbar() {
     <nav
       style={{ left: "50%", transform: "translateX(-50%)" }}
       className={[
-        "flex fixed z-50 items-center gap-3 md:gap-8",
+        "flex fixed z-[100] items-center gap-3 md:gap-8",
         "bg-[var(--surface-100)] rounded-full border",
         "transition-[top,border-color] duration-normal ease-standard",
         "w-[70vw] md:w-auto",
@@ -91,7 +91,7 @@ export function Navbar() {
       aria-modal="true"
       aria-hidden={!menuOpen}
       className={[
-        "md:hidden fixed inset-0 z-[60] bg-[var(--surface-100)] flex flex-col",
+        "md:hidden fixed inset-0 z-[105] bg-[var(--surface-100)] flex flex-col",
         "origin-top",
         "transition-all duration-[450ms]",
         "[transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]",
