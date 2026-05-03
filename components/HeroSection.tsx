@@ -115,19 +115,19 @@ function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
       ? parseFloat(getComputedStyle(phraseRef.current).fontSize)
       : 96;
 
-    const push = fontSize * 0.85;
-    const over = -fontSize * 0.04;
+    const push = fontSize * 0.65;
+    const over = -fontSize * 0.035;
 
     /*
-     * x starts at 0 (phrase fully aligned). Drifts right as chars replace,
-     * peaks just after replacement completes, then snaps back left and settles.
-     * The leading gap is a consequence of the drift, never a pre-offset.
+     * x starts at 0 (phrase fully aligned). Drifts right during the handoff,
+     * peaks just as the last char settles, then snaps back and rests at 0.
+     * The leading gap is a consequence of the drift — no pre-offset at start.
      */
     const ctrl = animate(
       phraseX,
-      [0, push * 0.2, push * 0.45, push, over, 0],
+      [0, push * 0.25, push * 0.55, push, over, 0],
       {
-        times: [0, 0.22, 0.52, 0.82, 0.94, 1],
+        times: [0, 0.28, 0.58, 0.82, 0.94, 1],
         duration: 1.1,
         ease: EASE,
       }
@@ -203,8 +203,8 @@ function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
               key={`o-${i}-${prevWord}`}
               className="inline-block"
               initial={{ opacity: 1, x: 0 }}
-              animate={{ opacity: 0, x: 8 }}
-              transition={{ duration: 0.24, delay: i * 0.028, ease: "easeIn" }}
+              animate={{ opacity: 0, x: 10 }}
+              transition={{ duration: 0.26, delay: i * 0.03, ease: "easeIn" }}
             >
               {char === " " ? " " : char}
             </motion.span>
@@ -227,12 +227,13 @@ function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
           <motion.span
             key={`n-${i}-${word}`}
             className="inline-block"
-            initial={isInitial ? false : { opacity: 0, x: -4 }}
+            initial={isInitial ? false : { opacity: 0, x: -6 }}
             animate={{ opacity: 1, x: 0 }}
             transition={
               isInitial
                 ? { duration: 0 }
-                : { duration: 0.3, delay: i * 0.028, ease: EASE }
+                /* +0.06 s after the matching outgoing char starts exiting */
+                : { duration: 0.32, delay: i * 0.03 + 0.06, ease: EASE }
             }
           >
             {char === " " ? " " : char}
