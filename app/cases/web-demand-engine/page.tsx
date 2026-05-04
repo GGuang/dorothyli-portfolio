@@ -98,25 +98,6 @@ const OUTPUTS = [
   },
 ];
 
-const EVIDENCE = [
-  {
-    label: "Launch foundation",
-    text: "50+ English pages were reviewed, edited, uploaded, and checked before the English website launch.",
-  },
-  {
-    label: "Early enquiry signal",
-    text: "The website received demo requests on launch day, providing an early signal that the enquiry path was working.",
-  },
-  {
-    label: "Search visibility",
-    text: 'The MCX solution page appeared in Google AI Overview recommendations and was reported on the first page of organic results for "MCX solution".',
-  },
-  {
-    label: "Lead lift",
-    text: "Monthly online qualified enquiries more than doubled from the previous baseline and remained more stable from H2 2025 to Feb 2026.",
-  },
-];
-
 /* ─── Abstract hero diagram ──────────────────────── */
 function DemandPathDiagram() {
   const sources = [
@@ -626,42 +607,21 @@ export default function WebDemandEnginePage() {
         </section>
 
         {/* ── 6. Impact ───────────────────────────── */}
-        <section className="bg-warm-black px-6 lg:px-14 xl:px-[5.5vw] py-16 lg:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20">
-
-            {/* Left — label, heading, summary */}
-            <div>
-              <p className="font-mono text-[8.5px] uppercase tracking-[0.15em] text-cream/30 mb-8">
-                05 / Impact
-              </p>
-              <h2
-                className="font-serif font-[300] text-cream leading-[1.1] tracking-[-0.025em] mb-6"
-                style={{ fontSize: "clamp(22px, 2.8vw, 36px)" }}
-              >
-                A clearer path from content to demand.
-              </h2>
-              <p className="font-sans text-[13.5px] lg:text-[14px] leading-[1.72] text-cream/50 max-w-[420px]">
-                The rebuilt website and content structure created a more reliable foundation for
-                global-facing communication, search discovery, enquiry capture, and sales follow-up.
-                Early launch signals and later reporting showed stronger visibility and a more stable
-                inbound enquiry pattern, with exact lead volumes omitted for confidentiality and context.
-              </p>
-            </div>
-
-            {/* Right — evidence list */}
-            <div className="flex flex-col justify-center divide-y divide-cream/08">
-              {EVIDENCE.map((item) => (
-                <div key={item.label} className="py-5">
-                  <p className="font-mono text-[8px] uppercase tracking-[0.13em] text-cream/30 mb-2">
-                    {item.label}
-                  </p>
-                  <p className="font-sans text-[13px] lg:text-[13.5px] leading-[1.65] text-cream/58">
-                    {item.text}
-                  </p>
-                </div>
-              ))}
-            </div>
-
+        <section className="bg-surface-200 border-t border-ink/08 px-6 lg:px-14 xl:px-[5.5vw] py-14 lg:py-20">
+          <div className="max-w-[600px]">
+            <p className="section-label mb-8">05 / Impact</p>
+            <h2
+              className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em] mb-5"
+              style={{ fontSize: "clamp(22px, 2.8vw, 36px)" }}
+            >
+              A clearer path from content to demand.
+            </h2>
+            <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/62">
+              The rebuilt website and content structure created a more reliable foundation for
+              global-facing communication, search discovery, enquiry capture, and sales follow-up.
+              Early launch signals and later reporting showed stronger visibility and a more stable
+              inbound enquiry pattern, with exact lead volumes omitted for confidentiality and context.
+            </p>
           </div>
         </section>
 
