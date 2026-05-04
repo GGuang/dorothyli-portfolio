@@ -90,11 +90,11 @@ function CodeLine({ line }: { line: CodeLineType }) {
 const EXPO_OUT = [0.32, 0.72, 0, 1] as const;
 const STD_EASE = [0.4, 0, 0.2, 1]  as const;
 
-/* ── Word transition variants — slow vertical fade with soft blur ── */
+/* ── Word transition variants — StatsSection-inspired x-slide, no blur ── */
 const WORD_VARIANTS: Variants = {
-  initial: { y: 10, opacity: 0, filter: "blur(4px)" },
-  animate: { y: 0, opacity: 1, filter: "blur(0px)", transition: { duration: 0.76, ease: EXPO_OUT } },
-  exit:    { y: -8, opacity: 0, filter: "blur(3px)", transition: { duration: 0.46, ease: STD_EASE } },
+  initial: { x: -28, opacity: 0 },
+  animate: { x: 0, opacity: 1, transition: { duration: 0.72, ease: EXPO_OUT } },
+  exit:    { x: -28, opacity: 0, transition: { duration: 0.44, ease: STD_EASE } },
 };
 
 const REDUCED_VARIANTS: Variants = {
@@ -119,7 +119,7 @@ function RotatingWord({ word }: { word: string }) {
         {LONGEST_WORD}
       </span>
 
-      <AnimatePresence initial={false}>
+      <AnimatePresence initial={false} mode="wait">
         <motion.span
           key={word}
           className="absolute left-0 top-0 whitespace-pre overflow-visible"
@@ -146,7 +146,7 @@ export function HeroSection() {
         prevIndexRef.current = i;
         return (i + 1) % WORDS.length;
       });
-    }, 3400);
+    }, 4200);
     return () => clearInterval(interval);
   }, []);
 
