@@ -59,30 +59,39 @@ const STAGES = [
 const OUTPUTS = [
   {
     title: "Website rebuild",
+    label: "Website",
     body: "Reviewed, edited, and uploaded 50+ English pages before launch, while coordinating with developers to resolve content, link, image, and button issues.",
     image: "/cases/web-demand-engine/website-home-new.png",
     imagePosition: "center top",
+    imageVersion: "v2",
   },
   {
     title: "Product content structure",
+    label: "Product Page",
     body: "Reorganised complex product and solution information into clearer market-facing content, connecting product value, use cases, and enquiry paths for international audiences.",
     image: "/cases/web-demand-engine/website-product-page.png",
     imagePosition: "center top",
+    imageVersion: "v2",
   },
   {
     title: "Lead capture path",
+    label: "Form Path",
     body: "Created a clearer enquiry path through website forms and campaign landing pages, connecting inbound interest with sales follow-up.",
     image: "/cases/web-demand-engine/demo-request-form.png",
     imagePosition: "center center",
+    imageVersion: "v2",
   },
   {
     title: "Campaign landing page",
+    label: "Campaign LP",
     body: "Built a campaign path combining landing page, EDM, social posts, and form collection.",
     image: "/cases/web-demand-engine/sample-campaign-lp.png",
     imagePosition: "center top",
+    imageVersion: "v2",
   },
   {
     title: "Multilingual foundation",
+    label: "Multilingual",
     body: "Supported multilingual website and content adaptation for global and regional market needs.",
     image: "/cases/web-demand-engine/multilingual-pages.png",
     imagePosition: "center top",
@@ -366,28 +375,44 @@ function SystemDiagram() {
   );
 }
 
-/* ─── Screenshot mockup frame ────────────────────── */
-function ScreenshotFrame({
-  src, alt, title, imagePosition = "center top",
+/* ─── Mac-style browser mockup ───────────────────── */
+function BrowserMockup({
+  src, alt, title, label, imagePosition = "center top",
 }: {
-  src: string; alt: string; title: string; imagePosition?: string;
+  src: string; alt: string; title: string; label: string; imagePosition?: string;
 }) {
   const [err, setErr] = useState(false);
 
   return (
     <div
-      className="aspect-[16/10] rounded-[5px] border border-ink/10 overflow-hidden mb-5 flex flex-col"
-      style={{ boxShadow: "0 1px 6px rgba(15,14,11,0.06)" }}
+      className="rounded-lg border border-black/10 overflow-hidden mb-5"
+      style={{ boxShadow: "0 12px 30px rgba(20,20,20,0.08), 0 2px 6px rgba(20,20,20,0.04)" }}
     >
-      {/* Browser top bar */}
-      <div className="flex-none flex items-center gap-[5px] px-[10px] h-[22px] bg-[#f0efe6] border-b border-ink/08">
-        <span className="w-[6px] h-[6px] rounded-full bg-ink/14 flex-none" />
-        <span className="w-[6px] h-[6px] rounded-full bg-ink/09 flex-none" />
-        <span className="w-[6px] h-[6px] rounded-full bg-ink/06 flex-none" />
+      {/* Top bar */}
+      <div
+        className="flex items-center gap-0 px-3 border-b border-black/[0.06]"
+        style={{ height: "32px", background: "#f3f0e6" }}
+      >
+        {/* Mac dots — muted red / yellow / green */}
+        <div className="flex items-center gap-[5px] flex-none">
+          <span className="w-[10px] h-[10px] rounded-full flex-none" style={{ background: "#e8847a" }} />
+          <span className="w-[10px] h-[10px] rounded-full flex-none" style={{ background: "#e8c47a" }} />
+          <span className="w-[10px] h-[10px] rounded-full flex-none" style={{ background: "#7ac87a" }} />
+        </div>
+
+        {/* URL / title pill */}
+        <div className="flex-1 flex justify-center pr-8">
+          <span
+            className="font-mono text-[8px] uppercase tracking-[0.10em] px-3 py-[3px] rounded-full"
+            style={{ color: "rgba(15,14,11,0.30)", background: "rgba(15,14,11,0.06)" }}
+          >
+            {label}
+          </span>
+        </div>
       </div>
 
-      {/* Image area */}
-      <div className="flex-1 relative overflow-hidden bg-[#f5f4ec]">
+      {/* Viewport — 16:10 below the bar */}
+      <div className="aspect-[16/10] relative overflow-hidden" style={{ background: "#f7f5ee" }}>
         {!err ? (
           <img
             src={src}
@@ -400,13 +425,13 @@ function ScreenshotFrame({
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6">
             <div className="w-full max-w-[100px] space-y-[5px]">
               {[100, 62, 78, 46, 68].map((w, i) => (
-                <div key={i} className="h-[2px] bg-ink/10 rounded-full" style={{ width: `${w}%` }} />
+                <div key={i} className="h-[2px] rounded-full" style={{ width: `${w}%`, background: "rgba(15,14,11,0.10)" }} />
               ))}
             </div>
-            <span className="font-mono text-[7px] uppercase tracking-[0.13em] text-ink/25">
+            <span className="font-mono text-[7px] uppercase tracking-[0.13em]" style={{ color: "rgba(15,14,11,0.25)" }}>
               Screenshot placeholder
             </span>
-            <span className="font-mono text-[8px] text-ink/35 text-center leading-snug max-w-[120px]">
+            <span className="font-mono text-[8px] text-center leading-snug max-w-[120px]" style={{ color: "rgba(15,14,11,0.35)" }}>
               {title}
             </span>
           </div>
@@ -418,13 +443,16 @@ function ScreenshotFrame({
 
 /* ─── Output card ────────────────────────────────── */
 function OutputCard({
-  title, body, image, index, imagePosition,
+  title, label, body, image, index, imagePosition, imageVersion,
 }: {
-  title: string; body: string; image: string; index: number; imagePosition?: string;
+  title: string; label: string; body: string; image: string;
+  index: number; imagePosition?: string; imageVersion?: string;
 }) {
+  const src = imageVersion ? `${image}?${imageVersion}` : image;
+
   return (
     <article className="flex flex-col">
-      <ScreenshotFrame src={image} alt={title} title={title} imagePosition={imagePosition} />
+      <BrowserMockup src={src} alt={title} title={title} label={label} imagePosition={imagePosition} />
 
       {/* Meta */}
       <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-ink/30 mb-2">
@@ -599,7 +627,7 @@ export default function WebDemandEnginePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
             {OUTPUTS.map((output, i) => (
-              <OutputCard key={i} {...output} index={i} imagePosition={output.imagePosition} />
+              <OutputCard key={i} {...output} index={i} />
             ))}
           </div>
         </section>
