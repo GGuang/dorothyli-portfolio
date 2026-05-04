@@ -61,26 +61,31 @@ const OUTPUTS = [
     title: "Website rebuild",
     body: "Reviewed, edited, and uploaded 50+ English pages before launch, while coordinating with developers to resolve content, link, image, and button issues.",
     image: "/cases/web-demand-engine/website-home-new.png",
+    imagePosition: "center top",
   },
   {
     title: "Product content structure",
     body: "Reorganised complex product and solution information into clearer market-facing content, connecting product value, use cases, and enquiry paths for international audiences.",
     image: "/cases/web-demand-engine/website-product-page.png",
+    imagePosition: "center top",
   },
   {
     title: "Lead capture path",
     body: "Created a clearer enquiry path through website forms and campaign landing pages, connecting inbound interest with sales follow-up.",
     image: "/cases/web-demand-engine/demo-request-form.png",
+    imagePosition: "center center",
   },
   {
     title: "Campaign landing page",
     body: "Built a campaign path combining landing page, EDM, social posts, and form collection.",
     image: "/cases/web-demand-engine/sample-campaign-lp.png",
+    imagePosition: "center top",
   },
   {
     title: "Multilingual foundation",
     body: "Supported multilingual website and content adaptation for global and regional market needs.",
     image: "/cases/web-demand-engine/multilingual-pages.png",
+    imagePosition: "center top",
   },
 ];
 
@@ -361,64 +366,65 @@ function SystemDiagram() {
   );
 }
 
-/* ─── Evidence image tile ────────────────────────── */
-function EvidenceImage({
-  src, alt, title, variant = "standard",
+/* ─── Screenshot mockup frame ────────────────────── */
+function ScreenshotFrame({
+  src, alt, title, imagePosition = "center top",
 }: {
-  src: string; alt: string; title: string; variant?: "standard" | "tall";
+  src: string; alt: string; title: string; imagePosition?: string;
 }) {
   const [err, setErr] = useState(false);
-  const heightClass = variant === "tall"
-    ? "h-[260px] md:h-[320px]"
-    : "h-[200px] md:h-[240px]";
 
   return (
     <div
-      className={`${heightClass} rounded-sm border border-ink/09 overflow-hidden mb-5`}
-      style={{
-        background: "#f2f1e9",
-        boxShadow: "0 1px 8px rgba(15,14,11,0.06), 0 1px 2px rgba(15,14,11,0.04)",
-      }}
+      className="aspect-[16/10] rounded-[5px] border border-ink/10 overflow-hidden mb-5 flex flex-col"
+      style={{ boxShadow: "0 1px 6px rgba(15,14,11,0.06)" }}
     >
-      {!err ? (
-        <div className="w-full h-full flex items-start justify-center p-4">
+      {/* Browser top bar */}
+      <div className="flex-none flex items-center gap-[5px] px-[10px] h-[22px] bg-[#f0efe6] border-b border-ink/08">
+        <span className="w-[6px] h-[6px] rounded-full bg-ink/14 flex-none" />
+        <span className="w-[6px] h-[6px] rounded-full bg-ink/09 flex-none" />
+        <span className="w-[6px] h-[6px] rounded-full bg-ink/06 flex-none" />
+      </div>
+
+      {/* Image area */}
+      <div className="flex-1 relative overflow-hidden bg-[#f5f4ec]">
+        {!err ? (
           <img
             src={src}
             alt={alt}
-            className="w-full h-full object-contain object-top"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ objectPosition: imagePosition }}
             onError={() => setErr(true)}
           />
-        </div>
-      ) : (
-        <div className="w-full h-full flex flex-col items-center justify-center gap-3 p-6">
-          <div className="w-full max-w-[110px] space-y-[5px]">
-            {[100, 64, 80, 48, 72].map((w, i) => (
-              <div key={i} className="h-[2px] bg-ink/10 rounded-full" style={{ width: `${w}%` }} />
-            ))}
+        ) : (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6">
+            <div className="w-full max-w-[100px] space-y-[5px]">
+              {[100, 62, 78, 46, 68].map((w, i) => (
+                <div key={i} className="h-[2px] bg-ink/10 rounded-full" style={{ width: `${w}%` }} />
+              ))}
+            </div>
+            <span className="font-mono text-[7px] uppercase tracking-[0.13em] text-ink/25">
+              Screenshot placeholder
+            </span>
+            <span className="font-mono text-[8px] text-ink/35 text-center leading-snug max-w-[120px]">
+              {title}
+            </span>
           </div>
-          <span className="font-mono text-[7px] uppercase tracking-[0.13em] text-ink/25">
-            Screenshot placeholder
-          </span>
-          <span className="font-mono text-[8px] text-ink/35 text-center leading-snug max-w-[130px]">
-            {title}
-          </span>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
 
 /* ─── Output card ────────────────────────────────── */
 function OutputCard({
-  title, body, image, index,
+  title, body, image, index, imagePosition,
 }: {
-  title: string; body: string; image: string; index: number;
+  title: string; body: string; image: string; index: number; imagePosition?: string;
 }) {
-  const variant = title === "Campaign landing page" ? "tall" : "standard";
-
   return (
     <article className="flex flex-col">
-      <EvidenceImage src={image} alt={title} title={title} variant={variant} />
+      <ScreenshotFrame src={image} alt={title} title={title} imagePosition={imagePosition} />
 
       {/* Meta */}
       <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-ink/30 mb-2">
@@ -593,7 +599,7 @@ export default function WebDemandEnginePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
             {OUTPUTS.map((output, i) => (
-              <OutputCard key={i} {...output} index={i} />
+              <OutputCard key={i} {...output} index={i} imagePosition={output.imagePosition} />
             ))}
           </div>
         </section>
