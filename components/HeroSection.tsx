@@ -5,8 +5,6 @@ import {
   motion,
   AnimatePresence,
   useReducedMotion,
-  useMotionValue,
-  animate,
   Variants,
 } from "framer-motion";
 
@@ -88,15 +86,15 @@ function CodeLine({ line }: { line: CodeLineType }) {
   }
 }
 
-/* ── Easings — same as StatsSection ─────────────────────────────── */
+/* ── Easings ─────────────────────────────────────── */
 const EXPO_OUT = [0.32, 0.72, 0, 1] as const;
 const STD_EASE = [0.4, 0, 0.2, 1]  as const;
 
-/* ── Word transition variants — mirrors StatsSection slide style ─── */
+/* ── Word transition variants — calm vertical fade ── */
 const WORD_VARIANTS: Variants = {
-  initial: { x: -24, opacity: 0 },
-  animate: { x: 0, opacity: 1, transition: { duration: 0.55, ease: EXPO_OUT } },
-  exit:    { x: 24, opacity: 0, transition: { duration: 0.32, ease: STD_EASE } },
+  initial: { y: 14, opacity: 0 },
+  animate: { y: 0, opacity: 1, transition: { duration: 0.58, ease: EXPO_OUT } },
+  exit:    { y: -10, opacity: 0, transition: { duration: 0.32, ease: STD_EASE } },
 };
 
 const REDUCED_VARIANTS: Variants = {
@@ -106,65 +104,12 @@ const REDUCED_VARIANTS: Variants = {
 };
 
 /* ── Rotating word ───────────────────────────────── */
-function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
+function RotatingWord({ word }: { word: string }) {
   const prefersRM = useReducedMotion();
-  const phraseX = useMotionValue(0);
-  const phraseRef = useRef<HTMLSpanElement>(null);
-  const mountedRef = useRef(false);
-
-  useEffect(() => {
-    if (!mountedRef.current) {
-      mountedRef.current = true;
-      return;
-    }
-    if (prefersRM || word === prevWord) return;
-
-    const fontSize = phraseRef.current
-      ? parseFloat(getComputedStyle(phraseRef.current).fontSize)
-      : 96;
-
-    /* Subtle right push + snap-back — Hero-specific detail only */
-    const push = fontSize * 0.14;
-    const over = -fontSize * 0.01;
-
-    const ctrl = animate(
-      phraseX,
-      [0, push * 0.45, push, over, 0],
-      { times: [0, 0.45, 0.75, 0.92, 1], duration: 0.65, ease: EXPO_OUT }
-    );
-    return () => ctrl.stop();
-  }, [word]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  /* Reduced-motion: opacity only, no movement */
-  if (prefersRM) {
-    return (
-      <span className="relative inline-block whitespace-pre">
-        <span aria-hidden="true" className="whitespace-pre select-none" style={{ visibility: "hidden" }}>
-          {LONGEST_WORD}
-        </span>
-        <AnimatePresence initial={false}>
-          <motion.span
-            key={word}
-            className="absolute left-0 top-0 whitespace-pre"
-            variants={REDUCED_VARIANTS}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-          >
-            {word}
-          </motion.span>
-        </AnimatePresence>
-      </span>
-    );
-  }
+  const variants = prefersRM ? REDUCED_VARIANTS : WORD_VARIANTS;
 
   return (
-    /* phraseX wrapper — only the subtle right push lives here */
-    <motion.span
-      ref={phraseRef}
-      className="relative inline-block whitespace-pre overflow-visible align-baseline"
-      style={{ x: phraseX }}
-    >
+    <span className="relative inline-block whitespace-pre align-baseline overflow-visible">
       {/* Invisible spacer — keeps wrapper width stable across rotations */}
       <span
         aria-hidden="true"
@@ -174,12 +119,11 @@ function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
         {LONGEST_WORD}
       </span>
 
-      {/* Single word layer — left-slide in/out, same as StatsSection */}
       <AnimatePresence initial={false}>
         <motion.span
           key={word}
-          className="absolute left-0 top-0 whitespace-pre"
-          variants={WORD_VARIANTS}
+          className="absolute left-0 top-0 whitespace-pre overflow-visible"
+          variants={variants}
           initial="initial"
           animate="animate"
           exit="exit"
@@ -187,7 +131,7 @@ function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
           {word}
         </motion.span>
       </AnimatePresence>
-    </motion.span>
+    </span>
   );
 }
 
@@ -207,7 +151,6 @@ export function HeroSection() {
   }, []);
 
   const word = WORDS[wordIndex];
-  const prevWord = WORDS[prevIndexRef.current];
 
   return (
     <section
@@ -239,10 +182,13 @@ export function HeroSection() {
       {/* Main content */}
       <div className="relative z-10 flex-1 flex items-center w-full">
         <div className="w-full px-6 pt-[60px] pb-[20px] md:max-w-content md:mx-auto md:px-14 lg:px-[5.5%] md:py-sp-24">
-          <h1 className="font-serif font-[300] tracking-[-0.03em] text-warm-black text-[clamp(42px,12vw,60px)] md:text-[clamp(90px,7.5vw,108px)] leading-[1.04] md:leading-[1.0]">
+          <h1 className="font-serif font-[300] tracking-[-0.03em] text-warm-black text-[clamp(42px,12vw,60px)] md:text-[clamp(90px,7.5vw,108px)] leading-[1.08] md:leading-[1.04]">
             <span className="block">Build</span>
-            <span className="block" style={{ minHeight: "1.18em" }}>
-              <RotatingWord word={word} prevWord={prevWord} />
+            <span
+              className="block overflow-visible"
+              style={{ minHeight: "1.28em", paddingBottom: "0.12em" }}
+            >
+              <RotatingWord word={word} />
             </span>
             <span className="block">across Borders.</span>
           </h1>
