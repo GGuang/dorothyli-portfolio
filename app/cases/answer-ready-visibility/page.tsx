@@ -11,11 +11,11 @@ import { Footer } from "@/components/Footer";
  *   web/public/cases/answer-ready-visibility/
  *
  * Required filenames:
- *   mcx-google-result.png    — Google search result page showing MCX content
- *   mcx-ai-overview.png      — AI Overview or generative answer featuring MCX page
- *   mcx-product-page.png     — MCX product or solution page structured content
- *   mcx-faq-structure.png    — FAQ or buyer question content section
- *   content-architecture.png — Content structure or internal linking diagram
+ *   mcx-product-page.png        — MCX product or solution page structured content
+ *   supporting-blog-content.png — Blog page answering buyer questions / technical concepts
+ *   blog-writing-sop.png        — Blog Writing SOP document or outline
+ *   blog-writer-skill.png       — Blog Writer Skill / AI-assisted execution layer
+ *   search-ai-evidence.png      — Search result or AI Overview screenshot evidence
  */
 
 const CONTEXT_KEYWORDS = [
@@ -59,38 +59,38 @@ const STAGES = [
 
 const OUTPUTS = [
   {
-    title: "Search result visibility",
-    label: "Search Result",
-    body: "MCX-related content was structured to improve discoverability in active search scenarios.",
-    image: "/cases/answer-ready-visibility/mcx-google-result.png",
-    imagePosition: "center top",
-  },
-  {
-    title: "AI-assisted answer visibility",
-    label: "AI Overview",
-    body: "Content structure helped selected MCX-related pages appear in AI-assisted answer contexts.",
-    image: "/cases/answer-ready-visibility/mcx-ai-overview.png",
-    imagePosition: "center top",
-  },
-  {
-    title: "Product page structure",
+    title: "Core product page",
     label: "Product Page",
-    body: "Technical product information was reorganised into clearer market-facing page sections, connecting definitions, product context, use cases, and enquiry paths.",
+    body: "MCX-related product content was structured around definitions, technical context, use cases, product fit, and enquiry paths.",
     image: "/cases/answer-ready-visibility/mcx-product-page.png",
     imagePosition: "center top",
   },
   {
-    title: "FAQ and buyer questions",
-    label: "FAQ Structure",
-    body: "FAQ-style content and answer-first explanations were used to support common buyer questions and reduce friction in early-stage evaluation.",
-    image: "/cases/answer-ready-visibility/mcx-faq-structure.png",
+    title: "Supporting blog content",
+    label: "Blog Content",
+    body: "Blog pages were used to answer related buyer questions, explain technical concepts, and connect search intent back to relevant product pages.",
+    image: "/cases/answer-ready-visibility/supporting-blog-content.png",
     imagePosition: "center top",
   },
   {
-    title: "Content architecture",
-    label: "Architecture",
-    body: "Core pages, supporting content, internal links, and calls to action were connected into a more coherent visibility path.",
-    image: "/cases/answer-ready-visibility/content-architecture.png",
+    title: "Blog Writing SOP",
+    label: "SOP",
+    body: "The SOP defined a repeatable structure for technical blog content, including answer-first summaries, topic framing, terminology handling, metadata, and review preparation.",
+    image: "/cases/answer-ready-visibility/blog-writing-sop.png",
+    imagePosition: "center top",
+  },
+  {
+    title: "Blog Writer Skill",
+    label: "Skill",
+    body: "The blog writer skill translated the SOP, references, and templates into an AI-assisted execution layer for drafting more consistent B2B technical content.",
+    image: "/cases/answer-ready-visibility/blog-writer-skill.png",
+    imagePosition: "center top",
+  },
+  {
+    title: "Search and AI visibility evidence",
+    label: "Visibility",
+    body: "Search result and AI Overview screenshots were used as evidence that selected technical content became more visible in active research scenarios.",
+    image: "/cases/answer-ready-visibility/search-ai-evidence.png",
     imagePosition: "center top",
   },
 ];
@@ -579,12 +579,19 @@ export default function AnswerReadyVisibilityPage() {
         <section className="bg-surface-200 px-6 lg:px-14 xl:px-[5.5vw] py-20 lg:py-28 border-b border-ink/08">
           <p className="section-label mb-8 lg:mb-12">04 / Output</p>
 
-          <h2
-            className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em] mb-12 lg:mb-16 max-w-[520px]"
-            style={{ fontSize: "clamp(22px, 2.8vw, 38px)" }}
-          >
-            Technical content structured for discovery and evaluation.
-          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-end mb-12 lg:mb-16">
+            <h2
+              className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em]"
+              style={{ fontSize: "clamp(22px, 2.8vw, 38px)" }}
+            >
+              Technical content structured for discovery and evaluation.
+            </h2>
+            <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/62 max-w-[480px]">
+              The output was not a single page update. It combined core product pages, supporting
+              articles, and reusable AI-assisted content workflows, helping technical information
+              become easier to search, understand, and reproduce.
+            </p>
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
             {OUTPUTS.map((output, i) => (
