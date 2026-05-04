@@ -94,9 +94,9 @@ const STD_EASE = [0.4, 0, 0.2, 1]  as const;
 
 /* ── Word transition variants — mirrors StatsSection slide style ─── */
 const WORD_VARIANTS: Variants = {
-  initial: { x: -56, opacity: 0 },
-  animate: { x: 0, opacity: 1, transition: { duration: 0.52, ease: EXPO_OUT } },
-  exit:    { x: -56, opacity: 0, transition: { duration: 0.36, ease: STD_EASE } },
+  initial: { x: -24, opacity: 0 },
+  animate: { x: 0, opacity: 1, transition: { duration: 0.55, ease: EXPO_OUT } },
+  exit:    { x: 24, opacity: 0, transition: { duration: 0.32, ease: STD_EASE } },
 };
 
 const REDUCED_VARIANTS: Variants = {
@@ -124,8 +124,8 @@ function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
       : 96;
 
     /* Subtle right push + snap-back — Hero-specific detail only */
-    const push = fontSize * 0.20;
-    const over = -fontSize * 0.015;
+    const push = fontSize * 0.14;
+    const over = -fontSize * 0.01;
 
     const ctrl = animate(
       phraseX,
@@ -138,11 +138,11 @@ function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
   /* Reduced-motion: opacity only, no movement */
   if (prefersRM) {
     return (
-      <span className="relative inline-block whitespace-pre overflow-hidden">
+      <span className="relative inline-block whitespace-pre">
         <span aria-hidden="true" className="whitespace-pre select-none" style={{ visibility: "hidden" }}>
           {LONGEST_WORD}
         </span>
-        <AnimatePresence initial={false} mode="wait">
+        <AnimatePresence initial={false}>
           <motion.span
             key={word}
             className="absolute left-0 top-0 whitespace-pre"
@@ -162,7 +162,7 @@ function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
     /* phraseX wrapper — only the subtle right push lives here */
     <motion.span
       ref={phraseRef}
-      className="relative inline-block whitespace-pre overflow-hidden align-baseline"
+      className="relative inline-block whitespace-pre overflow-visible align-baseline"
       style={{ x: phraseX }}
     >
       {/* Invisible spacer — keeps wrapper width stable across rotations */}
@@ -175,7 +175,7 @@ function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
       </span>
 
       {/* Single word layer — left-slide in/out, same as StatsSection */}
-      <AnimatePresence initial={false} mode="wait">
+      <AnimatePresence initial={false}>
         <motion.span
           key={word}
           className="absolute left-0 top-0 whitespace-pre"
@@ -239,9 +239,9 @@ export function HeroSection() {
       {/* Main content */}
       <div className="relative z-10 flex-1 flex items-center w-full">
         <div className="w-full px-6 pt-[60px] pb-[20px] md:max-w-content md:mx-auto md:px-14 lg:px-[5.5%] md:py-sp-24">
-          <h1 className="font-serif font-[300] tracking-[-0.03em] text-warm-black text-[clamp(42px,12vw,60px)] md:text-[clamp(90px,7.5vw,108px)] leading-[1.0] md:leading-[0.95]">
+          <h1 className="font-serif font-[300] tracking-[-0.03em] text-warm-black text-[clamp(42px,12vw,60px)] md:text-[clamp(90px,7.5vw,108px)] leading-[1.04] md:leading-[1.0]">
             <span className="block">Build</span>
-            <span className="block" style={{ minHeight: "1.08em" }}>
+            <span className="block" style={{ minHeight: "1.18em" }}>
               <RotatingWord word={word} prevWord={prevWord} />
             </span>
             <span className="block">across Borders.</span>
