@@ -361,6 +361,15 @@ function SystemDiagram() {
   );
 }
 
+/* ─── Evidence label per card ───────────────────────── */
+const CARD_LABELS = [
+  "Website",
+  "Product Page",
+  "Form Path",
+  "Campaign LP",
+  "Multilingual",
+];
+
 /* ─── Output card ────────────────────────────────── */
 function OutputCard({
   title, body, image, index,
@@ -368,32 +377,57 @@ function OutputCard({
   title: string; body: string; image: string; index: number;
 }) {
   const [err, setErr] = useState(false);
+  const label = CARD_LABELS[index] ?? "Screenshot";
 
   return (
     <article className="flex flex-col">
-      {/* Image / placeholder — 16:10 frame, consistent across all cards */}
-      <div className="aspect-[16/10] bg-surface-200 border border-ink/09 rounded-sm mb-5 relative overflow-hidden">
+      {/*
+       * Screenshot frame — 16:10, object-contain so no UI content is cropped.
+       * Warm neutral bg behind image so varying screenshot dimensions look intentional.
+       * Subtle shadow + rounded corners for a curated evidence feel.
+       */}
+      <div
+        className="aspect-[16/10] rounded-[4px] border border-ink/10 mb-5 relative overflow-hidden"
+        style={{ boxShadow: "0 2px 12px rgba(15,14,11,0.07), 0 1px 3px rgba(15,14,11,0.05)" }}
+      >
+        {/* Top bar — minimal evidence label */}
+        <div className="absolute top-0 left-0 right-0 z-10 flex items-center gap-1.5 px-3 py-[6px] bg-warm-white/90 border-b border-ink/08">
+          {/* Three dots */}
+          <span className="w-[6px] h-[6px] rounded-full bg-ink/12 flex-none" />
+          <span className="w-[6px] h-[6px] rounded-full bg-ink/08 flex-none" />
+          <span className="w-[6px] h-[6px] rounded-full bg-ink/06 flex-none" />
+          <span className="ml-2 font-mono text-[7px] uppercase tracking-[0.13em] text-ink/30">
+            {label}
+          </span>
+        </div>
+
         {!err ? (
-          <img
-            src={image}
-            alt={title}
-            className="absolute inset-0 w-full h-full object-cover object-top"
-            onError={() => setErr(true)}
-          />
+          /* Screenshot — padded so it doesn't touch the edges, contain preserves full UI */
+          <div className="absolute inset-0 top-[22px] bg-[#f2f1e9] flex items-start justify-center p-3 pt-2">
+            <img
+              src={image}
+              alt={title}
+              className="w-full h-full object-contain object-top"
+              onError={() => setErr(true)}
+            />
+          </div>
         ) : (
-          /* Placeholder occupies the same 16:10 frame */
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6">
-            <div className="w-full max-w-[140px] space-y-[5px]">
-              {[100, 72, 88, 55, 80].map((w, i) => (
+          /* Placeholder — same frame, same label bar, no broken icon */
+          <div className="absolute inset-0 top-[22px] bg-[#f2f1e9] flex flex-col items-center justify-center gap-3 p-6">
+            <div className="w-full max-w-[120px] space-y-[5px]">
+              {[100, 68, 84, 52, 76].map((w, i) => (
                 <div
                   key={i}
-                  className="h-[2px] bg-ink/08 rounded-full"
+                  className="h-[2px] bg-ink/10 rounded-full"
                   style={{ width: `${w}%` }}
                 />
               ))}
             </div>
-            <span className="font-mono text-[7.5px] uppercase tracking-[0.14em] text-ink/28">
+            <span className="font-mono text-[7px] uppercase tracking-[0.13em] text-ink/30">
               Screenshot placeholder
+            </span>
+            <span className="font-mono text-[8px] text-ink/40 text-center leading-snug max-w-[140px]">
+              {title}
             </span>
           </div>
         )}
