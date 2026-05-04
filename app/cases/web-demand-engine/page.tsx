@@ -6,6 +6,17 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 /* ─── Data ───────────────────────────────────────── */
+/*
+ * Screenshot files should be placed in:
+ *   web/public/cases/web-demand-engine/
+ *
+ * Required filenames:
+ *   website-home-new.png       — new POCSTARS homepage or global website overview
+ *   website-product-page.png   — product or solution page showing structured content
+ *   demo-request-form.png      — enquiry / demo request form (blur any customer data)
+ *   sample-campaign-lp.png     — campaign landing page or EDM landing path
+ *   multilingual-pages.png     — EN / ES / ID pages or multilingual website structure
+ */
 
 const CONTEXT_KEYWORDS = [
   "PoC", "MCX", "Public Safety", "MNO", "Global Website", "Multilingual Content",
@@ -52,8 +63,8 @@ const OUTPUTS = [
     image: "/cases/web-demand-engine/website-home-new.png",
   },
   {
-    title: "Product and solution pages",
-    body: "Reorganised complex product and solution information into clearer market-facing content for international audiences.",
+    title: "Product content structure",
+    body: "Reorganised complex product and solution information into clearer market-facing content, connecting product value, use cases, and enquiry paths for international audiences.",
     image: "/cases/web-demand-engine/website-product-page.png",
   },
   {
@@ -79,20 +90,20 @@ const METRICS = [
     label: "Pages reviewed, edited, and uploaded before the English website launch.",
   },
   {
-    value: "2",
-    label: "Demo requests received on the launch day of the English website.",
+    value: "Launch-day enquiries",
+    label: "The English website received demo requests on the day it went live, providing an early signal that the enquiry path was working.",
   },
   {
-    value: "2,500+",
-    label: "Visits reached during the first launch week.",
+    value: "2,500+ visits",
+    label: "Reached during the first launch week, as the new website became the main traffic destination for launch-period communications.",
   },
   {
-    value: "20–30",
-    label: "Monthly online qualified enquiries reached from around 10 and remained relatively stable from H2 2025 to Feb 2026.",
+    value: "2x+ lead lift",
+    label: "Monthly online qualified enquiries more than doubled from the previous baseline and remained more stable from H2 2025 to Feb 2026.",
   },
   {
-    value: "#1 Page",
-    label: "MCX solution page appeared in Google AI Overview and ranked on the first page, reported at position 3 for \"MCX solution\".",
+    value: "Page 1 visibility",
+    label: "The MCX solution page appeared in Google AI Overview recommendations and was reported on the first page of organic results, at position 3 for \"MCX solution\".",
   },
 ];
 
@@ -441,7 +452,7 @@ export default function WebDemandEnginePage() {
                     ["Company", "POCSTARS"],
                     ["Year",    "2025–2026"],
                     ["Role",    "Global Marketing Manager"],
-                    ["Focus",   "Website, SEO, content, forms, lead path"],
+                    ["Focus",   "Website, product content, search visibility, forms, lead path, sales follow-up"],
                   ] as const).map(([label, value]) => (
                     <div key={label}>
                       <dt className="font-mono text-[7.5px] uppercase tracking-[0.13em] text-ink/32 mb-[3px]">
@@ -599,7 +610,7 @@ export default function WebDemandEnginePage() {
           {/* Disclaimer */}
           <p className="font-mono text-[7.5px] leading-[1.65] text-cream/22 mt-8 max-w-[480px]">
             Results are presented as portfolio-level summaries based on internal reporting records.
-            Sensitive operational details have been omitted.
+            Exact lead volumes and sensitive operational details have been omitted for confidentiality and context.
           </p>
         </section>
 
@@ -621,7 +632,9 @@ export default function WebDemandEnginePage() {
               <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/68 mb-9">
                 This case shows how I approach B2B marketing as an infrastructure problem: clarifying
                 the product message, rebuilding the content path, connecting traffic sources to website
-                forms, and making the system easier for sales to follow up.
+                forms, and making the system easier for sales to follow up. For complex B2B products,
+                the goal is not only to publish content, but to make the product easier to understand,
+                easier to find, and easier for sales to explain.
               </p>
 
               <div className="flex flex-wrap gap-2">
