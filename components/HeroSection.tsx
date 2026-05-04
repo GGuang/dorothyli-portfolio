@@ -7,6 +7,7 @@ import {
   useReducedMotion,
   useMotionValue,
   animate,
+  Variants,
 } from "framer-motion";
 
 const WORDS = [
@@ -87,14 +88,27 @@ function CodeLine({ line }: { line: CodeLineType }) {
   }
 }
 
-/* ── Easing ──────────────────────────────────────── */
-const EASE = [0.22, 1, 0.36, 1] as const;
+/* ── Easings — same as StatsSection ─────────────────────────────── */
+const EXPO_OUT = [0.32, 0.72, 0, 1] as const;
+const STD_EASE = [0.4, 0, 0.2, 1]  as const;
+
+/* ── Word transition variants — mirrors StatsSection slide style ─── */
+const WORD_VARIANTS: Variants = {
+  initial: { x: -56, opacity: 0 },
+  animate: { x: 0, opacity: 1, transition: { duration: 0.52, ease: EXPO_OUT } },
+  exit:    { x: -56, opacity: 0, transition: { duration: 0.36, ease: STD_EASE } },
+};
+
+const REDUCED_VARIANTS: Variants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.22 } },
+  exit:    { opacity: 0, transition: { duration: 0.18 } },
+};
 
 /* ── Rotating word ───────────────────────────────── */
 function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
   const prefersRM = useReducedMotion();
   const phraseX = useMotionValue(0);
-  const wipeX = useMotionValue(-9999);
   const phraseRef = useRef<HTMLSpanElement>(null);
   const mountedRef = useRef(false);
 
@@ -109,42 +123,33 @@ function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
       ? parseFloat(getComputedStyle(phraseRef.current).fontSize)
       : 96;
 
-    /* Wipe: ~1.3em wide band sweeps left to right */
-    const wipeWidthPx = fontSize * 1.3;
-    /* Travel far enough to clear the longest phrase at any viewport size */
-    const wipeTravelPx = fontSize * 14;
+    /* Subtle right push + snap-back — Hero-specific detail only */
+    const push = fontSize * 0.20;
+    const over = -fontSize * 0.015;
 
-    /* Reset wipe to just off the left edge before animating */
-    wipeX.set(-wipeWidthPx);
-
-    const push = fontSize * 0.42;
-    const over = -fontSize * 0.018;
-
-    const c1 = animate(
+    const ctrl = animate(
       phraseX,
-      [0, push * 0.25, push * 0.7, push, over, 0],
-      { times: [0, 0.32, 0.68, 0.84, 0.95, 1], duration: 0.95, ease: EASE }
+      [0, push * 0.45, push, over, 0],
+      { times: [0, 0.45, 0.75, 0.92, 1], duration: 0.65, ease: EXPO_OUT }
     );
-    const c2 = animate(
-      wipeX,
-      [-wipeWidthPx, wipeTravelPx],
-      { duration: 0.78, ease: EASE }
-    );
-
-    return () => { c1.stop(); c2.stop(); };
+    return () => ctrl.stop();
   }, [word]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  /* Reduced-motion: simple opacity crossfade only */
+  /* Reduced-motion: opacity only, no movement */
   if (prefersRM) {
     return (
-      <span style={{ display: "inline-block", position: "relative" }}>
+      <span className="relative inline-block whitespace-pre overflow-hidden">
+        <span aria-hidden="true" className="whitespace-pre select-none" style={{ visibility: "hidden" }}>
+          {LONGEST_WORD}
+        </span>
         <AnimatePresence initial={false} mode="wait">
           <motion.span
             key={word}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            className="absolute left-0 top-0 whitespace-pre"
+            variants={REDUCED_VARIANTS}
+            initial="initial"
+            animate="animate"
+            exit="exit"
           >
             {word}
           </motion.span>
@@ -153,15 +158,14 @@ function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
     );
   }
 
-  const isInitial = word === prevWord;
-
   return (
+    /* phraseX wrapper — only the subtle right push lives here */
     <motion.span
       ref={phraseRef}
       className="relative inline-block whitespace-pre overflow-hidden align-baseline"
       style={{ x: phraseX }}
     >
-      {/* Invisible spacer — reserves LONGEST_WORD width so headline never reflows */}
+      {/* Invisible spacer — keeps wrapper width stable across rotations */}
       <span
         aria-hidden="true"
         className="whitespace-pre select-none"
@@ -170,50 +174,19 @@ function RotatingWord({ word, prevWord }: { word: string; prevWord: string }) {
         {LONGEST_WORD}
       </span>
 
-      {/* Old word — clips out left → right in sync with wipe passage */}
-      {!isInitial && (
+      {/* Single word layer — left-slide in/out, same as StatsSection */}
+      <AnimatePresence initial={false} mode="wait">
         <motion.span
-          key={`old-${prevWord}`}
-          aria-hidden="true"
-          className="absolute left-0 top-0 whitespace-pre pointer-events-none select-none"
-          initial={{ clipPath: "inset(0 0% 0 0%)" }}
-          animate={{ clipPath: "inset(0 0% 0 100%)" }}
-          transition={{ duration: 0.72, ease: EASE }}
+          key={word}
+          className="absolute left-0 top-0 whitespace-pre"
+          variants={WORD_VARIANTS}
+          initial="initial"
+          animate="animate"
+          exit="exit"
         >
-          {prevWord}
+          {word}
         </motion.span>
-      )}
-
-      {/* New word — clips in left → right, trails just behind the wipe */}
-      <motion.span
-        key={`new-${word}`}
-        className="absolute left-0 top-0 whitespace-pre"
-        style={{ zIndex: 20 }}
-        initial={isInitial ? false : { clipPath: "inset(0 100% 0 0%)" }}
-        animate={{ clipPath: "inset(0 0% 0 0%)" }}
-        transition={
-          isInitial
-            ? { duration: 0 }
-            : { duration: 0.72, delay: 0.08, ease: EASE }
-        }
-      >
-        {word}
-      </motion.span>
-
-      {/* Wipe — Hero mint band sweeps across, covering the old word */}
-      {!isInitial && (
-        <motion.span
-          key={`wipe-${word}`}
-          aria-hidden="true"
-          className="absolute top-0 bottom-0 pointer-events-none"
-          style={{
-            width: "1.3em",
-            x: wipeX,
-            background: "#d5fad3",
-            zIndex: 10,
-          }}
-        />
-      )}
+      </AnimatePresence>
     </motion.span>
   );
 }
