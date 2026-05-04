@@ -607,8 +607,8 @@ export default function WebDemandEnginePage() {
         </section>
 
         {/* ── 6. Impact ───────────────────────────── */}
-        <section className="bg-surface-200 border-t border-ink/08 px-6 lg:px-14 xl:px-[5.5vw] py-14 lg:py-20">
-          <div className="max-w-[600px]">
+        <section className="bg-surface-400 px-6 lg:px-14 xl:px-[5.5vw] py-16 lg:py-24">
+          <div className="max-w-[720px]">
             <p className="section-label mb-8">05 / Impact</p>
             <h2
               className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em] mb-5"
@@ -616,7 +616,7 @@ export default function WebDemandEnginePage() {
             >
               A clearer path from content to demand.
             </h2>
-            <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/62">
+            <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/70">
               The rebuilt website and content structure created a more reliable foundation for
               global-facing communication, search discovery, enquiry capture, and sales follow-up.
               Early launch signals and later reporting showed stronger visibility and a more stable
