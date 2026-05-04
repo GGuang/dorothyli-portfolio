@@ -130,192 +130,196 @@ const CAPABILITIES = [
 
 /* ─── Abstract hero diagram ──────────────────────── */
 function DemandPathDiagram() {
+  const sources = [
+    { cy: 68,  label: "Search" },
+    { cy: 112, label: "Social" },
+    { cy: 156, label: "EDM"    },
+    { cy: 200, label: "Events" },
+  ];
+  const collectorCy = 134; // midpoint of sources
+
   return (
     <svg
-      viewBox="0 0 400 300"
+      viewBox="0 0 480 272"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-full h-auto max-w-[400px]"
+      className="w-full h-auto max-w-[540px]"
       aria-hidden="true"
     >
-      {/* Traffic source nodes */}
-      {[52, 96, 140, 184].map((cy, i) => {
-        const labels = ["Organic", "Social", "EDM", "Events"];
-        return (
-          <g key={i}>
-            <circle
-              cx={26} cy={cy} r={4.5}
-              fill="rgba(15,14,11,0.07)"
-              stroke="rgba(15,14,11,0.18)"
-              strokeWidth="0.8"
-            />
-            <line
-              x1={31} y1={cy} x2={110} y2={118}
-              stroke="rgba(15,14,11,0.09)"
-              strokeWidth="0.6"
-              strokeDasharray="3 2"
-            />
-            <text
-              x={26} y={cy - 8}
-              textAnchor="middle"
-              fontSize="5.5"
-              fontFamily="monospace"
-              fill="rgba(15,14,11,0.38)"
-            >
-              {labels[i]}
-            </text>
-          </g>
-        );
-      })}
+      {/* ── Source nodes ── */}
+      {sources.map(({ cy, label }) => (
+        <g key={cy}>
+          <circle
+            cx={28} cy={cy} r={5.5}
+            fill="rgba(15,14,11,0.06)"
+            stroke="rgba(15,14,11,0.18)"
+            strokeWidth="0.9"
+          />
+          <text
+            x={28} y={cy - 11}
+            textAnchor="middle"
+            fontSize="7"
+            fontFamily="monospace"
+            fill="rgba(15,14,11,0.38)"
+          >
+            {label}
+          </text>
+          {/* Dashed line to collector */}
+          <line
+            x1={34} y1={cy} x2={108} y2={collectorCy}
+            stroke="rgba(15,14,11,0.10)"
+            strokeWidth="0.7"
+            strokeDasharray="3.5 2.5"
+          />
+        </g>
+      ))}
 
-      {/* Collector node */}
+      {/* ── Collector node ── */}
       <circle
-        cx={110} cy={118} r={7}
-        fill="rgba(15,14,11,0.08)"
+        cx={108} cy={collectorCy} r={9}
+        fill="rgba(15,14,11,0.07)"
         stroke="rgba(15,14,11,0.18)"
-        strokeWidth="0.8"
-      />
-      <line
-        x1={117} y1={118} x2={136} y2={118}
-        stroke="rgba(15,14,11,0.20)"
-        strokeWidth="0.8"
-      />
-      {/* Arrowhead */}
-      <polygon
-        points="134,115 140,118 134,121"
-        fill="rgba(15,14,11,0.22)"
-      />
-
-      {/* Website card — centre */}
-      <rect
-        x={142} y={34} width={152} height={200} rx={2.5}
-        fill="#f9f9f0"
-        stroke="rgba(15,14,11,0.13)"
         strokeWidth="0.9"
       />
-      {/* Header bar */}
-      <rect x={142} y={34} width={152} height={22} rx={2.5} fill="#d5fad3" />
-      <rect x={142} y={46} width={152} height={10} fill="#d5fad3" />
+      {/* Arrow into website card */}
+      <line
+        x1={117} y1={collectorCy} x2={133} y2={collectorCy}
+        stroke="rgba(15,14,11,0.22)"
+        strokeWidth="1"
+      />
+      <polygon
+        points={`131,${collectorCy - 3.5} 137,${collectorCy} 131,${collectorCy + 3.5}`}
+        fill="rgba(15,14,11,0.24)"
+      />
+
+      {/* ── Website card — main focus ── */}
+      <rect
+        x={137} y={22} width={214} height={228} rx={4}
+        fill="#f9f9f0"
+        stroke="rgba(15,14,11,0.12)"
+        strokeWidth="1"
+      />
+      {/* Mint header band */}
+      <rect x={137} y={22} width={214} height={32} rx={4} fill="#d5fad3" />
+      {/* Square-off the bottom corners of the mint band */}
+      <rect x={137} y={44} width={214} height={10} fill="#d5fad3" />
       <text
-        x={218} y={48}
+        x={244} y={43}
         textAnchor="middle"
-        fontSize="5.5"
+        fontSize="7.5"
         fontFamily="monospace"
         letterSpacing="0.09em"
         fill="rgba(15,14,11,0.52)"
       >
-        WEBSITE & PAGES
+        WEBSITE &amp; PAGES
       </text>
 
-      {/* Page rows */}
-      {[
-        { y: 68,  label: "Product Pages",    accent: true  },
-        { y: 90,  label: "Solution Pages",   accent: false },
-        { y: 112, label: "Campaign LPs",     accent: false },
-        { y: 134, label: "Multilingual",     accent: false },
-        { y: 156, label: "SEO / Blog",       accent: false },
-      ].map(({ y, label, accent }) => (
-        <g key={y}>
-          <rect
-            x={154} y={y} width={128} height={17} rx={1.5}
-            fill={accent ? "rgba(213,250,211,0.55)" : "rgba(15,14,11,0.025)"}
-            stroke="rgba(15,14,11,0.07)"
-            strokeWidth="0.5"
-          />
-          <text
-            x={218} y={y + 11}
-            textAnchor="middle"
-            fontSize="5.5"
-            fontFamily="monospace"
-            fill="rgba(15,14,11,0.45)"
-          >
-            {label}
-          </text>
-        </g>
-      ))}
-
-      {/* Form area */}
+      {/* Row 1 — Product Pages (highlighted) */}
       <rect
-        x={154} y={184} width={128} height={40} rx={1.5}
-        fill="rgba(15,14,11,0.035)"
+        x={150} y={66} width={188} height={44} rx={2.5}
+        fill="rgba(213,250,211,0.50)"
         stroke="rgba(15,14,11,0.07)"
-        strokeWidth="0.5"
+        strokeWidth="0.6"
       />
       <text
-        x={218} y={198}
+        x={244} y={66 + 26}
         textAnchor="middle"
-        fontSize="5"
+        fontSize="8"
         fontFamily="monospace"
-        fill="rgba(15,14,11,0.32)"
+        fill="rgba(15,14,11,0.52)"
       >
-        Demo Request Form
+        Product Pages
       </text>
-      <rect x={162} y={205} width={112} height={5} rx={0.8} fill="rgba(15,14,11,0.07)" />
-      <rect x={162} y={214} width={52} height={7} rx={1} fill="rgba(15,14,11,0.65)" />
+
+      {/* Row 2 — Solution Pages */}
+      <rect
+        x={150} y={118} width={188} height={44} rx={2.5}
+        fill="rgba(15,14,11,0.025)"
+        stroke="rgba(15,14,11,0.07)"
+        strokeWidth="0.6"
+      />
       <text
-        x={188} y={219.5}
+        x={244} y={118 + 26}
         textAnchor="middle"
-        fontSize="4.5"
+        fontSize="8"
         fontFamily="monospace"
-        fill="rgba(249,249,240,0.75)"
+        fill="rgba(15,14,11,0.42)"
+      >
+        Solution Pages
+      </text>
+
+      {/* Row 3 — Forms */}
+      <rect
+        x={150} y={170} width={188} height={68} rx={2.5}
+        fill="rgba(15,14,11,0.032)"
+        stroke="rgba(15,14,11,0.07)"
+        strokeWidth="0.6"
+      />
+      <text
+        x={244} y={192}
+        textAnchor="middle"
+        fontSize="8"
+        fontFamily="monospace"
+        fill="rgba(15,14,11,0.38)"
+      >
+        Forms
+      </text>
+      {/* Mini submit button inside forms row */}
+      <rect x={206} y={204} width={76} height={22} rx={3} fill="rgba(15,14,11,0.55)" />
+      <text
+        x={244} y={219}
+        textAnchor="middle"
+        fontSize="6.5"
+        fontFamily="monospace"
+        fill="rgba(249,249,240,0.80)"
       >
         Submit
       </text>
 
-      {/* Output arrow */}
+      {/* ── Arrow out → Follow-up ── */}
       <line
-        x1={294} y1={134} x2={318} y2={134}
-        stroke="rgba(15,14,11,0.20)"
-        strokeWidth="0.8"
+        x1={351} y1={136} x2={369} y2={136}
+        stroke="rgba(15,14,11,0.22)"
+        strokeWidth="1"
       />
       <polygon
-        points="316,131 322,134 316,137"
-        fill="rgba(15,14,11,0.20)"
+        points="367,132.5 373,136 367,139.5"
+        fill="rgba(15,14,11,0.24)"
       />
 
-      {/* Follow-up card — dark */}
+      {/* ── Follow-up card — dark ── */}
       <rect
-        x={324} y={98} width={68} height={72} rx={2}
+        x={373} y={78} width={94} height={116} rx={3}
         fill="#0f0e0b"
       />
       <text
-        x={358} y={116}
+        x={420} y={101}
         textAnchor="middle"
-        fontSize="5"
+        fontSize="6.5"
         fontFamily="monospace"
-        letterSpacing="0.08em"
-        fill="rgba(249,249,240,0.38)"
+        letterSpacing="0.10em"
+        fill="rgba(249,249,240,0.32)"
       >
         FOLLOW-UP
       </text>
-      {["Source Tag", "Sales Handoff", "Light Nurture"].map((t, i) => (
+      {/* Separator */}
+      <line
+        x1={382} y1={110} x2={458} y2={110}
+        stroke="rgba(249,249,240,0.07)"
+        strokeWidth="0.6"
+      />
+      {["Sales Handoff", "Light Nurture"].map((t, i) => (
         <text
-          key={i}
-          x={358} y={132 + i * 14}
+          key={t}
+          x={420} y={128 + i * 20}
           textAnchor="middle"
-          fontSize="5.5"
+          fontSize="7.5"
           fontFamily="monospace"
-          fill="rgba(249,249,240,0.60)"
+          fill="rgba(249,249,240,0.62)"
         >
           {t}
         </text>
       ))}
-
-      {/* Decorative orbit rings top-right */}
-      <circle cx={368} cy={44} r={18} fill="none" stroke="rgba(15,14,11,0.055)" strokeWidth="0.7" />
-      <circle cx={368} cy={44} r={10} fill="none" stroke="rgba(15,14,11,0.07)" strokeWidth="0.6" />
-      <circle cx={368} cy={44} r={3}  fill="rgba(15,14,11,0.08)" />
-
-      {/* Grid dots bottom-left */}
-      {[0,1,2,3].map(col =>
-        [0,1,2].map(row => (
-          <circle
-            key={`${col}-${row}`}
-            cx={20 + col * 12} cy={248 + row * 12} r={1.2}
-            fill="rgba(15,14,11,0.08)"
-          />
-        ))
-      )}
     </svg>
   );
 }
@@ -479,7 +483,7 @@ export default function WebDemandEnginePage() {
         {/* ── 1. Case Hero ────────────────────────── */}
         <section className="bg-mint">
           <div className="px-6 lg:px-14 xl:px-[5.5vw] pt-[80px] pb-16 lg:pb-20">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-[54%_46%] gap-10 lg:gap-12 items-center">
 
               {/* Left — text */}
               <div className="pt-10 lg:pt-14">
@@ -520,7 +524,7 @@ export default function WebDemandEnginePage() {
               </div>
 
               {/* Right — abstract diagram */}
-              <div className="flex items-start justify-center lg:justify-end pt-8 lg:pt-14">
+              <div className="flex items-center justify-center lg:justify-start">
                 <DemandPathDiagram />
               </div>
 
