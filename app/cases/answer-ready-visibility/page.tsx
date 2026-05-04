@@ -607,7 +607,7 @@ export default function AnswerReadyVisibilityPage() {
               By restructuring MCX-related content around technical definitions, product context,
               buyer questions, and search intent, the website became easier to discover in active
               research scenarios. The MCX solution page appeared in Google AI Overview recommendations
-              and was reported on the first page of organic results for "MCX solution", supporting a
+              and was reported on the first page of organic results for &quot;MCX solution&quot;, supporting a
               clearer route from technical search to product evaluation.
             </p>
           </div>
