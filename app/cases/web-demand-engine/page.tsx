@@ -371,18 +371,18 @@ function OutputCard({
 
   return (
     <article className="flex flex-col">
-      {/* Image / placeholder */}
-      <div className="aspect-[4/3] bg-surface-200 border border-ink/09 mb-5 relative overflow-hidden">
+      {/* Image / placeholder — 16:10 frame, consistent across all cards */}
+      <div className="aspect-[16/10] bg-surface-200 border border-ink/09 rounded-sm mb-5 relative overflow-hidden">
         {!err ? (
           <img
             src={image}
             alt={title}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover object-top"
             onError={() => setErr(true)}
           />
         ) : (
+          /* Placeholder occupies the same 16:10 frame */
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6">
-            {/* Abstract line placeholder */}
             <div className="w-full max-w-[140px] space-y-[5px]">
               {[100, 72, 88, 55, 80].map((w, i) => (
                 <div
