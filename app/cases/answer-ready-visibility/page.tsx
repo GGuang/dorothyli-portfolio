@@ -8,7 +8,7 @@ import { Footer } from "@/components/Footer";
 /* ─── Data ───────────────────────────────────────── */
 /*
  * Screenshot files should be placed in:
- *   web/public/cases/answer-ready-b2b-visibility/
+ *   web/public/cases/answer-ready-visibility/
  *
  * Required filenames:
  *   mcx-google-result.png    — Google search result page showing MCX content
@@ -62,35 +62,35 @@ const OUTPUTS = [
     title: "Search result visibility",
     label: "Search Result",
     body: "MCX-related content was structured to improve discoverability in active search scenarios.",
-    image: "/cases/answer-ready-b2b-visibility/mcx-google-result.png",
+    image: "/cases/answer-ready-visibility/mcx-google-result.png",
     imagePosition: "center top",
   },
   {
     title: "AI-assisted answer visibility",
     label: "AI Overview",
     body: "Content structure helped selected MCX-related pages appear in AI-assisted answer contexts.",
-    image: "/cases/answer-ready-b2b-visibility/mcx-ai-overview.png",
+    image: "/cases/answer-ready-visibility/mcx-ai-overview.png",
     imagePosition: "center top",
   },
   {
     title: "Product page structure",
     label: "Product Page",
     body: "Technical product information was reorganised into clearer market-facing page sections, connecting definitions, product context, use cases, and enquiry paths.",
-    image: "/cases/answer-ready-b2b-visibility/mcx-product-page.png",
+    image: "/cases/answer-ready-visibility/mcx-product-page.png",
     imagePosition: "center top",
   },
   {
     title: "FAQ and buyer questions",
     label: "FAQ Structure",
     body: "FAQ-style content and answer-first explanations were used to support common buyer questions and reduce friction in early-stage evaluation.",
-    image: "/cases/answer-ready-b2b-visibility/mcx-faq-structure.png",
+    image: "/cases/answer-ready-visibility/mcx-faq-structure.png",
     imagePosition: "center top",
   },
   {
     title: "Content architecture",
     label: "Architecture",
     body: "Core pages, supporting content, internal links, and calls to action were connected into a more coherent visibility path.",
-    image: "/cases/answer-ready-b2b-visibility/content-architecture.png",
+    image: "/cases/answer-ready-visibility/content-architecture.png",
     imagePosition: "center top",
   },
 ];

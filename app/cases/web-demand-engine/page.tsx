@@ -637,7 +637,7 @@ export default function WebDemandEnginePage() {
             </Link>
 
             <Link
-              href="/cases/answer-ready-b2b-visibility"
+              href="/cases/answer-ready-visibility"
               className="inline-flex items-center gap-2.5 font-mono text-[9px] uppercase tracking-[0.12em] text-ink/40 hover:text-ink transition-colors duration-150"
             >
               <span>Next: Answer-Ready B2B Visibility</span>
