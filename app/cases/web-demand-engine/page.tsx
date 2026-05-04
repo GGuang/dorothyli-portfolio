@@ -98,34 +98,23 @@ const OUTPUTS = [
   },
 ];
 
-const METRICS = [
+const EVIDENCE = [
   {
-    value: "50+",
-    label: "Pages reviewed, edited, and uploaded before the English website launch.",
+    label: "Launch foundation",
+    text: "50+ English pages were reviewed, edited, uploaded, and checked before the English website launch.",
   },
   {
-    value: "Launch-day enquiries",
-    label: "The English website received demo requests on the day it went live, providing an early signal that the enquiry path was working.",
+    label: "Early enquiry signal",
+    text: "The website received demo requests on launch day, providing an early signal that the enquiry path was working.",
   },
   {
-    value: "2,500+ visits",
-    label: "Reached during the first launch week, as the new website became the main traffic destination for launch-period communications.",
+    label: "Search visibility",
+    text: 'The MCX solution page appeared in Google AI Overview recommendations and was reported on the first page of organic results for "MCX solution".',
   },
   {
-    value: "2x+ lead lift",
-    label: "Monthly online qualified enquiries more than doubled from the previous baseline and remained more stable from H2 2025 to Feb 2026.",
+    label: "Lead lift",
+    text: "Monthly online qualified enquiries more than doubled from the previous baseline and remained more stable from H2 2025 to Feb 2026.",
   },
-  {
-    value: "Page 1 visibility",
-    label: "The MCX solution page appeared in Google AI Overview recommendations and was reported on the first page of organic results, at position 3 for \"MCX solution\".",
-  },
-];
-
-const CAPABILITIES = [
-  "Product content structure",
-  "Website information architecture",
-  "Demand pathway thinking",
-  "Sales-aligned marketing execution",
 ];
 
 /* ─── Abstract hero diagram ──────────────────────── */
@@ -637,81 +626,46 @@ export default function WebDemandEnginePage() {
         </section>
 
         {/* ── 6. Impact ───────────────────────────── */}
-        <section className="bg-warm-black px-6 lg:px-14 xl:px-[5.5vw] py-20 lg:py-28">
-          <p className="font-mono text-[8.5px] uppercase tracking-[0.15em] text-cream/30 mb-8 lg:mb-12">
-            05 / Impact
-          </p>
+        <section className="bg-warm-black px-6 lg:px-14 xl:px-[5.5vw] py-16 lg:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20">
 
-          <h2
-            className="font-serif font-[300] text-cream leading-[1.08] tracking-[-0.025em] mb-14 lg:mb-16 max-w-[560px]"
-            style={{ fontSize: "clamp(22px, 2.8vw, 38px)" }}
-          >
-            Early signals and longer-term demand results.
-          </h2>
-
-          {/* Metric grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-cream/06">
-            {METRICS.map((m, i) => (
-              <div key={i} className="bg-warm-black p-7 lg:p-8">
-                <p
-                  className="font-serif font-[300] text-cream leading-none tracking-tight mb-4"
-                  style={{ fontSize: "clamp(26px, 3vw, 44px)" }}
-                >
-                  {m.value}
-                </p>
-                <p className="font-sans text-[12px] lg:text-[12.5px] leading-[1.65] text-cream/48 max-w-[240px]">
-                  {m.label}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* Disclaimer */}
-          <p className="font-mono text-[7.5px] leading-[1.65] text-cream/22 mt-8 max-w-[480px]">
-            Results are presented as portfolio-level summaries based on internal reporting records.
-            Exact lead volumes and sensitive operational details have been omitted for confidentiality and context.
-          </p>
-        </section>
-
-        {/* ── 7. What This Shows ──────────────────── */}
-        <section className="bg-surface-100 px-6 lg:px-14 xl:px-[5.5vw] py-20 lg:py-28 border-t border-ink/08 border-b border-ink/08">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-
+            {/* Left — label, heading, summary */}
             <div>
-              <p className="section-label mb-8 lg:mb-10">06 / What This Shows</p>
+              <p className="font-mono text-[8.5px] uppercase tracking-[0.15em] text-cream/30 mb-8">
+                05 / Impact
+              </p>
               <h2
-                className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em]"
-                style={{ fontSize: "clamp(22px, 2.8vw, 38px)" }}
+                className="font-serif font-[300] text-cream leading-[1.1] tracking-[-0.025em] mb-6"
+                style={{ fontSize: "clamp(22px, 2.8vw, 36px)" }}
               >
-                B2B marketing as infrastructure, not isolated execution.
+                A clearer path from content to demand.
               </h2>
+              <p className="font-sans text-[13.5px] lg:text-[14px] leading-[1.72] text-cream/50 max-w-[420px]">
+                The rebuilt website and content structure created a more reliable foundation for
+                global-facing communication, search discovery, enquiry capture, and sales follow-up.
+                Early launch signals and later reporting showed stronger visibility and a more stable
+                inbound enquiry pattern, with exact lead volumes omitted for confidentiality and context.
+              </p>
             </div>
 
-            <div className="flex flex-col justify-end">
-              <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/68 mb-9">
-                This case shows how I approach B2B marketing as an infrastructure problem: clarifying
-                the product message, rebuilding the content path, connecting traffic sources to website
-                forms, and making the system easier for sales to follow up. For complex B2B products,
-                the goal is not only to publish content, but to make the product easier to understand,
-                easier to find, and easier for sales to explain.
-              </p>
-
-              <div className="flex flex-wrap gap-2">
-                {CAPABILITIES.map(tag => (
-                  <span
-                    key={tag}
-                    className="font-mono text-[8.5px] uppercase tracking-[0.09em] text-ink/55 px-3 py-[5px] bg-surface-200 border border-ink/10 rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+            {/* Right — evidence list */}
+            <div className="flex flex-col justify-center divide-y divide-cream/08">
+              {EVIDENCE.map((item) => (
+                <div key={item.label} className="py-5">
+                  <p className="font-mono text-[8px] uppercase tracking-[0.13em] text-cream/30 mb-2">
+                    {item.label}
+                  </p>
+                  <p className="font-sans text-[13px] lg:text-[13.5px] leading-[1.65] text-cream/58">
+                    {item.text}
+                  </p>
+                </div>
+              ))}
             </div>
 
           </div>
         </section>
 
-        {/* ── 8. Bottom navigation ────────────────── */}
+        {/* ── Bottom navigation ───────────────────── */}
         <section className="bg-surface-100 px-6 lg:px-14 xl:px-[5.5vw] py-12 lg:py-14">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
             <Link
