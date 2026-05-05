@@ -8,133 +8,122 @@ import { Footer } from "@/components/Footer";
 /* ─── Data ───────────────────────────────────────── */
 /*
  * Screenshot files should be placed in:
- *   web/public/cases/technical-content-localisation/
+ *   web/public/cases/content-at-scale/
  *
  * Required filenames:
- *   garmin-product-page.png        — Garmin China product page or localised product narrative
- *   garmin-zhihu-column.png        — Garmin Zhihu column or platform content article
- *   technical-brochure.png         — Technical brochure or presentation material sample
- *   industrial-ad-copy.png         — Industrial or B2B advertising copy sample
- *   product-copywriting-samples.png — Product or campaign copywriting sample collection
+ *   video-format-system.png        — format template doc or creative brief system
+ *   roewe-rx5-campaign.png         — Roewe RX5 brand campaign video or content
+ *   viral-video-samples.png        — grid or collage of viral short-video examples
+ *   video-led-content-account.png  — account overview or analytics dashboard
  */
 
 const CONTEXT_KEYWORDS = [
-  "Garmin", "Product Localisation", "Technical Copywriting",
-  "Product Pages", "Brochures", "Platform Content", "Market-Facing Narrative",
+  "Short Video", "Douyin", "Content Engine", "UGC", "Creative Formats", "Platform Growth",
 ];
 
 const CHALLENGES = [
   {
-    title: "Technical inputs",
-    body: "Product specifications and business information needed to be turned into clearer, more usable market-facing language.",
+    title: "No repeatable creative system",
+    body: "Content was produced ad-hoc with no shared format logic, making it difficult to scale output or replicate what worked.",
   },
   {
-    title: "Local context",
-    body: "Global or technical content had to be adapted for local platforms, reading habits, and audience expectations.",
+    title: "Platform algorithm dependency",
+    body: "Sustained reach required understanding platform signals and adjusting creative formats to stay in distribution — not just making good videos.",
   },
   {
-    title: "Format diversity",
-    body: "The work had to fit different formats, from product pages and platform content to brochures, advertisements, and presentation materials.",
+    title: "UGC was untapped",
+    body: "Organic user participation was possible but needed the right creative hooks and campaign structures to activate at scale.",
   },
 ];
 
 const STAGES = [
   {
-    title: "Product Input",
-    items: ["Specifications", "Feature Details", "Brand Guidelines"],
+    title: "Platform Signals",
+    items: ["Trending Audio", "Hashtag Data", "Algorithm Patterns", "Competitor Analysis"],
   },
   {
-    title: "Scenario Translation",
-    items: ["User Need", "Usage Context", "Local Reading Habit"],
+    title: "Creative Format",
+    items: ["Hook Architecture", "Story Structure", "CTA Pattern", "Format Templates"],
   },
   {
-    title: "Message Structure",
-    items: ["Headline", "Benefit Logic", "Proof Points", "CTA / Next Step"],
+    title: "Video Execution",
+    items: ["Script & Storyboard", "Shoot & Edit", "Multi-variant Cuts", "Brand Campaigns"],
   },
   {
-    title: "Market Output",
-    items: ["Product Page", "Brochure", "Platform Content", "Ad Copy"],
+    title: "Growth Feedback",
+    items: ["Views & Shares", "UGC Activation", "Format Iteration", "Account Growth"],
   },
 ];
 
 const OUTPUTS = [
   {
-    title: "Garmin product page localisation",
-    label: "Product Page",
-    body: "Global product information and technical specifications were adapted into clearer product-page narratives for the China market, connecting features with sports and health scenarios.",
-    image: "/cases/technical-content-localisation/garmin-product-page.png",
+    title: "Video format system",
+    label: "Creative System",
+    body: "Developed a repeatable format framework — hook, story arc, CTA — that could be applied across product categories, brand campaigns, and platform contexts to produce at volume without losing quality.",
+    image: "/cases/content-at-scale/video-format-system.png",
     imagePosition: "center top",
   },
   {
-    title: "Garmin platform content",
-    label: "Platform Content",
-    body: "Platform-native articles helped translate sports technology, product knowledge, and running-related data topics into readable content for local audiences. Years later, selected pieces remained among Garmin's most-upvoted Zhihu articles.",
-    image: "/cases/technical-content-localisation/garmin-zhihu-column.png",
-    imagePosition: "center top",
-    imageVersion: "v2",
-  },
-  {
-    title: "Technical brochure content",
-    label: "Brochure",
-    body: "Brochure and presentation materials helped organise product, brand, and solution information into more structured external communication.",
-    image: "/cases/technical-content-localisation/technical-brochure.png",
+    title: "Roewe RX5 brand campaign",
+    label: "Brand Campaign",
+    body: "Led content production for the Roewe RX5 campaign, applying the format system to automotive storytelling. The campaign combined brand narrative with platform-native creative to drive reach and UGC participation.",
+    image: "/cases/content-at-scale/roewe-rx5-campaign.png",
     imagePosition: "center top",
   },
   {
-    title: "Industrial advertising copy",
-    label: "Industrial Ad",
-    body: "Technical and industrial inputs were translated into concise advertising messages for professional or business-facing contexts.",
-    image: "/cases/technical-content-localisation/industrial-ad-copy.png",
+    title: "Viral video library",
+    label: "Content Output",
+    body: "Produced 50+ high-performing short videos across categories. Format templates allowed fast iteration — testing hooks, visual styles, and pacing to identify what extended reach and triggered organic sharing.",
+    image: "/cases/content-at-scale/viral-video-samples.png",
     imagePosition: "center top",
   },
   {
-    title: "Product copywriting samples",
-    label: "Copy Samples",
-    body: "Selected product and campaign copywriting samples show the early foundation of turning product value into concise market-facing language.",
-    image: "/cases/technical-content-localisation/product-copywriting-samples.png",
+    title: "Video-led content account",
+    label: "Account Growth",
+    body: "Built and grew a short-video account using the format engine as its backbone. Consistent format logic, platform signal monitoring, and UGC activation compounded into sustained account-level growth.",
+    image: "/cases/content-at-scale/video-led-content-account.png",
     imagePosition: "center top",
   },
 ];
 
 /* ─── Abstract hero diagram ──────────────────────── */
-function LocalisationDiagram() {
-  const inputs = [
-    { y: 52,  label: "Specifications"   },
-    { y: 88,  label: "Product Features" },
-    { y: 124, label: "Technical Claims" },
-    { y: 160, label: "Brand Guidelines" },
+function ContentScaleDiagram() {
+  const signals = [
+    { cy: 72,  label: "Audio" },
+    { cy: 116, label: "Hashtag" },
+    { cy: 160, label: "Algorithm" },
+    { cy: 204, label: "Trends" },
   ];
-  const collectorCy = 106; // midpoint of input rows
+  const collectorCy = 138;
 
   return (
     <svg
-      viewBox="0 0 480 232"
+      viewBox="0 0 480 272"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="w-full h-auto max-w-[540px]"
       aria-hidden="true"
     >
-      {/* ── Input spec blocks — left ── */}
-      {inputs.map(({ y, label }) => (
-        <g key={y}>
-          <rect
-            x={6} y={y - 11} width={96} height={22} rx={2}
-            fill="rgba(15,14,11,0.04)"
-            stroke="rgba(15,14,11,0.14)"
-            strokeWidth="0.8"
+      {/* ── Signal nodes ── */}
+      {signals.map(({ cy, label }) => (
+        <g key={cy}>
+          <circle
+            cx={28} cy={cy} r={5.5}
+            fill="rgba(15,14,11,0.06)"
+            stroke="rgba(15,14,11,0.18)"
+            strokeWidth="0.9"
           />
           <text
-            x={54} y={y + 4}
+            x={28} y={cy - 11}
             textAnchor="middle"
-            fontSize="6.5"
+            fontSize="7"
             fontFamily="monospace"
-            fill="rgba(15,14,11,0.42)"
+            fill="rgba(15,14,11,0.38)"
           >
             {label}
           </text>
-          {/* Dashed line to collector */}
           <line
-            x1={102} y1={y} x2={118} y2={collectorCy}
+            x1={34} y1={cy} x2={108} y2={collectorCy}
             stroke="rgba(15,14,11,0.10)"
             strokeWidth="0.7"
             strokeDasharray="3.5 2.5"
@@ -144,130 +133,140 @@ function LocalisationDiagram() {
 
       {/* ── Collector node ── */}
       <circle
-        cx={118} cy={collectorCy} r={8}
-        fill="rgba(15,14,11,0.06)"
+        cx={108} cy={collectorCy} r={9}
+        fill="rgba(15,14,11,0.07)"
         stroke="rgba(15,14,11,0.18)"
         strokeWidth="0.9"
       />
-      {/* Arrow into localisation card */}
       <line
-        x1={126} y1={collectorCy} x2={142} y2={collectorCy}
+        x1={117} y1={collectorCy} x2={133} y2={collectorCy}
         stroke="rgba(15,14,11,0.22)"
         strokeWidth="1"
       />
       <polygon
-        points={`140,${collectorCy - 3.5} 146,${collectorCy} 140,${collectorCy + 3.5}`}
+        points={`131,${collectorCy - 3.5} 137,${collectorCy} 131,${collectorCy + 3.5}`}
         fill="rgba(15,14,11,0.24)"
       />
 
-      {/* ── Localisation card — main focus ── */}
+      {/* ── Format system card — main focus ── */}
       <rect
-        x={146} y={18} width={200} height={196} rx={4}
+        x={137} y={22} width={214} height={228} rx={4}
         fill="#f9f9f0"
         stroke="rgba(15,14,11,0.12)"
         strokeWidth="1"
       />
-      {/* Sand header band — #ccc5a3 */}
-      <rect x={146} y={18} width={200} height={30} rx={4} fill="#ccc5a3" />
-      <rect x={146} y={38} width={200} height={10} fill="#ccc5a3" />
+      {/* Peach header band */}
+      <rect x={137} y={22} width={214} height={32} rx={4} fill="#f5c9a8" />
+      {/* Square-off bottom corners of band */}
+      <rect x={137} y={44} width={214} height={10} fill="#f5c9a8" />
       <text
-        x={246} y={38}
+        x={244} y={43}
         textAnchor="middle"
-        fontSize="7"
+        fontSize="7.5"
         fontFamily="monospace"
         letterSpacing="0.09em"
-        fill="rgba(15,14,11,0.58)"
+        fill="rgba(15,14,11,0.52)"
       >
-        LOCALISATION
+        VIDEO FORMAT SYSTEM
       </text>
 
-      {/* Row 1 — User Scenario (highlighted) */}
+      {/* Row 1 — Hook (highlighted) */}
       <rect
-        x={159} y={62} width={174} height={40} rx={2.5}
-        fill="rgba(204,197,163,0.44)"
+        x={150} y={66} width={188} height={40} rx={2.5}
+        fill="rgba(245,201,168,0.45)"
         stroke="rgba(15,14,11,0.07)"
         strokeWidth="0.6"
       />
       <text
-        x={246} y={86}
+        x={244} y={91}
         textAnchor="middle"
-        fontSize="7.5"
+        fontSize="8"
         fontFamily="monospace"
         fill="rgba(15,14,11,0.52)"
       >
-        User Scenario
+        Hook Architecture
       </text>
 
-      {/* Row 2 — Message Structure */}
+      {/* Row 2 — Story */}
       <rect
-        x={159} y={110} width={174} height={40} rx={2.5}
+        x={150} y={114} width={188} height={40} rx={2.5}
         fill="rgba(15,14,11,0.025)"
         stroke="rgba(15,14,11,0.07)"
         strokeWidth="0.6"
       />
       <text
-        x={246} y={134}
+        x={244} y={139}
         textAnchor="middle"
-        fontSize="7.5"
+        fontSize="8"
         fontFamily="monospace"
         fill="rgba(15,14,11,0.42)"
       >
-        Message Structure
+        Story Arc
       </text>
 
-      {/* Row 3 — Tone Adaptation */}
+      {/* Row 3 — Multi-variant */}
       <rect
-        x={159} y={158} width={174} height={40} rx={2.5}
-        fill="rgba(15,14,11,0.025)"
+        x={150} y={162} width={188} height={72} rx={2.5}
+        fill="rgba(15,14,11,0.032)"
         stroke="rgba(15,14,11,0.07)"
         strokeWidth="0.6"
       />
       <text
-        x={246} y={182}
+        x={244} y={186}
         textAnchor="middle"
-        fontSize="7.5"
+        fontSize="8"
         fontFamily="monospace"
-        fill="rgba(15,14,11,0.42)"
+        fill="rgba(15,14,11,0.38)"
       >
-        Tone Adaptation
+        Multi-variant Cuts
+      </text>
+      {/* Mini publish button */}
+      <rect x={206} y={200} width={76} height={22} rx={3} fill="rgba(15,14,11,0.55)" />
+      <text
+        x={244} y={215}
+        textAnchor="middle"
+        fontSize="6.5"
+        fontFamily="monospace"
+        fill="rgba(249,249,240,0.80)"
+      >
+        Publish
       </text>
 
-      {/* ── Arrow out → Output card ── */}
+      {/* ── Arrow out → Growth card ── */}
       <line
-        x1={346} y1={116} x2={364} y2={116}
+        x1={351} y1={collectorCy} x2={369} y2={collectorCy}
         stroke="rgba(15,14,11,0.22)"
         strokeWidth="1"
       />
       <polygon
-        points="362,112.5 368,116 362,119.5"
+        points="367,134.5 373,138 367,141.5"
         fill="rgba(15,14,11,0.24)"
       />
 
-      {/* ── Output card — dark ── */}
+      {/* ── Growth feedback card — dark ── */}
       <rect
-        x={368} y={58} width={104} height={116} rx={3}
+        x={373} y={78} width={94} height={120} rx={3}
         fill="#0f0e0b"
       />
       <text
-        x={420} y={79}
+        x={420} y={101}
         textAnchor="middle"
-        fontSize="6"
+        fontSize="6.5"
         fontFamily="monospace"
         letterSpacing="0.10em"
         fill="rgba(249,249,240,0.32)"
       >
-        OUTPUT
+        GROWTH
       </text>
-      {/* Separator */}
       <line
-        x1={378} y1={87} x2={462} y2={87}
+        x1={382} y1={110} x2={458} y2={110}
         stroke="rgba(249,249,240,0.07)"
         strokeWidth="0.6"
       />
-      {["Product Page", "Brochure", "Platform", "Ad Copy"].map((t, i) => (
+      {["230M Views", "540% UGC", "1B+ Reach"].map((t, i) => (
         <text
           key={t}
-          x={420} y={103 + i * 18}
+          x={420} y={128 + i * 20}
           textAnchor="middle"
           fontSize="7.5"
           fontFamily="monospace"
@@ -301,7 +300,6 @@ function SystemDiagram() {
                 </li>
               ))}
             </ul>
-
             {i < STAGES.length - 1 && (
               <div className="hidden md:flex absolute -right-[13px] top-1/2 -translate-y-1/2 z-10 w-[26px] h-[26px] items-center justify-center bg-surface-100 rounded-full border border-ink/10">
                 <span className="text-ink/28 text-[10px] leading-none">›</span>
@@ -312,7 +310,6 @@ function SystemDiagram() {
                 <span className="font-mono text-[10px] text-ink/18">↓</span>
               </div>
             )}
-
             <span
               className="absolute bottom-4 right-5 font-serif font-[300] leading-none select-none pointer-events-none"
               style={{ fontSize: "52px", color: "rgba(15,14,11,0.03)" }}
@@ -339,7 +336,6 @@ function BrowserMockup({
       className="rounded-lg border border-black/10 overflow-hidden mb-5"
       style={{ boxShadow: "0 12px 30px rgba(20,20,20,0.08), 0 2px 6px rgba(20,20,20,0.04)" }}
     >
-      {/* Top bar */}
       <div
         className="flex items-center gap-0 px-3 border-b border-black/[0.06]"
         style={{ height: "32px", background: "#f3f0e6" }}
@@ -359,7 +355,6 @@ function BrowserMockup({
         </div>
       </div>
 
-      {/* Viewport */}
       <div className="aspect-[16/10] relative overflow-hidden" style={{ background: "#f7f5ee" }}>
         {!err ? (
           <img
@@ -415,7 +410,7 @@ function OutputCard({
 }
 
 /* ─── Page ───────────────────────────────────────── */
-export default function TechnicalContentLocalisationPage() {
+export default function ContentAtScalePage() {
   return (
     <>
       <Navbar />
@@ -430,30 +425,30 @@ export default function TechnicalContentLocalisationPage() {
               {/* Left — text */}
               <div className="pt-10 lg:pt-14">
                 <p className="font-mono text-[8.5px] uppercase tracking-[0.15em] text-ink/40 mb-8 lg:mb-10">
-                  Case 03 / Technical Content Localisation
+                  Case 04 / Content at Scale
                 </p>
 
                 <h1
                   className="font-serif font-[300] text-ink leading-[1.02] tracking-[-0.03em] mb-5"
                   style={{ fontSize: "clamp(38px, 5.5vw, 72px)" }}
                 >
-                  Technical Content Localisation
+                  Content at Scale
                 </h1>
 
                 <p
                   className="font-serif font-[400] text-ink/68 leading-[1.32] tracking-[-0.01em] mb-10 max-w-[480px]"
                   style={{ fontSize: "clamp(16px, 1.9vw, 22px)" }}
                 >
-                  Translating product and technical information into market-facing content.
+                  Building repeatable creative formats for high-reach short-video growth.
                 </p>
 
                 {/* Meta */}
                 <dl className="grid grid-cols-2 gap-x-8 gap-y-5 border-t border-ink/12 pt-7 max-w-[420px]">
                   {([
-                    ["Selected work", "Garmin / FAJI Advertising"],
-                    ["Period",        "2014–2018"],
-                    ["Roles",         "Content Planner / Senior Copywriter"],
-                    ["Focus",         "Product localisation, technical copywriting, product pages, brochures, campaign content"],
+                    ["Company", "CREYI"],
+                    ["Year",    "2018–2020"],
+                    ["Role",    "Content Producer / Creative Strategist"],
+                    ["Focus",   "Short-video formats, platform growth, brand campaigns, UGC activation"],
                   ] as const).map(([label, value]) => (
                     <div key={label}>
                       <dt className="font-mono text-[7.5px] uppercase tracking-[0.13em] text-ink/32 mb-[3px]">
@@ -467,11 +462,13 @@ export default function TechnicalContentLocalisationPage() {
 
               {/* Right — abstract diagram */}
               <div className="flex items-center justify-center lg:justify-start">
-                <LocalisationDiagram />
+                <ContentScaleDiagram />
               </div>
 
             </div>
           </div>
+
+          {/* Bottom edge rule */}
           <div className="h-px bg-ink/08" />
         </section>
 
@@ -484,17 +481,17 @@ export default function TechnicalContentLocalisationPage() {
               className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em] mb-7"
               style={{ fontSize: "clamp(24px, 3.2vw, 42px)" }}
             >
-              Before B2B systems, the foundation was product translation.
+              Turning platform signals into a repeatable engine for short-video growth.
             </h2>
 
             <p className="font-sans text-[15px] lg:text-[16px] leading-[1.72] text-ink/70 mb-10 max-w-[620px]">
-              Earlier in my career, much of the work focused on turning product information,
-              specifications, and brand inputs into content that could be understood in a local market.
-              Garmin became the main product localisation experience, while selected agency projects
-              added exposure to technical brochures, industrial advertising, and product-facing campaign
-              content.
+              CREYI needed to produce short-video content at volume across brand campaigns and
+              platform accounts. The challenge was moving beyond individual viral hits toward
+              a reliable creative system — one that could read platform signals, produce
+              format-consistent content quickly, and compound into account-level growth.
             </p>
 
+            {/* Keyword cluster */}
             <div className="flex flex-wrap gap-2">
               {CONTEXT_KEYWORDS.map(kw => (
                 <span
@@ -516,7 +513,7 @@ export default function TechnicalContentLocalisationPage() {
             className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em] mb-12 lg:mb-16 max-w-[640px]"
             style={{ fontSize: "clamp(22px, 2.8vw, 38px)" }}
           >
-            What made the work more than translation?
+            What made high-volume content creation difficult to sustain?
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
@@ -548,12 +545,12 @@ export default function TechnicalContentLocalisationPage() {
               className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em]"
               style={{ fontSize: "clamp(22px, 2.8vw, 38px)" }}
             >
-              A repeatable way to turn product input into localised content.
+              From platform signals to a scalable content engine.
             </h2>
             <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/62 max-w-[480px]">
-              The work followed a recurring pattern: understand the product input, identify the user
-              or buyer scenario, restructure the message, and adapt it into the right market-facing
-              format.
+              The system translated real-time platform data into creative format decisions,
+              enabling fast production cycles, consistent brand output, and compounding
+              organic reach through UGC and algorithmic distribution.
             </p>
           </div>
 
@@ -564,21 +561,14 @@ export default function TechnicalContentLocalisationPage() {
         <section className="bg-surface-200 px-6 lg:px-14 xl:px-[5.5vw] py-20 lg:py-28 border-b border-ink/08">
           <p className="section-label mb-8 lg:mb-12">04 / Output</p>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-end mb-12 lg:mb-16">
-            <h2
-              className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em]"
-              style={{ fontSize: "clamp(22px, 2.8vw, 38px)" }}
-            >
-              Selected product and technical content outputs.
-            </h2>
-            <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/62 max-w-[480px]">
-              The available work samples are partial, but together they show a consistent pattern:
-              product and technical information being reshaped into clearer localised content across
-              product pages, platform articles, brochures, and advertising formats.
-            </p>
-          </div>
+          <h2
+            className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em] mb-12 lg:mb-16 max-w-[520px]"
+            style={{ fontSize: "clamp(22px, 2.8vw, 38px)" }}
+          >
+            Creative formats and campaigns delivered.
+          </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-10">
             {OUTPUTS.map((output, i) => (
               <OutputCard key={i} {...output} index={i} />
             ))}
@@ -593,14 +583,13 @@ export default function TechnicalContentLocalisationPage() {
               className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em] mb-5"
               style={{ fontSize: "clamp(22px, 2.8vw, 36px)" }}
             >
-              A foundation for later technical product marketing.
+              From individual videos to repeatable content growth.
             </h2>
             <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/70">
-              Across product pages, platform content, brochures, and technical advertising, this early
-              body of work helped make product information more readable, localised, and usable across
-              market-facing channels. Years later, selected Garmin Zhihu articles remained among the
-              brand&apos;s most-upvoted content, including pieces that translated sports data, GPS
-              tracking, and running metrics into audience-friendly explanations.
+              The format system enabled production of 50+ high-performing videos, accumulating over
+              230M views and driving 540% UGC growth on key campaigns. Brand collaborations built
+              on the same creative infrastructure reached 1B+ combined views — demonstrating that
+              the system itself, not any single video, was the asset.
             </p>
           </div>
         </section>
@@ -609,18 +598,18 @@ export default function TechnicalContentLocalisationPage() {
         <section className="bg-surface-100 px-6 lg:px-14 xl:px-[5.5vw] py-12 lg:py-14">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
             <Link
-              href="/cases/answer-ready-visibility"
+              href="/cases/technical-content-localisation"
               className="inline-flex items-center gap-2.5 font-mono text-[9px] uppercase tracking-[0.12em] text-ink/40 hover:text-ink transition-colors duration-150"
             >
               <span>←</span>
-              <span>Previous: Answer-Ready B2B Visibility</span>
+              <span>Previous: Technical Content Localisation</span>
             </Link>
 
             <Link
-              href="/cases/content-at-scale"
+              href="/#cases"
               className="inline-flex items-center gap-2.5 font-mono text-[9px] uppercase tracking-[0.12em] text-ink/40 hover:text-ink transition-colors duration-150"
             >
-              <span>Next: Content at Scale</span>
+              <span>Back to Selected Systems</span>
               <span>→</span>
             </Link>
           </div>
