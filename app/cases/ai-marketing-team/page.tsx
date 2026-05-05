@@ -40,23 +40,23 @@ const CHALLENGES = [
 
 const STAGES = [
   {
-    title: "Task Layer",
+    title: "Task",
     items: ["Blog", "Social", "EDM", "Campaign", "Research", "Sales Enablement"],
   },
   {
-    title: "Agent Layer",
+    title: "Agent",
     items: ["Market Researcher", "Content Creator", "Data Analyst", "Creative Designer", "Campaign Strategist"],
   },
   {
-    title: "Skill Layer",
+    title: "Skill",
     items: ["Blog Writer", "Social Copy", "Campaign Brief", "Data Visualisation", "Branded Deck"],
   },
   {
-    title: "Knowledge Layer",
+    title: "Knowledge Inputs",
     items: ["Context Files", "SOPs", "Templates", "References", "Best Examples"],
   },
   {
-    title: "Review Layer",
+    title: "Output + Review",
     items: ["Draft Output", "Human Review", "Final Asset"],
   },
 ];
@@ -65,7 +65,7 @@ const OUTPUTS = [
   {
     title: "AI Marketing Team blueprint",
     label: "Blueprint",
-    body: "A four-step design logic mapped recurring marketing tasks into skills, agent roles, and a connected team structure.",
+    body: "A design logic mapped recurring marketing tasks into agent roles, skills, and a structured workflow.",
     image: "/cases/ai-marketing-team/ai-marketing-team-blueprint.png",
     imagePosition: "center center",
     imageVersion: "v2",
@@ -225,7 +225,7 @@ function AITeamDiagram() {
         fontFamily="monospace"
         fill="rgba(15,14,11,0.42)"
       >
-        Skill + SOP
+        Skill
       </text>
 
       {/* Row 3 — Knowledge */}
@@ -242,7 +242,7 @@ function AITeamDiagram() {
         fontFamily="monospace"
         fill="rgba(15,14,11,0.36)"
       >
-        Template / Reference
+        SOP / Template / Reference
       </text>
 
       {/* Row 4 — Draft */}
@@ -263,24 +263,24 @@ function AITeamDiagram() {
       </text>
       <rect x={196} y={226} width={96} height={9} rx={2} fill="rgba(15,14,11,0.07)" />
 
-      {/* ── Arrow out → Review card ── */}
+      {/* ── Arrow from Draft Output row → Review card ── */}
       <line
-        x1={351} y1={collectorCy} x2={369} y2={collectorCy}
+        x1={351} y1={219} x2={369} y2={219}
         stroke="rgba(15,14,11,0.22)"
         strokeWidth="1"
       />
       <polygon
-        points="367,134.5 373,138 367,141.5"
+        points="367,215.5 373,219 367,222.5"
         fill="rgba(15,14,11,0.24)"
       />
 
-      {/* ── Review card — dark ── */}
+      {/* ── Review card — dark, aligned to Draft Output level ── */}
       <rect
-        x={373} y={74} width={94} height={128} rx={3}
+        x={373} y={155} width={94} height={110} rx={3}
         fill="#0f0e0b"
       />
       <text
-        x={420} y={97}
+        x={420} y={176}
         textAnchor="middle"
         fontSize="6.5"
         fontFamily="monospace"
@@ -290,14 +290,14 @@ function AITeamDiagram() {
         REVIEW
       </text>
       <line
-        x1={382} y1={106} x2={458} y2={106}
+        x1={382} y1={185} x2={458} y2={185}
         stroke="rgba(249,249,240,0.07)"
         strokeWidth="0.6"
       />
       {["Human Review", "Final Asset"].map((t, i) => (
         <text
           key={t}
-          x={420} y={124 + i * 22}
+          x={420} y={202 + i * 20}
           textAnchor="middle"
           fontSize="7.5"
           fontFamily="monospace"
@@ -306,9 +306,8 @@ function AITeamDiagram() {
           {t}
         </text>
       ))}
-      {/* Small check mark on Final Asset */}
       <text
-        x={420} y={174}
+        x={420} y={248}
         textAnchor="middle"
         fontSize="7"
         fontFamily="monospace"
