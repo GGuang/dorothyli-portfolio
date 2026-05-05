@@ -68,9 +68,10 @@ const OUTPUTS = [
   {
     title: "Garmin platform content",
     label: "Platform Content",
-    body: "Platform-native content helped translate product knowledge and sports-related topics into more readable content for local audiences.",
+    body: "Platform-native articles helped translate sports technology, product knowledge, and running-related data topics into readable content for local audiences. Years later, selected pieces remained among Garmin's most-upvoted Zhihu articles.",
     image: "/cases/technical-content-localisation/garmin-zhihu-column.png",
     imagePosition: "center top",
+    imageVersion: "v2",
   },
   {
     title: "Technical brochure content",
@@ -597,8 +598,9 @@ export default function TechnicalContentLocalisationPage() {
             <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/70">
               Across product pages, platform content, brochures, and technical advertising, this early
               body of work helped make product information more readable, localised, and usable across
-              market-facing channels. It became a foundation for later B2B product marketing work,
-              where technical clarity, audience fit, and structured content are all essential.
+              market-facing channels. Years later, selected Garmin Zhihu articles remained among the
+              brand&apos;s most-upvoted content, including pieces that translated sports data, GPS
+              tracking, and running metrics into audience-friendly explanations.
             </p>
           </div>
         </section>
