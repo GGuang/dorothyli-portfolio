@@ -61,7 +61,7 @@ const OUTPUTS = [
     body: "Video ideas moved through a semi-structured loop, from brainstorming and voting to scripting, shooting, editing, effects, publishing, and performance review.",
     image: "/cases/content-at-scale/creative-publishing-loop.png",
     imagePosition: "center center",
-    imageVersion: "v3",
+    imageVersion: "v4",
     imageFit: "contain" as const,
   },
   {

@@ -68,7 +68,7 @@ const OUTPUTS = [
     body: "A design logic mapped recurring marketing tasks into agent roles, skills, and a structured workflow.",
     image: "/cases/ai-marketing-team/ai-marketing-team-blueprint.png",
     imagePosition: "center center",
-    imageVersion: "v2",
+    imageVersion: "v3",
     imageFit: "contain" as const,
   },
   {
