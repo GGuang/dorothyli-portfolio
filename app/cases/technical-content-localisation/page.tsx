@@ -8,122 +8,122 @@ import { Footer } from "@/components/Footer";
 /* ─── Data ───────────────────────────────────────── */
 /*
  * Screenshot files should be placed in:
- *   web/public/cases/answer-ready-visibility/
+ *   web/public/cases/technical-content-localisation/
  *
  * Required filenames:
- *   mcx-product-page.png        — MCX product or solution page structured content
- *   supporting-blog-content.png — Blog page answering buyer questions / technical concepts
- *   blog-writing-sop.png        — Blog Writing SOP document or outline
- *   blog-writer-skill.png       — Blog Writer Skill / AI-assisted execution layer
- *   search-ai-evidence.png      — Search result or AI Overview screenshot evidence
+ *   garmin-product-page.png        — Garmin China product page or localised product narrative
+ *   garmin-zhihu-column.png        — Garmin Zhihu column or platform content article
+ *   technical-brochure.png         — Technical brochure or presentation material sample
+ *   industrial-ad-copy.png         — Industrial or B2B advertising copy sample
+ *   product-copywriting-samples.png — Product or campaign copywriting sample collection
  */
 
 const CONTEXT_KEYWORDS = [
-  "MCX", "MCPTT", "Mission Critical Services", "Technical Content",
-  "Search Visibility", "AI Overview", "Buyer Questions",
+  "Garmin", "Product Localisation", "Technical Copywriting",
+  "Product Pages", "Brochures", "Platform Content", "Market-Facing Narrative",
 ];
 
 const CHALLENGES = [
   {
-    title: "Technical language",
-    body: "Product and standards-related terms needed clearer explanations for non-specialist business readers.",
+    title: "Technical inputs",
+    body: "Product specifications and business information needed to be turned into clearer, more usable market-facing language.",
   },
   {
-    title: "Search intent gaps",
-    body: "Buyers were likely to search through questions, comparisons, and category terms, not only through product names.",
+    title: "Local context",
+    body: "Global or technical content had to be adapted for local platforms, reading habits, and audience expectations.",
   },
   {
-    title: "Accuracy without overclaiming",
-    body: "The content had to explain product value and technical context clearly while avoiding unsupported capability claims.",
+    title: "Format diversity",
+    body: "The work had to fit different formats, from product pages and platform content to brochures, advertisements, and presentation materials.",
   },
 ];
 
 const STAGES = [
   {
-    title: "Buyer Question",
-    items: ["What is MCX?", "What is MCPTT?", "How does the solution fit my use case?"],
+    title: "Product Input",
+    items: ["Specifications", "Feature Details", "Brand Guidelines"],
   },
   {
-    title: "Structured Answer",
-    items: ["Definition", "Technical Context", "Use Case", "Product Fit"],
+    title: "Scenario Translation",
+    items: ["User Need", "Usage Context", "Local Reading Habit"],
   },
   {
-    title: "Page Architecture",
-    items: ["Core Page", "FAQ", "Internal Links", "CTA"],
+    title: "Message Structure",
+    items: ["Headline", "Benefit Logic", "Proof Points", "CTA / Next Step"],
   },
   {
-    title: "Visibility Path",
-    items: ["Google Search", "AI Overview", "Sales Enquiry"],
+    title: "Market Output",
+    items: ["Product Page", "Brochure", "Platform Content", "Ad Copy"],
   },
 ];
 
 const OUTPUTS = [
   {
-    title: "Core product page",
+    title: "Garmin product page localisation",
     label: "Product Page",
-    body: "MCX-related product content was structured around definitions, technical context, use cases, product fit, and enquiry paths.",
-    image: "/cases/answer-ready-visibility/mcx-product-page.png",
+    body: "Global product information and technical specifications were adapted into clearer product-page narratives for the China market, connecting features with sports and health scenarios.",
+    image: "/cases/technical-content-localisation/garmin-product-page.png",
     imagePosition: "center top",
   },
   {
-    title: "Supporting blog content",
-    label: "Blog Content",
-    body: "Blog pages were used to answer related buyer questions, explain technical concepts, and connect search intent back to relevant product pages.",
-    image: "/cases/answer-ready-visibility/supporting-blog-content.png",
+    title: "Garmin platform content",
+    label: "Platform Content",
+    body: "Platform-native content helped translate product knowledge and sports-related topics into more readable content for local audiences.",
+    image: "/cases/technical-content-localisation/garmin-zhihu-column.png",
     imagePosition: "center top",
   },
   {
-    title: "Blog Writing SOP",
-    label: "SOP",
-    body: "The SOP defined a repeatable structure for technical blog content, including answer-first summaries, topic framing, terminology handling, metadata, and review preparation.",
-    image: "/cases/answer-ready-visibility/blog-writing-sop.png",
+    title: "Technical brochure content",
+    label: "Brochure",
+    body: "Brochure and presentation materials helped organise product, brand, and solution information into more structured external communication.",
+    image: "/cases/technical-content-localisation/technical-brochure.png",
     imagePosition: "center top",
   },
   {
-    title: "Blog Writer Skill",
-    label: "Skill",
-    body: "The blog writer skill translated the SOP, references, and templates into an AI-assisted execution layer for drafting more consistent B2B technical content.",
-    image: "/cases/answer-ready-visibility/blog-writer-skill.png",
+    title: "Industrial advertising copy",
+    label: "Industrial Ad",
+    body: "Technical and industrial inputs were translated into concise advertising messages for professional or business-facing contexts.",
+    image: "/cases/technical-content-localisation/industrial-ad-copy.png",
     imagePosition: "center top",
   },
   {
-    title: "Search and AI visibility evidence",
-    label: "Visibility",
-    body: "Search result and AI Overview screenshots were used as evidence that selected technical content became more visible in active research scenarios.",
-    image: "/cases/answer-ready-visibility/search-ai-evidence.png",
+    title: "Product copywriting samples",
+    label: "Copy Samples",
+    body: "Selected product and campaign copywriting samples show the early foundation of turning product value into concise market-facing language.",
+    image: "/cases/technical-content-localisation/product-copywriting-samples.png",
     imagePosition: "center top",
   },
 ];
 
 /* ─── Abstract hero diagram ──────────────────────── */
-function VisibilityDiagram() {
-  const questions = [
-    { cy: 62,  label: "What is MCX?"    },
-    { cy: 102, label: "How MCX works?"  },
-    { cy: 142, label: "MCPTT / MCDATA"  },
-    { cy: 182, label: "Vendor eval"     },
+function LocalisationDiagram() {
+  const inputs = [
+    { y: 52,  label: "Specifications"   },
+    { y: 88,  label: "Product Features" },
+    { y: 124, label: "Technical Claims" },
+    { y: 160, label: "Brand Guidelines" },
   ];
-  const collectorCy = 122; // midpoint of question chips
+  const collectorCy = 106; // midpoint of input rows
 
   return (
     <svg
-      viewBox="0 0 480 252"
+      viewBox="0 0 480 232"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="w-full h-auto max-w-[540px]"
       aria-hidden="true"
     >
-      {/* ── Question chips — left ── */}
-      {questions.map(({ cy, label }) => (
-        <g key={cy}>
+      {/* ── Input spec blocks — left ── */}
+      {inputs.map(({ y, label }) => (
+        <g key={y}>
           <rect
-            x={6} y={cy - 11} width={92} height={22} rx={3}
+            x={6} y={y - 11} width={96} height={22} rx={2}
             fill="rgba(15,14,11,0.04)"
             stroke="rgba(15,14,11,0.14)"
             strokeWidth="0.8"
           />
           <text
-            x={52} y={cy + 4}
+            x={54} y={y + 4}
             textAnchor="middle"
             fontSize="6.5"
             fontFamily="monospace"
@@ -133,7 +133,7 @@ function VisibilityDiagram() {
           </text>
           {/* Dashed line to collector */}
           <line
-            x1={98} y1={cy} x2={116} y2={collectorCy}
+            x1={102} y1={y} x2={118} y2={collectorCy}
             stroke="rgba(15,14,11,0.10)"
             strokeWidth="0.7"
             strokeDasharray="3.5 2.5"
@@ -143,147 +143,130 @@ function VisibilityDiagram() {
 
       {/* ── Collector node ── */}
       <circle
-        cx={116} cy={collectorCy} r={8}
+        cx={118} cy={collectorCy} r={8}
         fill="rgba(15,14,11,0.06)"
         stroke="rgba(15,14,11,0.18)"
         strokeWidth="0.9"
       />
-      {/* Arrow into content card */}
+      {/* Arrow into localisation card */}
       <line
-        x1={124} y1={collectorCy} x2={140} y2={collectorCy}
+        x1={126} y1={collectorCy} x2={142} y2={collectorCy}
         stroke="rgba(15,14,11,0.22)"
         strokeWidth="1"
       />
       <polygon
-        points={`138,${collectorCy - 3.5} 144,${collectorCy} 138,${collectorCy + 3.5}`}
+        points={`140,${collectorCy - 3.5} 146,${collectorCy} 140,${collectorCy + 3.5}`}
         fill="rgba(15,14,11,0.24)"
       />
 
-      {/* ── Content card — main focus ── */}
+      {/* ── Localisation card — main focus ── */}
       <rect
-        x={144} y={18} width={200} height={216} rx={4}
+        x={146} y={18} width={200} height={196} rx={4}
         fill="#f9f9f0"
         stroke="rgba(15,14,11,0.12)"
         strokeWidth="1"
       />
-      {/* Blue header band — #badbee */}
-      <rect x={144} y={18} width={200} height={30} rx={4} fill="#badbee" />
-      <rect x={144} y={38} width={200} height={10} fill="#badbee" />
+      {/* Sand header band — #ccc5a3 */}
+      <rect x={146} y={18} width={200} height={30} rx={4} fill="#ccc5a3" />
+      <rect x={146} y={38} width={200} height={10} fill="#ccc5a3" />
       <text
-        x={244} y={38}
+        x={246} y={38}
         textAnchor="middle"
         fontSize="7"
         fontFamily="monospace"
         letterSpacing="0.09em"
-        fill="rgba(15,14,11,0.55)"
+        fill="rgba(15,14,11,0.58)"
       >
-        STRUCTURED CONTENT
+        LOCALISATION
       </text>
 
-      {/* Row 1 — Definition (highlighted) */}
+      {/* Row 1 — User Scenario (highlighted) */}
       <rect
-        x={157} y={62} width={174} height={38} rx={2.5}
-        fill="rgba(186,219,238,0.42)"
+        x={159} y={62} width={174} height={40} rx={2.5}
+        fill="rgba(204,197,163,0.44)"
         stroke="rgba(15,14,11,0.07)"
         strokeWidth="0.6"
       />
       <text
-        x={244} y={85}
+        x={246} y={86}
         textAnchor="middle"
         fontSize="7.5"
         fontFamily="monospace"
         fill="rgba(15,14,11,0.52)"
       >
-        Definition
+        User Scenario
       </text>
 
-      {/* Row 2 — Use Case */}
+      {/* Row 2 — Message Structure */}
       <rect
-        x={157} y={108} width={174} height={38} rx={2.5}
+        x={159} y={110} width={174} height={40} rx={2.5}
         fill="rgba(15,14,11,0.025)"
         stroke="rgba(15,14,11,0.07)"
         strokeWidth="0.6"
       />
       <text
-        x={244} y={131}
+        x={246} y={134}
         textAnchor="middle"
         fontSize="7.5"
         fontFamily="monospace"
         fill="rgba(15,14,11,0.42)"
       >
-        Use Case
+        Message Structure
       </text>
 
-      {/* Row 3 — Product Context */}
+      {/* Row 3 — Tone Adaptation */}
       <rect
-        x={157} y={154} width={174} height={38} rx={2.5}
+        x={159} y={158} width={174} height={40} rx={2.5}
         fill="rgba(15,14,11,0.025)"
         stroke="rgba(15,14,11,0.07)"
         strokeWidth="0.6"
       />
       <text
-        x={244} y={177}
+        x={246} y={182}
         textAnchor="middle"
         fontSize="7.5"
         fontFamily="monospace"
         fill="rgba(15,14,11,0.42)"
       >
-        Product Context
+        Tone Adaptation
       </text>
 
-      {/* Row 4 — FAQ / CTA */}
-      <rect
-        x={157} y={200} width={174} height={26} rx={2.5}
-        fill="rgba(15,14,11,0.025)"
-        stroke="rgba(15,14,11,0.07)"
-        strokeWidth="0.6"
-      />
-      <text
-        x={244} y={217}
-        textAnchor="middle"
-        fontSize="7.5"
-        fontFamily="monospace"
-        fill="rgba(15,14,11,0.38)"
-      >
-        FAQ &amp; CTA
-      </text>
-
-      {/* ── Arrow out → Visibility card ── */}
+      {/* ── Arrow out → Output card ── */}
       <line
-        x1={344} y1={126} x2={362} y2={126}
+        x1={346} y1={116} x2={364} y2={116}
         stroke="rgba(15,14,11,0.22)"
         strokeWidth="1"
       />
       <polygon
-        points="360,122.5 366,126 360,129.5"
+        points="362,112.5 368,116 362,119.5"
         fill="rgba(15,14,11,0.24)"
       />
 
-      {/* ── Visibility card — dark ── */}
+      {/* ── Output card — dark ── */}
       <rect
-        x={366} y={68} width={104} height={116} rx={3}
+        x={368} y={58} width={104} height={116} rx={3}
         fill="#0f0e0b"
       />
       <text
-        x={418} y={90}
+        x={420} y={79}
         textAnchor="middle"
         fontSize="6"
         fontFamily="monospace"
         letterSpacing="0.10em"
         fill="rgba(249,249,240,0.32)"
       >
-        VISIBILITY
+        OUTPUT
       </text>
       {/* Separator */}
       <line
-        x1={376} y1={98} x2={460} y2={98}
+        x1={378} y1={87} x2={462} y2={87}
         stroke="rgba(249,249,240,0.07)"
         strokeWidth="0.6"
       />
-      {["AI Overview", "Page 1", "Enquiry"].map((t, i) => (
+      {["Product Page", "Brochure", "Platform", "Ad Copy"].map((t, i) => (
         <text
           key={t}
-          x={418} y={116 + i * 20}
+          x={420} y={103 + i * 18}
           textAnchor="middle"
           fontSize="7.5"
           fontFamily="monospace"
@@ -431,7 +414,7 @@ function OutputCard({
 }
 
 /* ─── Page ───────────────────────────────────────── */
-export default function AnswerReadyVisibilityPage() {
+export default function TechnicalContentLocalisationPage() {
   return (
     <>
       <Navbar />
@@ -446,30 +429,30 @@ export default function AnswerReadyVisibilityPage() {
               {/* Left — text */}
               <div className="pt-10 lg:pt-14">
                 <p className="font-mono text-[8.5px] uppercase tracking-[0.15em] text-ink/40 mb-8 lg:mb-10">
-                  Case 02 / Answer-Ready B2B Visibility
+                  Case 03 / Technical Content Localisation
                 </p>
 
                 <h1
                   className="font-serif font-[300] text-ink leading-[1.02] tracking-[-0.03em] mb-5"
                   style={{ fontSize: "clamp(38px, 5.5vw, 72px)" }}
                 >
-                  Answer-Ready B2B Visibility
+                  Technical Content Localisation
                 </h1>
 
                 <p
                   className="font-serif font-[400] text-ink/68 leading-[1.32] tracking-[-0.01em] mb-10 max-w-[480px]"
                   style={{ fontSize: "clamp(16px, 1.9vw, 22px)" }}
                 >
-                  Structuring technical product content for search and AI-assisted discovery.
+                  Translating product and technical information into market-facing content.
                 </p>
 
                 {/* Meta */}
                 <dl className="grid grid-cols-2 gap-x-8 gap-y-5 border-t border-ink/12 pt-7 max-w-[420px]">
                   {([
-                    ["Company", "POCSTARS"],
-                    ["Year",    "2025–2026"],
-                    ["Role",    "Global Marketing Manager"],
-                    ["Focus",   "Technical content, search visibility, AI Overview, product pages, buyer questions"],
+                    ["Selected work", "Garmin / FAJI Advertising"],
+                    ["Period",        "2014–2018"],
+                    ["Roles",         "Content Planner / Senior Copywriter"],
+                    ["Focus",         "Product localisation, technical copywriting, product pages, brochures, campaign content"],
                   ] as const).map(([label, value]) => (
                     <div key={label}>
                       <dt className="font-mono text-[7.5px] uppercase tracking-[0.13em] text-ink/32 mb-[3px]">
@@ -483,7 +466,7 @@ export default function AnswerReadyVisibilityPage() {
 
               {/* Right — abstract diagram */}
               <div className="flex items-center justify-center lg:justify-start">
-                <VisibilityDiagram />
+                <LocalisationDiagram />
               </div>
 
             </div>
@@ -500,14 +483,15 @@ export default function AnswerReadyVisibilityPage() {
               className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em] mb-7"
               style={{ fontSize: "clamp(24px, 3.2vw, 42px)" }}
             >
-              Technical products need to be findable before they can be evaluated.
+              Before B2B systems, the foundation was product translation.
             </h2>
 
             <p className="font-sans text-[15px] lg:text-[16px] leading-[1.72] text-ink/70 mb-10 max-w-[620px]">
-              MCX and mission-critical communications are technical B2B categories. Potential buyers
-              may search for definitions, standards, use cases, vendor options, and solution fit before
-              contacting sales. The content needed to support both human understanding and search-based
-              discovery.
+              Earlier in my career, much of the work focused on turning product information,
+              specifications, and brand inputs into content that could be understood in a local market.
+              Garmin became the main product localisation experience, while selected agency projects
+              added exposure to technical brochures, industrial advertising, and product-facing campaign
+              content.
             </p>
 
             <div className="flex flex-wrap gap-2">
@@ -531,7 +515,7 @@ export default function AnswerReadyVisibilityPage() {
             className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em] mb-12 lg:mb-16 max-w-[640px]"
             style={{ fontSize: "clamp(22px, 2.8vw, 38px)" }}
           >
-            What made the content difficult to discover and understand?
+            What made the work more than translation?
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
@@ -563,12 +547,12 @@ export default function AnswerReadyVisibilityPage() {
               className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em]"
               style={{ fontSize: "clamp(22px, 2.8vw, 38px)" }}
             >
-              An answer-ready content structure.
+              A repeatable way to turn product input into localised content.
             </h2>
             <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/62 max-w-[480px]">
-              The work focused on turning technical product information into structured content that
-              could answer buyer questions, support search visibility, and connect readers to relevant
-              product pages and enquiry paths.
+              The work followed a recurring pattern: understand the product input, identify the user
+              or buyer scenario, restructure the message, and adapt it into the right market-facing
+              format.
             </p>
           </div>
 
@@ -584,12 +568,12 @@ export default function AnswerReadyVisibilityPage() {
               className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em]"
               style={{ fontSize: "clamp(22px, 2.8vw, 38px)" }}
             >
-              Technical content structured for discovery and evaluation.
+              Selected product and technical content outputs.
             </h2>
             <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/62 max-w-[480px]">
-              The output was not a single page update. It combined core product pages, supporting
-              articles, and reusable AI-assisted content workflows, helping technical information
-              become easier to search, understand, and reproduce.
+              The available work samples are partial, but together they show a consistent pattern:
+              product and technical information being reshaped into clearer localised content across
+              product pages, platform articles, brochures, and advertising formats.
             </p>
           </div>
 
@@ -608,14 +592,13 @@ export default function AnswerReadyVisibilityPage() {
               className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em] mb-5"
               style={{ fontSize: "clamp(22px, 2.8vw, 36px)" }}
             >
-              A clearer route into technical product discovery.
+              A foundation for later technical product marketing.
             </h2>
             <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/70">
-              By restructuring MCX-related content around technical definitions, product context,
-              buyer questions, and search intent, the website became easier to discover in active
-              research scenarios. The MCX solution page appeared in Google AI Overview recommendations
-              and was reported on the first page of organic results for &quot;MCX solution&quot;, supporting a
-              clearer route from technical search to product evaluation.
+              Across product pages, platform content, brochures, and technical advertising, this early
+              body of work helped make product information more readable, localised, and usable across
+              market-facing channels. It became a foundation for later B2B product marketing work,
+              where technical clarity, audience fit, and structured content are all essential.
             </p>
           </div>
         </section>
@@ -624,18 +607,18 @@ export default function AnswerReadyVisibilityPage() {
         <section className="bg-surface-100 px-6 lg:px-14 xl:px-[5.5vw] py-12 lg:py-14">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
             <Link
-              href="/cases/web-demand-engine"
+              href="/cases/answer-ready-visibility"
               className="inline-flex items-center gap-2.5 font-mono text-[9px] uppercase tracking-[0.12em] text-ink/40 hover:text-ink transition-colors duration-150"
             >
               <span>←</span>
-              <span>Previous: Web Demand Engine</span>
+              <span>Previous: Answer-Ready B2B Visibility</span>
             </Link>
 
             <Link
-              href="/cases/technical-content-localisation"
+              href="/#cases"
               className="inline-flex items-center gap-2.5 font-mono text-[9px] uppercase tracking-[0.12em] text-ink/40 hover:text-ink transition-colors duration-150"
             >
-              <span>Next: Technical Content Localisation</span>
+              <span>Next: Content at Scale</span>
               <span>→</span>
             </Link>
           </div>
