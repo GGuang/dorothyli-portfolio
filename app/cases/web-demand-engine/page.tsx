@@ -101,16 +101,20 @@ const OUTPUTS = [
 /* ─── Abstract hero diagram ──────────────────────── */
 function DemandPathDiagram() {
   const sources = [
-    { cy: 68,  label: "Search" },
-    { cy: 112, label: "Social" },
-    { cy: 156, label: "EDM"    },
-    { cy: 200, label: "Events" },
+    { cy: 62,  label: "Search" },
+    { cy: 100, label: "Social" },
+    { cy: 138, label: "EDM"    },
+    { cy: 176, label: "Events" },
   ];
-  const collectorCy = 134; // midpoint of sources
+  const collectorCy = 119; // midpoint of sources
+
+  // Main card geometry
+  const cardX = 126, cardY = 12, cardW = 222, cardH = 256;
+  const rowX = cardX + 12, rowW = cardW - 24;
 
   return (
     <svg
-      viewBox="0 0 480 272"
+      viewBox="0 0 480 280"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className="w-full h-auto max-w-[540px]"
@@ -120,23 +124,22 @@ function DemandPathDiagram() {
       {sources.map(({ cy, label }) => (
         <g key={cy}>
           <circle
-            cx={28} cy={cy} r={5.5}
+            cx={22} cy={cy} r={5.5}
             fill="rgba(15,14,11,0.06)"
             stroke="rgba(15,14,11,0.18)"
             strokeWidth="0.9"
           />
           <text
-            x={28} y={cy - 11}
+            x={22} y={cy - 11}
             textAnchor="middle"
-            fontSize="7"
+            fontSize="7.5"
             fontFamily="monospace"
-            fill="rgba(15,14,11,0.38)"
+            fill="rgba(15,14,11,0.40)"
           >
             {label}
           </text>
-          {/* Dashed line to collector */}
           <line
-            x1={34} y1={cy} x2={108} y2={collectorCy}
+            x1={28} y1={cy} x2={96} y2={collectorCy}
             stroke="rgba(15,14,11,0.10)"
             strokeWidth="0.7"
             strokeDasharray="3.5 2.5"
@@ -146,144 +149,174 @@ function DemandPathDiagram() {
 
       {/* ── Collector node ── */}
       <circle
-        cx={108} cy={collectorCy} r={9}
+        cx={96} cy={collectorCy} r={9}
         fill="rgba(15,14,11,0.07)"
         stroke="rgba(15,14,11,0.18)"
         strokeWidth="0.9"
       />
-      {/* Arrow into website card */}
+      {/* Arrow into main card */}
       <line
-        x1={117} y1={collectorCy} x2={133} y2={collectorCy}
+        x1={105} y1={collectorCy} x2={cardX - 2} y2={collectorCy}
         stroke="rgba(15,14,11,0.22)"
         strokeWidth="1"
       />
       <polygon
-        points={`131,${collectorCy - 3.5} 137,${collectorCy} 131,${collectorCy + 3.5}`}
+        points={`${cardX - 4},${collectorCy - 3.5} ${cardX},${collectorCy} ${cardX - 4},${collectorCy + 3.5}`}
         fill="rgba(15,14,11,0.24)"
       />
 
-      {/* ── Website card — main focus ── */}
+      {/* ── Website Content Hub — main card ── */}
       <rect
-        x={137} y={22} width={214} height={228} rx={4}
+        x={cardX} y={cardY} width={cardW} height={cardH} rx={4}
         fill="#f9f9f0"
         stroke="rgba(15,14,11,0.12)"
         strokeWidth="1"
       />
       {/* Mint header band */}
-      <rect x={137} y={22} width={214} height={32} rx={4} fill="#d5fad3" />
-      {/* Square-off the bottom corners of the mint band */}
-      <rect x={137} y={44} width={214} height={10} fill="#d5fad3" />
+      <rect x={cardX} y={cardY} width={cardW} height={32} rx={4} fill="#d5fad3" />
+      <rect x={cardX} y={cardY + 24} width={cardW} height={8} fill="#d5fad3" />
       <text
-        x={244} y={43}
+        x={cardX + cardW / 2} y={cardY + 21}
         textAnchor="middle"
-        fontSize="7.5"
+        fontSize="8"
         fontFamily="monospace"
         letterSpacing="0.09em"
-        fill="rgba(15,14,11,0.52)"
+        fill="rgba(15,14,11,0.54)"
       >
-        WEBSITE &amp; PAGES
+        WEBSITE CONTENT HUB
       </text>
 
-      {/* Row 1 — Product Pages (highlighted) */}
+      {/* Row 1 — Product & Solution Content (highlighted) */}
       <rect
-        x={150} y={66} width={188} height={44} rx={2.5}
-        fill="rgba(213,250,211,0.50)"
+        x={rowX} y={52} width={rowW} height={36} rx={2.5}
+        fill="rgba(213,250,211,0.55)"
         stroke="rgba(15,14,11,0.07)"
         strokeWidth="0.6"
       />
       <text
-        x={244} y={66 + 26}
+        x={cardX + cardW / 2} y={75}
         textAnchor="middle"
-        fontSize="8"
+        fontSize="9"
         fontFamily="monospace"
-        fill="rgba(15,14,11,0.52)"
+        fill="rgba(15,14,11,0.54)"
       >
-        Product Pages
+        Product &amp; Solution Content
       </text>
 
-      {/* Row 2 — Solution Pages */}
+      {/* Row 2 — Campaign Landing Pages */}
       <rect
-        x={150} y={118} width={188} height={44} rx={2.5}
-        fill="rgba(15,14,11,0.025)"
-        stroke="rgba(15,14,11,0.07)"
+        x={rowX} y={94} width={rowW} height={30} rx={2.5}
+        fill="rgba(15,14,11,0.022)"
+        stroke="rgba(15,14,11,0.06)"
         strokeWidth="0.6"
       />
       <text
-        x={244} y={118 + 26}
+        x={cardX + cardW / 2} y={113}
         textAnchor="middle"
-        fontSize="8"
+        fontSize="8.5"
         fontFamily="monospace"
-        fill="rgba(15,14,11,0.42)"
+        fill="rgba(15,14,11,0.44)"
       >
-        Solution Pages
+        Campaign Landing Pages
       </text>
 
-      {/* Row 3 — Forms */}
+      {/* Row 3 — Multilingual Pages */}
       <rect
-        x={150} y={170} width={188} height={68} rx={2.5}
-        fill="rgba(15,14,11,0.032)"
-        stroke="rgba(15,14,11,0.07)"
+        x={rowX} y={130} width={rowW} height={30} rx={2.5}
+        fill="rgba(15,14,11,0.016)"
+        stroke="rgba(15,14,11,0.06)"
         strokeWidth="0.6"
       />
       <text
-        x={244} y={192}
+        x={cardX + cardW / 2} y={149}
         textAnchor="middle"
-        fontSize="8"
+        fontSize="8.5"
         fontFamily="monospace"
-        fill="rgba(15,14,11,0.38)"
+        fill="rgba(15,14,11,0.40)"
+      >
+        Multilingual Pages
+      </text>
+
+      {/* Row 4 — Resource / Blog Content */}
+      <rect
+        x={rowX} y={166} width={rowW} height={30} rx={2.5}
+        fill="rgba(15,14,11,0.012)"
+        stroke="rgba(15,14,11,0.06)"
+        strokeWidth="0.6"
+      />
+      <text
+        x={cardX + cardW / 2} y={185}
+        textAnchor="middle"
+        fontSize="8.5"
+        fontFamily="monospace"
+        fill="rgba(15,14,11,0.36)"
+      >
+        Resource / Blog Content
+      </text>
+
+      {/* Forms strip — bridge at bottom of card */}
+      <rect
+        x={rowX} y={202} width={rowW} height={54} rx={2.5}
+        fill="rgba(15,14,11,0.038)"
+        stroke="rgba(15,14,11,0.08)"
+        strokeWidth="0.6"
+      />
+      <text
+        x={cardX + cardW / 2} y={220}
+        textAnchor="middle"
+        fontSize="8.5"
+        fontFamily="monospace"
+        fill="rgba(15,14,11,0.44)"
       >
         Forms
       </text>
-      {/* Mini submit button inside forms row */}
-      <rect x={206} y={204} width={76} height={22} rx={3} fill="rgba(15,14,11,0.55)" />
       <text
-        x={244} y={219}
+        x={cardX + cardW / 2} y={238}
         textAnchor="middle"
-        fontSize="6.5"
+        fontSize="7"
         fontFamily="monospace"
-        fill="rgba(249,249,240,0.80)"
+        fill="rgba(15,14,11,0.28)"
       >
-        Submit
+        Demo Request · Contact · Download
       </text>
 
-      {/* ── Arrow out → Follow-up ── */}
+      {/* ── Arrow from forms area → Sales Follow-up ── */}
       <line
-        x1={351} y1={136} x2={369} y2={136}
+        x1={cardX + cardW} y1={229} x2={358} y2={229}
         stroke="rgba(15,14,11,0.22)"
         strokeWidth="1"
       />
       <polygon
-        points="367,132.5 373,136 367,139.5"
+        points="356,225.5 362,229 356,232.5"
         fill="rgba(15,14,11,0.24)"
       />
 
-      {/* ── Follow-up card — dark ── */}
+      {/* ── Sales Follow-up card — dark ── */}
       <rect
-        x={373} y={78} width={94} height={116} rx={3}
+        x={362} y={168} width={108} height={124} rx={3}
         fill="#0f0e0b"
       />
       <text
-        x={420} y={101}
+        x={416} y={190}
         textAnchor="middle"
-        fontSize="6.5"
+        fontSize="7"
         fontFamily="monospace"
         letterSpacing="0.10em"
-        fill="rgba(249,249,240,0.32)"
+        fill="rgba(249,249,240,0.30)"
       >
-        FOLLOW-UP
+        SALES FOLLOW-UP
       </text>
-      {/* Separator */}
       <line
-        x1={382} y1={110} x2={458} y2={110}
+        x1={372} y1={199} x2={460} y2={199}
         stroke="rgba(249,249,240,0.07)"
         strokeWidth="0.6"
       />
-      {["Sales Handoff", "Light Nurture"].map((t, i) => (
+      {["Source Context", "Sales Handoff", "Light Nurture"].map((t, i) => (
         <text
           key={t}
-          x={420} y={128 + i * 20}
+          x={416} y={216 + i * 20}
           textAnchor="middle"
-          fontSize="7.5"
+          fontSize="8"
           fontFamily="monospace"
           fill="rgba(249,249,240,0.62)"
         >
