@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-const NAV_LINKS = ["Work", "About", "Lab"];
+const NAV_LINKS = [
+  { label: "Work",  href: "/#cases" },
+  { label: "About", href: "/#about" },
+  { label: "Lab",   href: "/#lab"   },
+];
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -43,12 +47,12 @@ export function Navbar() {
       </a>
       <ul className="hidden md:flex items-center gap-1 md:flex-none md:justify-start" role="menubar">
         {NAV_LINKS.map((item) => (
-          <li key={item}>
+          <li key={item.label}>
             <a
-              href={`#${item.toLowerCase()}`}
+              href={item.href}
               className="block px-2.5 md:px-4 py-1.5 font-mono text-[11px] md:text-[13px] uppercase tracking-[0.05em] rounded-full hover:bg-black/[0.06] transition-colors duration-normal"
             >
-              {item}
+              {item.label}
             </a>
           </li>
         ))}
@@ -70,9 +74,9 @@ export function Navbar() {
       </button>
       {/* 桌面端:CTA 链接 */}
       <a
-        href="#work"
+        href="/#contact"
         className="shimmer-trigger group relative overflow-hidden hidden md:inline-flex items-center justify-center w-11 h-11 rounded-full bg-[var(--inv-100)] border-0 transition-colors duration-normal shrink-0"
-        aria-label="View work"
+        aria-label="Contact"
       >
         <span className="shimmer" />
         <svg
@@ -130,13 +134,13 @@ export function Navbar() {
         ].join(" ")}
       >
         {NAV_LINKS.map((item) => (
-          <li key={item} className="border-b border-black/10">
+          <li key={item.label} className="border-b border-black/10">
             <a
-              href={`#${item.toLowerCase()}`}
+              href={item.href}
               onClick={() => setMenuOpen(false)}
               className="flex items-center justify-between py-6 font-serif text-[44px] leading-tight"
             >
-              {item}
+              {item.label}
               <span className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-black/20">
                 <svg width="14" height="14" viewBox="0 0 15 15" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M3 7.5h9m-4-4 4 4-4 4" />

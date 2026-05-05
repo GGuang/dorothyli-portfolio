@@ -394,7 +394,8 @@ export function CasesSection() {
 
   return (
     <section
-      className="relative z-30 bg-mint pt-20 lg:pt-24 pb-20 lg:pb-24"
+      id="cases"
+      className="relative z-30 bg-mint pt-20 lg:pt-24 pb-20 lg:pb-24 scroll-mt-20"
     >
       {/* Header */}
       <div className="px-6 lg:px-14 xl:px-[5.5vw] mb-16 lg:mb-20">

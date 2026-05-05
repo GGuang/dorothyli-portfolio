@@ -160,8 +160,8 @@ verify    → iterate`;
 export function AILabSection() {
   return (
     <section
-      id="ai-lab"
-      className="relative z-50 bg-surface-400 flex flex-col"
+      id="lab"
+      className="relative z-50 bg-surface-400 flex flex-col scroll-mt-20"
       style={{ minHeight: "105vh" }}
     >
       {/* Decorative workflow snippet — behind right entries column */}

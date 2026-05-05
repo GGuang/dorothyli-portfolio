@@ -1,8 +1,8 @@
 export function ManifestoSection() {
   return (
     <section
-      id="manifesto"
-      className="relative z-10 bg-surface-400"
+      id="about"
+      className="relative z-10 bg-surface-400 scroll-mt-20"
     >
       <div className="w-full px-6 pt-20 pb-20 lg:max-w-content lg:mx-auto lg:px-14 lg:pt-32 lg:pb-32 xl:px-[5.5%]">
 

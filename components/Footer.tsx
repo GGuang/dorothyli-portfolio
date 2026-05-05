@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer id="top-anchor" className="relative bg-surface-100 px-6 lg:px-14 xl:px-[5.5vw] pt-10 pb-9 lg:pt-12 lg:pb-10">
+    <footer id="contact" className="relative bg-surface-100 px-6 lg:px-14 xl:px-[5.5vw] pt-10 pb-9 lg:pt-12 lg:pb-10">
       {/* Top divider */}
       <div className="absolute top-0 left-0 right-0 h-px bg-ink/10" />
 

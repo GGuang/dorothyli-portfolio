@@ -196,7 +196,7 @@ export function HeroSection() {
           {/* CTA */}
           <div className="mt-8 flex items-center gap-3">
             <a
-              href="#work"
+              href="#cases"
               className="shimmer-trigger group relative overflow-hidden inline-flex items-center justify-center w-9 h-9 rounded-full border border-warm-black/20 transition-colors duration-normal bg-[#0f0e0b]"
               aria-label="View work"
             >
