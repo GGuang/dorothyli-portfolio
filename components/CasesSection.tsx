@@ -268,6 +268,7 @@ const DIAGRAMS: Record<string, React.ComponentType<{ hovered: boolean }>> = {
 type Case = {
   id: string;
   slug: string;
+  href?: string | null;
   meta: string;
   title: string;
   description: string;
@@ -276,53 +277,51 @@ type Case = {
 function CaseCard({ c, prefersReduced }: { c: Case; prefersReduced: boolean }) {
   const [hovered, setHovered] = useState(false);
   const Diagram = DIAGRAMS[c.id] ?? DiagramDemandEngine;
+  const linked = c.href !== null;
 
-  return (
-    <Link
-      href={`/cases/${c.slug}`}
-      className="case-card relative overflow-hidden block snap-start snap-always focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream/60"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <motion.div
-        className="relative w-full h-full bg-ink text-cream flex flex-col overflow-hidden px-7 py-8 lg:p-10"
-        animate={prefersReduced ? {} : { y: hovered ? -5 : 0 }}
-        transition={
-          hovered
-            ? { duration: 0.4, ease: EXPO_OUT }
-            : { duration: 0.5, ease: STD_EASE }
-        }
-        whileHover={
-          prefersReduced
+  const inner = (
+    <motion.div
+      className="relative w-full h-full bg-ink text-cream flex flex-col overflow-hidden px-7 py-8 lg:p-10"
+      animate={prefersReduced ? {} : { y: linked && hovered ? -5 : 0 }}
+      transition={
+        hovered
+          ? { duration: 0.4, ease: EXPO_OUT }
+          : { duration: 0.5, ease: STD_EASE }
+      }
+      whileHover={
+        linked
+          ? prefersReduced
             ? { boxShadow: "0 0 0 1px rgba(239,236,202,0.18)" }
             : { boxShadow: "0 18px 56px rgba(0,0,0,0.42), 0 0 0 1px rgba(239,236,202,0.1)" }
-        }
-      >
-        {/* Zone 1 — text content */}
-        <div className="flex-none flex flex-col min-h-[200px] lg:min-h-[220px]">
-          <p className="font-mono text-[11px] tracking-[0.12em] uppercase text-cream/45 leading-none">
-            {c.meta}
-          </p>
-          <h3 className="font-serif text-[28px] lg:text-[36px] font-[400] leading-[1.04] tracking-[-0.025em] text-cream mt-5 max-w-[92%]">
-            {c.title}
-          </h3>
-          <p className="font-sans text-[15px] lg:text-[16px] text-cream/64 leading-[1.62] mt-4 max-w-[88%]">
-            {c.description}
-          </p>
-        </div>
+          : {}
+      }
+    >
+      {/* Zone 1 — text content */}
+      <div className="flex-none flex flex-col min-h-[200px] lg:min-h-[220px]">
+        <p className="font-mono text-[11px] tracking-[0.12em] uppercase text-cream/45 leading-none">
+          {c.meta}
+        </p>
+        <h3 className="font-serif text-[28px] lg:text-[36px] font-[400] leading-[1.04] tracking-[-0.025em] text-cream mt-5 max-w-[92%]">
+          {c.title}
+        </h3>
+        <p className="font-sans text-[15px] lg:text-[16px] text-cream/64 leading-[1.62] mt-4 max-w-[88%]">
+          {c.description}
+        </p>
+      </div>
 
-        {/* Zone 2 — diagram */}
-        <div className="flex-none flex items-center justify-center text-cream h-[160px] py-2 lg:h-auto lg:flex-1 lg:min-h-[260px]">
-          <div className="w-[58vw] min-w-[190px] max-w-[250px] lg:w-[88%] lg:max-w-[460px] mx-auto">
-            <Diagram hovered={hovered} />
-          </div>
+      {/* Zone 2 — diagram */}
+      <div className="flex-none flex items-center justify-center text-cream h-[160px] py-2 lg:h-auto lg:flex-1 lg:min-h-[260px]">
+        <div className="w-[58vw] min-w-[190px] max-w-[250px] lg:w-[88%] lg:max-w-[460px] mx-auto">
+          <Diagram hovered={hovered} />
         </div>
+      </div>
 
-        {/* Zone 3 — footer CTA */}
-        <div className="mt-auto flex-none flex items-end justify-between pt-5 lg:pt-6">
-          <span className="font-mono text-[11px] tracking-[0.08em] text-cream/45">
-            {"// " + c.id}
-          </span>
+      {/* Zone 3 — footer */}
+      <div className="mt-auto flex-none flex items-end justify-between pt-5 lg:pt-6">
+        <span className="font-mono text-[11px] tracking-[0.08em] text-cream/45">
+          {"// " + c.id}
+        </span>
+        {linked && (
           <div className="flex items-center gap-2">
             <span className="font-mono text-[11px] tracking-[0.08em] text-cream/70">View case</span>
             <motion.span
@@ -337,8 +336,31 @@ function CaseCard({ c, prefersReduced }: { c: Case; prefersReduced: boolean }) {
               →
             </motion.span>
           </div>
-        </div>
-      </motion.div>
+        )}
+      </div>
+    </motion.div>
+  );
+
+  if (!linked) {
+    return (
+      <div
+        className="case-card relative overflow-hidden block snap-start snap-always"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {inner}
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      href={c.href ?? `/cases/${c.slug}`}
+      className="case-card relative overflow-hidden block snap-start snap-always focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream/60"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {inner}
     </Link>
   );
 }
