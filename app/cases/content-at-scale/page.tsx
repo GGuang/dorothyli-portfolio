@@ -60,8 +60,9 @@ const OUTPUTS = [
     label: "Production Loop",
     body: "Video ideas moved through a semi-structured loop, from brainstorming and voting to scripting, shooting, editing, effects, publishing, and performance review.",
     image: "/cases/content-at-scale/creative-publishing-loop.png",
-    imagePosition: "center top",
-    imageVersion: "v2",
+    imagePosition: "center center",
+    imageVersion: "v3",
+    imageFit: "contain" as const,
   },
   {
     title: "Roewe RX5 launch campaign",
@@ -77,7 +78,7 @@ const OUTPUTS = [
     body: "Selected video cases show how creative hooks, emotional scenarios, and platform-native editing helped individual videos reach large audiences.",
     image: "/cases/content-at-scale/viral-video-samples.png",
     imagePosition: "center top",
-    imageVersion: "v2",
+    imageVersion: "v3",
   },
 ];
 
@@ -320,9 +321,9 @@ function SystemDiagram() {
 
 /* ─── Mac-style browser mockup ───────────────────── */
 function BrowserMockup({
-  src, alt, title, label, imagePosition = "center top",
+  src, alt, title, label, imagePosition = "center top", imageFit = "cover",
 }: {
-  src: string; alt: string; title: string; label: string; imagePosition?: string;
+  src: string; alt: string; title: string; label: string; imagePosition?: string; imageFit?: "cover" | "contain";
 }) {
   const [err, setErr] = useState(false);
 
@@ -355,8 +356,8 @@ function BrowserMockup({
           <img
             src={src}
             alt={alt}
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{ objectPosition: imagePosition }}
+            className="absolute inset-0 w-full h-full"
+            style={{ objectFit: imageFit, objectPosition: imagePosition }}
             onError={() => setErr(true)}
           />
         ) : (
@@ -381,16 +382,16 @@ function BrowserMockup({
 
 /* ─── Output card ────────────────────────────────── */
 function OutputCard({
-  title, label, body, image, index, imagePosition, imageVersion,
+  title, label, body, image, index, imagePosition, imageVersion, imageFit,
 }: {
   title: string; label: string; body: string; image: string;
-  index: number; imagePosition?: string; imageVersion?: string;
+  index: number; imagePosition?: string; imageVersion?: string; imageFit?: "cover" | "contain";
 }) {
   const src = imageVersion ? `${image}?${imageVersion}` : image;
 
   return (
     <article className="flex flex-col">
-      <BrowserMockup src={src} alt={title} title={title} label={label} imagePosition={imagePosition} />
+      <BrowserMockup src={src} alt={title} title={title} label={label} imagePosition={imagePosition} imageFit={imageFit} />
       <p className="font-mono text-[8px] uppercase tracking-[0.14em] text-ink/30 mb-2">
         {String(index + 1).padStart(2, "0")}
       </p>
