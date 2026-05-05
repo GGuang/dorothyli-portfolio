@@ -13,10 +13,10 @@ type Entry = {
 const ENTRIES: Entry[] = [
   {
     id: "01",
-    meta: "AI WORKFLOW · POCSTARS",
+    meta: "AI WORKFLOW · INDEPENDENT PRACTICE / POCSTARS",
     title: "AI Marketing Team",
     description:
-      "Agent-based workflow design for repeatable B2B marketing tasks, including content planning, SOP-based execution, references, and review logic.",
+      "Designed a local agent-based workflow system for repeatable B2B marketing tasks, supported by roles, skills, SOPs, references, templates, and human review.",
     href: "/cases/ai-marketing-team",
   },
   {
