@@ -95,6 +95,7 @@ const OUTPUTS = [
     body: "Supported multilingual website and content adaptation for global and regional market needs.",
     image: "/cases/web-demand-engine/multilingual-pages.png",
     imagePosition: "center top",
+    imageVersion: "v2",
   },
 ];
 
@@ -527,7 +528,7 @@ export default function WebDemandEnginePage() {
               </div>
 
               {/* Right — abstract diagram */}
-              <div className="flex items-center justify-center lg:justify-start">
+              <div className="flex items-center justify-center lg:justify-start pt-10 lg:pt-14">
                 <DemandPathDiagram />
               </div>
 

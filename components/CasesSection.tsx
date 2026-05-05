@@ -12,7 +12,7 @@ const STD_EASE = [0.4, 0, 0.2, 1] as [number, number, number, number];
 
 // Card 01 — Web Demand Engine: traffic sources → website hub → form → lead
 function DiagramDemandEngine({ hovered }: { hovered: boolean }) {
-  const op = hovered ? 0.82 : 0.64;
+  const op = hovered ? 0.70 : 0.52;
   const srcX = 58, srcYs = [72, 120, 168];
   const hubX = 128, hubY = 90, hubW = 108, hubH = 60;
   const hubCy = hubY + hubH / 2;
@@ -22,53 +22,55 @@ function DiagramDemandEngine({ hovered }: { hovered: boolean }) {
   const leadCy = leadY + leadH / 2;
   return (
     <svg width="100%" viewBox="0 0 460 240" fill="none" aria-hidden="true">
+      <g transform="translate(-14, 0)">
       {/* Source → hub convergence lines */}
       {srcYs.map((sy, i) => (
         <line key={i} x1={srcX + 13} y1={sy} x2={hubX} y2={hubCy}
-          stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.1" />
+          stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.0" />
       ))}
       {/* Source nodes */}
       {srcYs.map((sy, i) => (
         <circle key={i} cx={srcX} cy={sy} r={i === 1 ? 13 : 9}
-          stroke="currentColor" strokeOpacity={op * (i === 1 ? 1 : 0.7)} strokeWidth={i === 1 ? 1.7 : 1.2} />
+          stroke="currentColor" strokeOpacity={op * (i === 1 ? 1 : 0.7)} strokeWidth={i === 1 ? 1.35 : 1.0} />
       ))}
       {/* Website hub block — accent fill */}
       <rect x={hubX} y={hubY} width={hubW} height={hubH}
         fill="currentColor" fillOpacity={op * 0.09} />
       <rect x={hubX} y={hubY} width={hubW} height={hubH}
-        stroke="currentColor" strokeOpacity={op} strokeWidth="1.7" />
+        stroke="currentColor" strokeOpacity={op} strokeWidth="1.35" />
       <line x1={hubX + 10} y1={hubCy - 9} x2={hubX + hubW - 10} y2={hubCy - 9}
-        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.0" />
       <line x1={hubX + 10} y1={hubCy + 9} x2={hubX + hubW - 10} y2={hubCy + 9}
-        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.0" />
       {/* Hub → form arrow */}
       <line x1={hubX + hubW} y1={hubCy} x2={formX} y2={formCy}
-        stroke="currentColor" strokeOpacity={op * 0.52} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.52} strokeWidth="1.0" />
       <polyline points={`${formX - 6},${formCy - 4} ${formX},${formCy} ${formX - 6},${formCy + 4}`}
-        stroke="currentColor" strokeOpacity={op * 0.52} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.52} strokeWidth="1.0" />
       {/* Form / CTA strip */}
       <rect x={formX} y={formY} width={formW} height={formH}
-        stroke="currentColor" strokeOpacity={op * 0.88} strokeWidth="1.4" />
+        stroke="currentColor" strokeOpacity={op * 0.88} strokeWidth="1.1" />
       {/* Form → lead arrow */}
       <line x1={formX + formW} y1={formCy} x2={leadX} y2={leadCy}
-        stroke="currentColor" strokeOpacity={op * 0.52} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.52} strokeWidth="1.0" />
       <polyline points={`${leadX - 6},${leadCy - 4} ${leadX},${leadCy} ${leadX - 6},${leadCy + 4}`}
-        stroke="currentColor" strokeOpacity={op * 0.52} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.52} strokeWidth="1.0" />
       {/* Lead / sales output block */}
       <rect x={leadX} y={leadY} width={leadW} height={leadH}
-        stroke="currentColor" strokeOpacity={op} strokeWidth="1.7" />
+        stroke="currentColor" strokeOpacity={op} strokeWidth="1.35" />
       {/* Accent: filled dot + ring inside lead block */}
       <circle cx={leadX + leadW / 2} cy={leadCy} r={10}
         stroke="currentColor" strokeOpacity={op * 0.3} strokeWidth="1" />
       <circle cx={leadX + leadW / 2} cy={leadCy} r={5}
         fill="currentColor" fillOpacity={op * 0.6} />
+      </g>
     </svg>
   );
 }
 
 // Card 02 — Answer-Ready B2B Visibility: question node → indexed blocks → answer frame
 function DiagramVisibility({ hovered }: { hovered: boolean }) {
-  const op = hovered ? 0.82 : 0.64;
+  const op = hovered ? 0.70 : 0.52;
   const qx = 64, qy = 120, qr = 26;
   const blockX = 140, blockW = 96, blockH = 17, blockGap = 7;
   const blockYs = [68, 68 + blockH + blockGap, 68 + 2*(blockH + blockGap), 68 + 3*(blockH + blockGap), 68 + 4*(blockH + blockGap)];
@@ -76,24 +78,25 @@ function DiagramVisibility({ hovered }: { hovered: boolean }) {
   const ansCy = ansY + ansH / 2;
   return (
     <svg width="100%" viewBox="0 0 460 240" fill="none" aria-hidden="true">
+      <g transform="translate(10, -5)">
       {/* Question node */}
       <circle cx={qx} cy={qy} r={qr}
-        stroke="currentColor" strokeOpacity={op} strokeWidth="1.6" />
+        stroke="currentColor" strokeOpacity={op} strokeWidth="1.35" />
       <circle cx={qx} cy={qy - 5} r={4}
         fill="currentColor" fillOpacity={op * 0.5} />
       <circle cx={qx} cy={qy + 10} r={2}
         fill="currentColor" fillOpacity={op * 0.5} />
       {/* Question → blocks arrow */}
       <line x1={qx + qr} y1={qy} x2={blockX} y2={qy}
-        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="1.0" />
       <polyline points={`${blockX - 5},${qy - 4} ${blockX},${qy} ${blockX - 5},${qy + 4}`}
-        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="1.0" />
       {/* Indexed content blocks — top block accent-filled */}
       <rect x={blockX} y={blockYs[0]} width={blockW} height={blockH}
         fill="currentColor" fillOpacity={op * 0.12} />
       {blockYs.map((y, i) => (
         <rect key={i} x={blockX} y={y} width={blockW} height={blockH}
-          stroke="currentColor" strokeOpacity={op * (0.5 + i * 0.07)} strokeWidth={i === 0 ? 1.3 : 1} />
+          stroke="currentColor" strokeOpacity={op * (0.5 + i * 0.07)} strokeWidth={i === 0 ? 1.1 : 0.9} />
       ))}
       {/* Fan lines blocks → answer frame */}
       {blockYs.map((y, i) => (
@@ -102,7 +105,7 @@ function DiagramVisibility({ hovered }: { hovered: boolean }) {
       ))}
       {/* Answer / AI frame */}
       <rect x={ansX} y={ansY} width={ansW} height={ansH}
-        stroke="currentColor" strokeOpacity={op} strokeWidth="1.7" />
+        stroke="currentColor" strokeOpacity={op} strokeWidth="1.35" />
       {/* Rank accent bar top-right */}
       <rect x={ansX + ansW - 26} y={ansY + 8} width={18} height={10}
         fill="currentColor" fillOpacity={op * 0.22} />
@@ -111,15 +114,16 @@ function DiagramVisibility({ hovered }: { hovered: boolean }) {
         <line key={i}
           x1={ansX + 14} y1={ansY + 26 + i * 18}
           x2={ansX + 14 + [90, 68, 76, 50][i]} y2={ansY + 26 + i * 18}
-          stroke="currentColor" strokeOpacity={op * (i === 0 ? 0.75 : 0.52)} strokeWidth={i === 0 ? 1.3 : 1} />
+          stroke="currentColor" strokeOpacity={op * (i === 0 ? 0.75 : 0.52)} strokeWidth={i === 0 ? 1.1 : 0.9} />
       ))}
+      </g>
     </svg>
   );
 }
 
 // Card 03 — Technical Content Localisation: spec block → transform → market outputs
 function DiagramLocalisation({ hovered }: { hovered: boolean }) {
-  const op = hovered ? 0.82 : 0.64;
+  const op = hovered ? 0.70 : 0.52;
   const specX = 40, specY = 76, specW = 92, specH = 96;
   const specCy = specY + specH / 2;
   const sq = 15, sqGap = 5;
@@ -133,9 +137,10 @@ function DiagramLocalisation({ hovered }: { hovered: boolean }) {
   const outYs = [76, 76 + outH + outGap, 76 + 2 * (outH + outGap)];
   return (
     <svg width="100%" viewBox="0 0 460 240" fill="none" aria-hidden="true">
+      <g transform="translate(34, -4)">
       {/* Spec input block */}
       <rect x={specX} y={specY} width={specW} height={specH}
-        stroke="currentColor" strokeOpacity={op} strokeWidth="1.6" />
+        stroke="currentColor" strokeOpacity={op} strokeWidth="1.35" />
       {/* Grid inside spec block */}
       {grid.map(([x, y], i) => (
         <rect key={i} x={x} y={y} width={sq} height={sq}
@@ -143,18 +148,18 @@ function DiagramLocalisation({ hovered }: { hovered: boolean }) {
       ))}
       {/* Spec → transform arrow */}
       <line x1={specX + specW} y1={specCy} x2={tfX} y2={tfCy}
-        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="1.0" />
       <polyline points={`${tfX - 5},${tfCy - 4} ${tfX},${tfCy} ${tfX - 5},${tfCy + 4}`}
-        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="1.0" />
       {/* Transform block — accent fill */}
       <rect x={tfX} y={tfY} width={tfW} height={tfH}
         fill="currentColor" fillOpacity={op * 0.1} />
       <rect x={tfX} y={tfY} width={tfW} height={tfH}
-        stroke="currentColor" strokeOpacity={op} strokeWidth="1.5" />
+        stroke="currentColor" strokeOpacity={op} strokeWidth="1.25" />
       <line x1={tfX + 9} y1={tfY + 9} x2={tfX + tfW - 9} y2={tfY + tfH - 9}
-        stroke="currentColor" strokeOpacity={op * 0.45} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.45} strokeWidth="1.0" />
       <line x1={tfX + tfW - 9} y1={tfY + 9} x2={tfX + 9} y2={tfY + tfH - 9}
-        stroke="currentColor" strokeOpacity={op * 0.45} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.45} strokeWidth="1.0" />
       {/* Fan lines transform → market outputs */}
       {outYs.map((oy, i) => (
         <line key={i} x1={tfX + tfW} y1={tfCy} x2={outX} y2={oy + outH / 2}
@@ -163,7 +168,7 @@ function DiagramLocalisation({ hovered }: { hovered: boolean }) {
       {/* Market output blocks */}
       {outYs.map((oy, i) => (
         <rect key={i} x={outX} y={oy} width={outW} height={outH}
-          stroke="currentColor" strokeOpacity={op * (0.7 + i * 0.09)} strokeWidth="1.3" />
+          stroke="currentColor" strokeOpacity={op * (0.7 + i * 0.09)} strokeWidth="1.1" />
       ))}
       {/* Inner text line in each output */}
       {outYs.map((oy, i) => (
@@ -171,13 +176,14 @@ function DiagramLocalisation({ hovered }: { hovered: boolean }) {
           x2={outX + [72, 56, 64][i]} y2={oy + outH / 2}
           stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="1" />
       ))}
+      </g>
     </svg>
   );
 }
 
 // Card 04 — Content at Scale: 4-stage video loop with feedback arc
 function DiagramContentScale({ hovered }: { hovered: boolean }) {
-  const op = hovered ? 0.82 : 0.64;
+  const op = hovered ? 0.70 : 0.52;
   const blockW = 72, blockH = 44, blockGap = 14;
   const totalW = 4 * blockW + 3 * blockGap;
   const startX = Math.round((460 - totalW) / 2);
@@ -189,6 +195,7 @@ function DiagramContentScale({ hovered }: { hovered: boolean }) {
   const loopStartX = startX + blockW / 2;
   return (
     <svg width="100%" viewBox="0 0 460 240" fill="none" aria-hidden="true">
+      <g transform="translate(0, -8)">
       {/* Publish block accent fill (last block) */}
       <rect x={lastBx} y={blockY} width={blockW} height={blockH}
         fill="currentColor" fillOpacity={op * 0.1} />
@@ -200,7 +207,7 @@ function DiagramContentScale({ hovered }: { hovered: boolean }) {
           <rect key={i} x={bx} y={blockY} width={blockW} height={blockH}
             stroke="currentColor"
             strokeOpacity={op * (isLast ? 1 : 0.72)}
-            strokeWidth={isLast ? 1.7 : 1.2} />
+            strokeWidth={isLast ? 1.35 : 1.0} />
         );
       })}
       {/* Arrows between blocks */}
@@ -210,22 +217,22 @@ function DiagramContentScale({ hovered }: { hovered: boolean }) {
         return (
           <g key={i}>
             <line x1={x1} y1={blockCy} x2={x2} y2={blockCy}
-              stroke="currentColor" strokeOpacity={op * 0.54} strokeWidth="1.1" />
+              stroke="currentColor" strokeOpacity={op * 0.54} strokeWidth="1.0" />
             <polyline points={`${x2 - 5},${blockCy - 3.5} ${x2},${blockCy} ${x2 - 5},${blockCy + 3.5}`}
-              stroke="currentColor" strokeOpacity={op * 0.54} strokeWidth="1.1" />
+              stroke="currentColor" strokeOpacity={op * 0.54} strokeWidth="1.0" />
           </g>
         );
       })}
       {/* Feedback loop */}
       <line x1={loopEndX} y1={blockY + blockH} x2={loopEndX} y2={loopY}
-        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.0" />
       <line x1={loopEndX} y1={loopY} x2={loopStartX} y2={loopY}
-        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.0" />
       <line x1={loopStartX} y1={loopY} x2={loopStartX} y2={blockY + blockH}
-        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.0" />
       <polyline
         points={`${loopStartX - 3.5},${blockY + blockH + 7} ${loopStartX},${blockY + blockH} ${loopStartX + 3.5},${blockY + blockH + 7}`}
-        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.1" />
+        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.0" />
       {/* Loop midpoint accent dot */}
       <circle cx={(loopStartX + loopEndX) / 2} cy={loopY} r={4}
         fill="currentColor" fillOpacity={op * 0.5} />
@@ -234,13 +241,14 @@ function DiagramContentScale({ hovered }: { hovered: boolean }) {
         <circle key={i} cx={lastBx + 14 + i * 14} cy={blockCy} r={3}
           fill="currentColor" fillOpacity={op * (0.38 + i * 0.14)} />
       ))}
+      </g>
     </svg>
   );
 }
 
 // Card 05 — Global Marketing Infrastructure: blueprint grid + connected blocks
 function DiagramInfrastructure({ hovered }: { hovered: boolean }) {
-  const op = hovered ? 0.82 : 0.64;
+  const op = hovered ? 0.70 : 0.52;
   const gridLines: [number, number, number, number][] = [];
   for (let x = 25; x <= 460; x += 45) gridLines.push([x, 18, x, 222]);
   for (let y = 28; y <= 222; y += 45) gridLines.push([25, y, 460, y]);
@@ -255,6 +263,7 @@ function DiagramInfrastructure({ hovered }: { hovered: boolean }) {
   ];
   return (
     <svg width="100%" viewBox="0 0 460 240" fill="none" aria-hidden="true">
+      <g transform="translate(0, 18)">
       {/* Blueprint grid — very faint */}
       {gridLines.map(([x1, y1, x2, y2], i) => (
         <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
@@ -265,13 +274,13 @@ function DiagramInfrastructure({ hovered }: { hovered: boolean }) {
         const bCx = b.x + b.w / 2, bCy = b.y + b.h / 2;
         return (
           <line key={i} x1={hubCx} y1={hubCy} x2={bCx} y2={bCy}
-            stroke="currentColor" strokeOpacity={op * 0.4} strokeWidth="1.1" />
+            stroke="currentColor" strokeOpacity={op * 0.4} strokeWidth="1.0" />
         );
       })}
       {/* Satellite blocks */}
       {sats.map((b, i) => (
         <rect key={i} x={b.x} y={b.y} width={b.w} height={b.h}
-          stroke="currentColor" strokeOpacity={op * 0.7} strokeWidth="1.1" />
+          stroke="currentColor" strokeOpacity={op * 0.7} strokeWidth="1.0" />
       ))}
       {/* Inner line in each satellite */}
       {sats.map((b, i) => (
@@ -280,11 +289,12 @@ function DiagramInfrastructure({ hovered }: { hovered: boolean }) {
       ))}
       {/* Hub block */}
       <rect x={hub.x} y={hub.y} width={hub.w} height={hub.h}
-        stroke="currentColor" strokeOpacity={op} strokeWidth="1.7" />
+        stroke="currentColor" strokeOpacity={op} strokeWidth="1.35" />
       <line x1={hubCx} y1={hub.y + 10} x2={hubCx} y2={hub.y + hub.h - 10}
         stroke="currentColor" strokeOpacity={op * 0.45} strokeWidth="1" />
       <line x1={hub.x + 14} y1={hubCy} x2={hub.x + hub.w - 14} y2={hubCy}
         stroke="currentColor" strokeOpacity={op * 0.45} strokeWidth="1" />
+      </g>
     </svg>
   );
 }
@@ -344,7 +354,7 @@ function CaseCard({ c, prefersReduced }: { c: Case; prefersReduced: boolean }) {
 
       {/* Zone 2 — diagram */}
       <div className="flex-none flex items-center justify-center text-cream h-[160px] pb-6 lg:h-auto lg:flex-1 lg:min-h-[240px] lg:pb-12">
-        <div className="w-[62vw] min-w-[200px] max-w-[260px] lg:w-[90%] lg:max-w-[460px] mx-auto rounded border border-cream/10 bg-cream/[0.03]">
+        <div className="w-[56vw] min-w-[180px] max-w-[240px] lg:w-[82%] lg:max-w-[420px] mx-auto">
           <Diagram hovered={hovered} />
         </div>
       </div>
