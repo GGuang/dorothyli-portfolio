@@ -61,6 +61,7 @@ const OUTPUTS = [
     body: "Video ideas moved through a semi-structured loop, from brainstorming and voting to scripting, shooting, editing, effects, publishing, and performance review.",
     image: "/cases/content-at-scale/creative-publishing-loop.png",
     imagePosition: "center top",
+    imageVersion: "v2",
   },
   {
     title: "Roewe RX5 launch campaign",
@@ -68,6 +69,7 @@ const OUTPUTS = [
     body: "The Roewe RX5 Douyin launch campaign used scenario-based short videos to connect product communication, platform storytelling, and audience participation.",
     image: "/cases/content-at-scale/roewe-rx5-campaign.png",
     imagePosition: "center top",
+    imageVersion: "v2",
   },
   {
     title: "Viral video samples",
@@ -75,6 +77,7 @@ const OUTPUTS = [
     body: "Selected video cases show how creative hooks, emotional scenarios, and platform-native editing helped individual videos reach large audiences.",
     image: "/cases/content-at-scale/viral-video-samples.png",
     imagePosition: "center top",
+    imageVersion: "v2",
   },
 ];
 
