@@ -2,14 +2,22 @@
 
 import Link from "next/link";
 
-const ENTRIES = [
+type Entry = {
+  id: string;
+  meta: string;
+  title: string;
+  description: string;
+  href: string | null;
+};
+
+const ENTRIES: Entry[] = [
   {
     id: "01",
     meta: "AI WORKFLOW · POCSTARS",
     title: "AI Marketing Team",
     description:
       "Agent-based workflow design for repeatable B2B marketing tasks, including content planning, SOP-based execution, references, and review logic.",
-    href: "#",
+    href: "/cases/ai-marketing-team",
   },
   {
     id: "02",
@@ -17,7 +25,7 @@ const ENTRIES = [
     title: "Automation Workflows",
     description:
       "n8n-assisted workflows for content review, publishing support, notifications, and lightweight marketing operations.",
-    href: "#",
+    href: null,
   },
   {
     id: "03",
@@ -25,29 +33,27 @@ const ENTRIES = [
     title: "This Portfolio",
     description:
       "An AI-assisted portfolio build, using visual extraction, structured prompts, Claude Code, and iterative design judgment to turn positioning into a working site.",
-    href: "#",
+    href: null,
   },
-] as const;
-
-type Entry = (typeof ENTRIES)[number];
+];
 
 function LabEntryRow({ entry }: { entry: Entry }) {
-  return (
-    <Link
-      href={entry.href}
-      className="group block py-10 lg:py-11 border-b border-ink/10 last:border-b-0 hover:border-ink/25 active:border-ink/25 hover:bg-ink/[0.025] active:bg-ink/[0.035] focus-visible:border-ink/25 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ink/30 focus-visible:ring-offset-4 outline-none transition-all duration-300 ease-out -mx-4 px-4 lg:-mx-6 lg:px-6"
-      aria-label={`View experiment: ${entry.title}`}
-    >
+  const linked = entry.href !== null;
+
+  const inner = (
+    <>
       <div className="flex items-baseline justify-between gap-6 mb-5">
         <p className="font-mono text-[10px] tracking-[0.14em] uppercase text-ink/45 group-hover:text-ink/65 group-active:text-ink/65 transition-colors duration-300">
           {entry.meta}
         </p>
-        <span className="font-mono text-[12px] lg:text-[10px] tracking-[0.12em] lg:tracking-[0.08em] text-ink/65 group-hover:text-ink/90 group-active:text-ink/90 whitespace-nowrap flex-none transition-colors duration-300">
-          View experiment{" "}
-          <span className="inline-block translate-x-0 group-hover:translate-x-1 group-active:translate-x-1 transition-transform duration-300 ease-out">
-            →
+        {linked && (
+          <span className="font-mono text-[12px] lg:text-[10px] tracking-[0.12em] lg:tracking-[0.08em] text-ink/65 group-hover:text-ink/90 group-active:text-ink/90 whitespace-nowrap flex-none transition-colors duration-300">
+            View experiment{" "}
+            <span className="inline-block translate-x-0 group-hover:translate-x-1 group-active:translate-x-1 transition-transform duration-300 ease-out">
+              →
+            </span>
           </span>
-        </span>
+        )}
       </div>
       <h3
         className="font-serif font-[400] leading-[1.05] tracking-[-0.02em] text-ink/85 group-hover:text-ink group-active:text-ink group-hover:translate-x-1 group-active:translate-x-1 mb-4 transition-[color,transform] duration-300 ease-out"
@@ -58,6 +64,24 @@ function LabEntryRow({ entry }: { entry: Entry }) {
       <p className="font-sans text-[15px] lg:text-[16px] leading-[1.6] text-ink/65 group-hover:text-ink/78 group-active:text-ink/78 max-w-[540px] transition-colors duration-300">
         {entry.description}
       </p>
+    </>
+  );
+
+  if (!linked) {
+    return (
+      <div className="group block py-10 lg:py-11 border-b border-ink/10 last:border-b-0 -mx-4 px-4 lg:-mx-6 lg:px-6">
+        {inner}
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      href={entry.href as string}
+      className="group block py-10 lg:py-11 border-b border-ink/10 last:border-b-0 hover:border-ink/25 active:border-ink/25 hover:bg-ink/[0.025] active:bg-ink/[0.035] focus-visible:border-ink/25 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ink/30 focus-visible:ring-offset-4 outline-none transition-all duration-300 ease-out -mx-4 px-4 lg:-mx-6 lg:px-6"
+      aria-label={`View experiment: ${entry.title}`}
+    >
+      {inner}
     </Link>
   );
 }
