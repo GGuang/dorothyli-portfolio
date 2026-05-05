@@ -25,7 +25,7 @@ const TIMELINE = [
     capability: "B2B Technical Content",
     context: "Aeson Power · Content Marketing Manager",
     description:
-      "Moved into complex B2B technology content, translating energy storage topics into clearer market-facing communication.",
+      "Translated complex energy storage topics into clearer B2B market-facing content.",
   },
   {
     id: "04",
@@ -33,7 +33,7 @@ const TIMELINE = [
     capability: "Content Growth Systems",
     context: "CREYI · Creative Planning Director",
     description:
-      "Led creative direction and repeatable content formats for high-reach short-video growth across platforms.",
+      "Led creative direction and repeatable content formats for short-video growth across platforms.",
   },
   {
     id: "05",
@@ -41,7 +41,7 @@ const TIMELINE = [
     capability: "Global Brand Localisation",
     context: "Garmin · Content Planning",
     description:
-      "Translated global product messages into local content narratives, turning technical features into user-facing stories.",
+      "Translated global product messages and technical features into local, user-facing content.",
   },
   {
     id: "06",
@@ -49,7 +49,7 @@ const TIMELINE = [
     capability: "Brand Campaign Foundations",
     context: "FAJI Advertising · Senior Copywriter",
     description:
-      "Built the foundation in brand messaging, campaign thinking, and integrated creative work for international brands.",
+      "Foundation in brand messaging, campaign thinking, and creative execution for international brands.",
   },
 ] as const;
 

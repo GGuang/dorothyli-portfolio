@@ -68,28 +68,28 @@ const OUTPUTS = [
   {
     title: "Supporting blog content",
     label: "Blog Content",
-    body: "Blog pages were used to answer related buyer questions, explain technical concepts, and connect search intent back to relevant product pages.",
+    body: "Blog pages answered buyer questions, explained technical concepts, and linked search intent to relevant product pages.",
     image: "/cases/answer-ready-visibility/supporting-blog-content.png",
     imagePosition: "center top",
   },
   {
     title: "Blog Writing SOP",
     label: "SOP",
-    body: "The SOP defined a repeatable structure for technical blog content, including answer-first summaries, topic framing, terminology handling, metadata, and review preparation.",
+    body: "The SOP defined a repeatable structure for technical blog content: answer-first summaries, topic framing, terminology, and review preparation.",
     image: "/cases/answer-ready-visibility/blog-writing-sop.png",
     imagePosition: "center top",
   },
   {
     title: "Blog Writer Skill",
     label: "Skill",
-    body: "The blog writer skill translated the SOP, references, and templates into an AI-assisted execution layer for drafting more consistent B2B technical content.",
+    body: "The blog writer skill translated the SOP, references, and templates into an AI-assisted execution layer for more consistent B2B drafts.",
     image: "/cases/answer-ready-visibility/blog-writer-skill.png",
     imagePosition: "center top",
   },
   {
     title: "Search and AI visibility evidence",
     label: "Visibility",
-    body: "Search result and AI Overview screenshots were used as evidence that selected technical content became more visible in active research scenarios.",
+    body: "Screenshots evidencing selected content appearing in Google search results and AI Overview recommendations.",
     image: "/cases/answer-ready-visibility/search-ai-evidence.png",
     imagePosition: "center top",
   },
@@ -504,10 +504,9 @@ export default function AnswerReadyVisibilityPage() {
             </h2>
 
             <p className="font-sans text-[15px] lg:text-[16px] leading-[1.72] text-ink/70 mb-10 max-w-[620px]">
-              MCX and mission-critical communications are technical B2B categories. Potential buyers
-              may search for definitions, standards, use cases, vendor options, and solution fit before
-              contacting sales. The content needed to support both human understanding and search-based
-              discovery.
+              MCX and mission-critical communications are technical B2B categories. Buyers search for
+              definitions, use cases, and vendor options before contacting sales. The content had to
+              support both understanding and search-based discovery.
             </p>
 
             <div className="flex flex-wrap gap-2">
@@ -587,9 +586,8 @@ export default function AnswerReadyVisibilityPage() {
               Technical content structured for discovery and evaluation.
             </h2>
             <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/62 max-w-[480px]">
-              The output was not a single page update. It combined core product pages, supporting
-              articles, and reusable AI-assisted content workflows, helping technical information
-              become easier to search, understand, and reproduce.
+              The output combined product pages, supporting blog content, and an AI-assisted workflow
+              to make technical information more findable and reproducible.
             </p>
           </div>
 
@@ -611,11 +609,9 @@ export default function AnswerReadyVisibilityPage() {
               A clearer route into technical product discovery.
             </h2>
             <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/70">
-              By restructuring MCX-related content around technical definitions, product context,
-              buyer questions, and search intent, the website became easier to discover in active
-              research scenarios. The MCX solution page appeared in Google AI Overview recommendations
-              and was reported on the first page of organic results for &quot;MCX solution&quot;, supporting a
-              clearer route from technical search to product evaluation.
+              After restructuring content around definitions, use cases, and buyer questions, the MCX
+              solution page appeared in Google AI Overview results and was reported on the first page
+              for &quot;MCX solution&quot;, supporting a clearer route from technical search to product evaluation.
             </p>
           </div>
         </section>

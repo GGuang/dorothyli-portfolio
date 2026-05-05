@@ -13,7 +13,7 @@ export function ManifestoSection() {
 
         {/* Positioning sentence — constrained to ~65% on desktop */}
         <h2 className="font-serif font-[400] tracking-tight text-4xl leading-[1.15] lg:text-4xl xl:text-5xl lg:leading-[1.1] lg:max-w-[65%] text-ink">
-          Dorothy Li turns complex technical products into content-led marketing systems, connecting product value, search visibility, sales enablement, and customer decision-making across borders.
+          Good B2B marketing turns technical complexity into systems people can understand, find, and use.
         </h2>
 
         {/* Rule */}
@@ -22,7 +22,7 @@ export function ManifestoSection() {
         {/* Bio — bottom-right, ~42% width on desktop */}
         <div className="lg:flex lg:justify-end">
           <p className="font-sans font-[400] text-base leading-[1.65] lg:text-lg lg:leading-[1.6] text-ink/80 lg:max-w-[42%]">
-            Built across brand campaigns, product localisation, content growth, and B2B technology marketing, my work focuses on translating technical input into clearer market positioning, structured content, sales-ready materials, and AI-assisted workflows for global-facing teams.
+            Across product content, website structure, search visibility, sales enablement, localisation, and AI-assisted workflows, my work focuses on building clearer paths between products, markets, and global-facing teams.
           </p>
         </div>
 

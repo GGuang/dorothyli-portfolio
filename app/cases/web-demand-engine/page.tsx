@@ -60,7 +60,7 @@ const OUTPUTS = [
   {
     title: "Website rebuild",
     label: "Website",
-    body: "Reviewed, edited, and uploaded 50+ English pages before launch, while coordinating with developers to resolve content, link, image, and button issues.",
+    body: "Reviewed, edited, and uploaded 50+ English pages before launch, co-ordinating with developers on content, links, and technical issues.",
     image: "/cases/web-demand-engine/website-home-new.png",
     imagePosition: "center top",
     imageVersion: "v2",
@@ -68,7 +68,7 @@ const OUTPUTS = [
   {
     title: "Product content structure",
     label: "Product Page",
-    body: "Reorganised complex product and solution information into clearer market-facing content, connecting product value, use cases, and enquiry paths for international audiences.",
+    body: "Reorganised product information into clearer market-facing pages, connecting product value, use cases, and enquiry paths.",
     image: "/cases/web-demand-engine/website-product-page.png",
     imagePosition: "center top",
     imageVersion: "v2",
@@ -551,9 +551,9 @@ export default function WebDemandEnginePage() {
             </h2>
 
             <p className="font-sans text-[15px] lg:text-[16px] leading-[1.72] text-ink/70 mb-10 max-w-[620px]">
-              POCSTARS needed a clearer global-facing digital foundation for complex communication
-              products and solutions. The website had to support product understanding, multilingual
-              content, search discovery, and lead capture across international markets.
+              POCSTARS needed a clearer digital presence for complex communication products.
+              The website had to support product understanding, multilingual content, search
+              discovery, and lead capture across international markets.
             </p>
 
             {/* Keyword cluster */}
@@ -650,10 +650,9 @@ export default function WebDemandEnginePage() {
               A clearer path from content to demand.
             </h2>
             <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/70">
-              The rebuilt website and content structure created a more reliable foundation for
-              global-facing communication, search discovery, enquiry capture, and sales follow-up.
-              Early launch signals and later reporting showed stronger visibility and a more stable
-              inbound enquiry pattern, with exact lead volumes omitted for confidentiality and context.
+              The rebuilt site created a clearer foundation for search discovery, enquiry capture,
+              and sales follow-up. Early signals and later reporting showed stronger visibility and a
+              more stable inbound enquiry pattern. Exact lead volumes are omitted for confidentiality.
             </p>
           </div>
         </section>

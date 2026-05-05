@@ -74,7 +74,7 @@ const OUTPUTS = [
   {
     title: "Agent role system",
     label: "Agent Roles",
-    body: "Agent roles were designed around practical marketing functions, including research, content creation, data analysis, creative support, and campaign strategy.",
+    body: "Five agent roles map to practical functions: research, content creation, data analysis, creative support, and campaign strategy.",
     image: "/cases/ai-marketing-team/agent-role-system.png",
     imagePosition: "center top",
     imageVersion: "v1",
@@ -83,7 +83,7 @@ const OUTPUTS = [
   {
     title: "Local knowledge structure",
     label: "Folder System",
-    body: "The local folder structure separates context, SOPs, templates, references, agents, skills, scripts, and outputs, making the workflow easier to expand and maintain.",
+    body: "Folders separate context, SOPs, templates, references, agents, skills, scripts, and outputs, keeping the workflow modular and easier to maintain.",
     image: "/cases/ai-marketing-team/local-knowledge-structure.png",
     imagePosition: "center top",
     imageVersion: "v1",
@@ -101,7 +101,7 @@ const OUTPUTS = [
   {
     title: "Expandable marketing skills",
     label: "Skills",
-    body: "The structure was designed to expand beyond blog writing into social copy, EDM, case studies, campaign briefs, sales enablement, research, and reporting workflows.",
+    body: "Built to expand beyond blog writing into social copy, EDM, case studies, campaign briefs, sales enablement, and reporting.",
     image: "/cases/ai-marketing-team/expandable-marketing-skills.png",
     imagePosition: "center top",
     imageVersion: "v1",
@@ -525,11 +525,9 @@ export default function AIMarketingTeamPage() {
             </h2>
 
             <p className="font-sans text-[15px] lg:text-[16px] leading-[1.72] text-ink/70 mb-10 max-w-[620px]">
-              In lean B2B marketing work, recurring tasks such as blogs, social copy, EDMs, campaign
-              briefs, localisation, research, reporting, and sales enablement often need to be produced
-              quickly, but still require judgement. The challenge was not simply to use AI for faster
-              drafting, but to build a local workflow structure that could preserve context, terminology,
-              tone, references, and review quality.
+              In lean B2B marketing, recurring tasks from blogs to campaign briefs need to be produced
+              quickly but still require judgement. The challenge was not faster drafting but building
+              a workflow structure that preserves context, terminology, and review quality.
             </p>
 
             {/* Keyword cluster */}
@@ -610,9 +608,8 @@ export default function AIMarketingTeamPage() {
           </h2>
 
           <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/62 max-w-[600px] mb-12 lg:mb-16">
-            The system is built as a local folder-based workflow rather than a single prompt. It
-            separates tasks, agents, skills, SOPs, templates, references, and outputs so recurring
-            marketing work can be easier to brief, reproduce, adapt, and review.
+            A local folder-based workflow separating tasks, agents, skills, SOPs, templates,
+            references, and outputs so recurring marketing work is easier to brief, reproduce, and review.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
@@ -633,10 +630,9 @@ export default function AIMarketingTeamPage() {
               Making AI usable inside real marketing work.
             </h2>
             <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/70">
-              The system turned AI from a one-off drafting tool into a more controlled workflow layer.
-              By separating tasks, agents, skills, SOPs, templates, references, and review logic,
-              recurring marketing work became easier to brief, reproduce, adapt, and improve, while
-              final judgement remained human-led.
+              The system turned AI from a one-off drafting tool into a more controlled workflow layer,
+              making recurring marketing work easier to brief, reproduce, and adapt, while final
+              judgement remained human-led.
             </p>
           </div>
         </section>

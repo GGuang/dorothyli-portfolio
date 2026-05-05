@@ -482,7 +482,7 @@ export function StatsSection() {
 
             {/* Static descriptive paragraph */}
             <p className="font-sans font-[400] text-base lg:text-lg leading-[1.6] text-ink/85 max-w-md mt-10 lg:mt-32">
-              A selected set of measurable proof points across brand, content, search, website, and demand work, showing how scattered marketing efforts can become repeatable systems, not one-off execution.
+              Selected proof points from brand, content, search, website, and demand work.
             </p>
           </div>
 

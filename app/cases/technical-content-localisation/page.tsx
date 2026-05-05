@@ -61,7 +61,7 @@ const OUTPUTS = [
   {
     title: "Garmin product page localisation",
     label: "Product Page",
-    body: "Global product information and technical specifications were adapted into clearer product-page narratives for the China market, connecting features with sports and health scenarios.",
+    body: "Product specifications and global content were adapted into China-market product-page narratives, connecting features with sports and health scenarios.",
     image: "/cases/technical-content-localisation/garmin-product-page.png",
     imagePosition: "center top",
   },
@@ -90,7 +90,7 @@ const OUTPUTS = [
   {
     title: "Product copywriting samples",
     label: "Copy Samples",
-    body: "Selected product and campaign copywriting samples show the early foundation of turning product value into concise market-facing language.",
+    body: "Selected samples show the early foundation of turning product value into concise market-facing language.",
     image: "/cases/technical-content-localisation/product-copywriting-samples.png",
     imagePosition: "center top",
   },
@@ -488,11 +488,9 @@ export default function TechnicalContentLocalisationPage() {
             </h2>
 
             <p className="font-sans text-[15px] lg:text-[16px] leading-[1.72] text-ink/70 mb-10 max-w-[620px]">
-              Earlier in my career, much of the work focused on turning product information,
-              specifications, and brand inputs into content that could be understood in a local market.
-              Garmin became the main product localisation experience, while selected agency projects
-              added exposure to technical brochures, industrial advertising, and product-facing campaign
-              content.
+              Earlier work focused on turning product information, specifications, and brand inputs into
+              content readable in a local market. Garmin was the main engagement; selected agency
+              projects added technical brochures, industrial advertising, and campaign content.
             </p>
 
             <div className="flex flex-wrap gap-2">
@@ -572,9 +570,8 @@ export default function TechnicalContentLocalisationPage() {
               Selected product and technical content outputs.
             </h2>
             <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/62 max-w-[480px]">
-              The available work samples are partial, but together they show a consistent pattern:
-              product and technical information being reshaped into clearer localised content across
-              product pages, platform articles, brochures, and advertising formats.
+              Work samples are partial but show a consistent pattern: technical and product information
+              reshaped into clearer, localised content across multiple formats.
             </p>
           </div>
 
@@ -596,11 +593,10 @@ export default function TechnicalContentLocalisationPage() {
               A foundation for later technical product marketing.
             </h2>
             <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/70">
-              Across product pages, platform content, brochures, and technical advertising, this early
-              body of work helped make product information more readable, localised, and usable across
-              market-facing channels. Years later, selected Garmin Zhihu articles remained among the
-              brand&apos;s most-upvoted content, including pieces that translated sports data, GPS
-              tracking, and running metrics into audience-friendly explanations.
+              Early work across product pages, platform content, brochures, and advertising helped
+              make product information more readable and locally usable. Years later, selected Garmin
+              Zhihu articles remained among the brand&apos;s most-upvoted content, translating sports
+              data and GPS metrics into audience-friendly explanations.
             </p>
           </div>
         </section>

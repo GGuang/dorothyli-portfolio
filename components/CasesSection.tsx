@@ -10,248 +10,281 @@ const STD_EASE = [0.4, 0, 0.2, 1] as [number, number, number, number];
 
 /* ─── Per-card SVG diagrams ─────────────────────── */
 
-// Card 01 — Web Demand Engine: radial inbound pipeline
+// Card 01 — Web Demand Engine: traffic sources → website hub → form → lead
 function DiagramDemandEngine({ hovered }: { hovered: boolean }) {
-  const op = hovered ? 0.62 : 0.42;
-  // 5 nodes on orbit ring, starting at top (270°), 72° apart
-  const cx = 250, cy = 130, r = 95;
-  const nodes = [
-    [250, 35],          // top — enquiry
-    [345, 100],         // upper-right — website  (cos-18°≈0.951, sin-18°≈-0.309)
-    [309, 212],         // lower-right — content  (cos54°≈0.588,  sin54°≈0.809)
-    [191, 212],         // lower-left  — search
-    [155, 100],         // upper-left  — form
-  ] as const;
+  const op = hovered ? 0.82 : 0.64;
+  const srcX = 58, srcYs = [72, 120, 168];
+  const hubX = 128, hubY = 90, hubW = 108, hubH = 60;
+  const hubCy = hubY + hubH / 2;
+  const formX = 262, formY = 104, formW = 68, formH = 32;
+  const formCy = formY + formH / 2;
+  const leadX = 354, leadY = 88, leadW = 90, leadH = 64;
+  const leadCy = leadY + leadH / 2;
   return (
-    <svg width="100%" viewBox="0 0 500 260" fill="none" aria-hidden="true">
-      {/* Orbit ring — dashed */}
-      <circle cx={cx} cy={cy} r={r}
-        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="0.75"
-        strokeDasharray="4 5" />
-      {/* Radial spokes from nodes to center */}
-      {nodes.map(([nx, ny], i) => (
-        <line key={i} x1={nx} y1={ny} x2={cx} y2={cy}
-          stroke="currentColor" strokeOpacity={op * 0.35} strokeWidth="0.75" />
+    <svg width="100%" viewBox="0 0 460 240" fill="none" aria-hidden="true">
+      {/* Source → hub convergence lines */}
+      {srcYs.map((sy, i) => (
+        <line key={i} x1={srcX + 13} y1={sy} x2={hubX} y2={hubCy}
+          stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.1" />
       ))}
-      {/* Outer node circles */}
-      {nodes.map(([nx, ny], i) => (
-        <circle key={i} cx={nx} cy={ny} r={5}
-          stroke="currentColor" strokeOpacity={op} strokeWidth="1.25" />
+      {/* Source nodes */}
+      {srcYs.map((sy, i) => (
+        <circle key={i} cx={srcX} cy={sy} r={i === 1 ? 13 : 9}
+          stroke="currentColor" strokeOpacity={op * (i === 1 ? 1 : 0.7)} strokeWidth={i === 1 ? 1.7 : 1.2} />
       ))}
-      {/* Inner orbit ring */}
-      <circle cx={cx} cy={cy} r={28}
-        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="0.75" />
-      {/* Center demand node — filled to mask spoke ends */}
-      <circle cx={cx} cy={cy} r={18}
-        stroke="currentColor" strokeOpacity={op} strokeWidth="1.25"
-        fill="#171612" />
-      {/* Center dot */}
-      <circle cx={cx} cy={cy} r={5}
-        fill="currentColor" fillOpacity={op * 0.7} />
+      {/* Website hub block — accent fill */}
+      <rect x={hubX} y={hubY} width={hubW} height={hubH}
+        fill="currentColor" fillOpacity={op * 0.09} />
+      <rect x={hubX} y={hubY} width={hubW} height={hubH}
+        stroke="currentColor" strokeOpacity={op} strokeWidth="1.7" />
+      <line x1={hubX + 10} y1={hubCy - 9} x2={hubX + hubW - 10} y2={hubCy - 9}
+        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.1" />
+      <line x1={hubX + 10} y1={hubCy + 9} x2={hubX + hubW - 10} y2={hubCy + 9}
+        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.1" />
+      {/* Hub → form arrow */}
+      <line x1={hubX + hubW} y1={hubCy} x2={formX} y2={formCy}
+        stroke="currentColor" strokeOpacity={op * 0.52} strokeWidth="1.1" />
+      <polyline points={`${formX - 6},${formCy - 4} ${formX},${formCy} ${formX - 6},${formCy + 4}`}
+        stroke="currentColor" strokeOpacity={op * 0.52} strokeWidth="1.1" />
+      {/* Form / CTA strip */}
+      <rect x={formX} y={formY} width={formW} height={formH}
+        stroke="currentColor" strokeOpacity={op * 0.88} strokeWidth="1.4" />
+      {/* Form → lead arrow */}
+      <line x1={formX + formW} y1={formCy} x2={leadX} y2={leadCy}
+        stroke="currentColor" strokeOpacity={op * 0.52} strokeWidth="1.1" />
+      <polyline points={`${leadX - 6},${leadCy - 4} ${leadX},${leadCy} ${leadX - 6},${leadCy + 4}`}
+        stroke="currentColor" strokeOpacity={op * 0.52} strokeWidth="1.1" />
+      {/* Lead / sales output block */}
+      <rect x={leadX} y={leadY} width={leadW} height={leadH}
+        stroke="currentColor" strokeOpacity={op} strokeWidth="1.7" />
+      {/* Accent: filled dot + ring inside lead block */}
+      <circle cx={leadX + leadW / 2} cy={leadCy} r={10}
+        stroke="currentColor" strokeOpacity={op * 0.3} strokeWidth="1" />
+      <circle cx={leadX + leadW / 2} cy={leadCy} r={5}
+        fill="currentColor" fillOpacity={op * 0.6} />
     </svg>
   );
 }
 
-// Card 02 — Answer-Ready B2B Visibility: query → content blocks → AI answer
+// Card 02 — Answer-Ready B2B Visibility: question node → indexed blocks → answer frame
 function DiagramVisibility({ hovered }: { hovered: boolean }) {
-  const op = hovered ? 0.62 : 0.42;
-  // Content block y positions
-  const blockYs = [72, 96, 120, 144, 168];
-  const blockLeft = 155, blockW = 100;
-  const answerX = 305, answerY = 85, answerW = 130, answerH = 90;
+  const op = hovered ? 0.82 : 0.64;
+  const qx = 64, qy = 120, qr = 26;
+  const blockX = 140, blockW = 96, blockH = 17, blockGap = 7;
+  const blockYs = [68, 68 + blockH + blockGap, 68 + 2*(blockH + blockGap), 68 + 3*(blockH + blockGap), 68 + 4*(blockH + blockGap)];
+  const ansX = 270, ansY = 72, ansW = 132, ansH = 104;
+  const ansCy = ansY + ansH / 2;
   return (
-    <svg width="100%" viewBox="0 0 500 260" fill="none" aria-hidden="true">
-      {/* Query node — left circle */}
-      <circle cx={68} cy={130} r={26}
-        stroke="currentColor" strokeOpacity={op} strokeWidth="1.25" />
-      {/* Search lens handle */}
-      <line x1={82} y1={144} x2={96} y2={158}
-        stroke="currentColor" strokeOpacity={op} strokeWidth="1.25" />
-      <circle cx={65} cy={127} r={10}
-        stroke="currentColor" strokeOpacity={op * 0.7} strokeWidth="1" />
-      {/* Arrow from query to content */}
-      <line x1={95} y1={130} x2={148} y2={130}
-        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="0.75" />
-      <polyline points="143,125 148,130 143,135"
-        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="0.75" />
-      {/* Indexed content blocks — middle */}
+    <svg width="100%" viewBox="0 0 460 240" fill="none" aria-hidden="true">
+      {/* Question node */}
+      <circle cx={qx} cy={qy} r={qr}
+        stroke="currentColor" strokeOpacity={op} strokeWidth="1.6" />
+      <circle cx={qx} cy={qy - 5} r={4}
+        fill="currentColor" fillOpacity={op * 0.5} />
+      <circle cx={qx} cy={qy + 10} r={2}
+        fill="currentColor" fillOpacity={op * 0.5} />
+      {/* Question → blocks arrow */}
+      <line x1={qx + qr} y1={qy} x2={blockX} y2={qy}
+        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="1.1" />
+      <polyline points={`${blockX - 5},${qy - 4} ${blockX},${qy} ${blockX - 5},${qy + 4}`}
+        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="1.1" />
+      {/* Indexed content blocks — top block accent-filled */}
+      <rect x={blockX} y={blockYs[0]} width={blockW} height={blockH}
+        fill="currentColor" fillOpacity={op * 0.12} />
       {blockYs.map((y, i) => (
-        <rect key={i} x={blockLeft} y={y} width={blockW} height={14}
-          stroke="currentColor" strokeOpacity={op * (0.5 + i * 0.1)} strokeWidth="0.75" />
+        <rect key={i} x={blockX} y={y} width={blockW} height={blockH}
+          stroke="currentColor" strokeOpacity={op * (0.5 + i * 0.07)} strokeWidth={i === 0 ? 1.3 : 1} />
       ))}
-      {/* Fan lines from content blocks converging to answer frame (prism) */}
+      {/* Fan lines blocks → answer frame */}
       {blockYs.map((y, i) => (
-        <line key={i} x1={blockLeft + blockW} y1={y + 7} x2={answerX} y2={answerY + answerH / 2}
-          stroke="currentColor" strokeOpacity={op * 0.3} strokeWidth="0.75" />
+        <line key={i} x1={blockX + blockW} y1={y + blockH / 2} x2={ansX} y2={ansCy}
+          stroke="currentColor" strokeOpacity={op * 0.27} strokeWidth="1" />
       ))}
-      {/* Answer frame — right */}
-      <rect x={answerX} y={answerY} width={answerW} height={answerH}
-        stroke="currentColor" strokeOpacity={op} strokeWidth="1.25" />
+      {/* Answer / AI frame */}
+      <rect x={ansX} y={ansY} width={ansW} height={ansH}
+        stroke="currentColor" strokeOpacity={op} strokeWidth="1.7" />
+      {/* Rank accent bar top-right */}
+      <rect x={ansX + ansW - 26} y={ansY + 8} width={18} height={10}
+        fill="currentColor" fillOpacity={op * 0.22} />
       {/* Text lines inside answer frame */}
-      {[0, 1, 2].map(i => (
-        <line key={i} x1={answerX + 14} y1={answerY + 22 + i * 18}
-          x2={answerX + 14 + [80, 60, 45][i]} y2={answerY + 22 + i * 18}
-          stroke="currentColor" strokeOpacity={op * 0.6} strokeWidth="1" />
+      {[0, 1, 2, 3].map(i => (
+        <line key={i}
+          x1={ansX + 14} y1={ansY + 26 + i * 18}
+          x2={ansX + 14 + [90, 68, 76, 50][i]} y2={ansY + 26 + i * 18}
+          stroke="currentColor" strokeOpacity={op * (i === 0 ? 0.75 : 0.52)} strokeWidth={i === 0 ? 1.3 : 1} />
       ))}
     </svg>
   );
 }
 
-// Card 03 — Technical Content Localisation: spec grid → bridge → narrative text
+// Card 03 — Technical Content Localisation: spec block → transform → market outputs
 function DiagramLocalisation({ hovered }: { hovered: boolean }) {
-  const op = hovered ? 0.62 : 0.42;
-  // 4×5 grid of small spec squares — left
-  const gridCols = 5, gridRows = 4, sq = 13, gap = 4;
-  const gx0 = 55, gy0 = 92;
-  const gridSquares = Array.from({ length: gridRows }, (_, r) =>
-    Array.from({ length: gridCols }, (_, c) => [
-      gx0 + c * (sq + gap),
-      gy0 + r * (sq + gap),
-    ])
+  const op = hovered ? 0.82 : 0.64;
+  const specX = 40, specY = 76, specW = 92, specH = 96;
+  const specCy = specY + specH / 2;
+  const sq = 15, sqGap = 5;
+  const gx0 = specX + 9, gy0 = specY + 12;
+  const grid = Array.from({ length: 3 }, (_, r) =>
+    Array.from({ length: 3 }, (_, c) => [gx0 + c * (sq + sqGap), gy0 + r * (sq + sqGap)])
   ).flat();
-  // Narrative text lines — right (varying widths)
-  const narLines = [
-    [305, 97,  130],
-    [305, 116, 105],
-    [305, 135, 140],
-    [305, 154, 88],
-    [305, 173, 120],
-  ] as const;
-  const bridgeMidX = 230, midY = 130;
+  const tfX = 166, tfY = 98, tfW = 52, tfH = 52;
+  const tfCy = tfY + tfH / 2;
+  const outX = 250, outW = 104, outH = 22, outGap = 10;
+  const outYs = [76, 76 + outH + outGap, 76 + 2 * (outH + outGap)];
   return (
-    <svg width="100%" viewBox="0 0 500 260" fill="none" aria-hidden="true">
-      {/* Spec grid — left */}
-      {gridSquares.map(([x, y], i) => (
+    <svg width="100%" viewBox="0 0 460 240" fill="none" aria-hidden="true">
+      {/* Spec input block */}
+      <rect x={specX} y={specY} width={specW} height={specH}
+        stroke="currentColor" strokeOpacity={op} strokeWidth="1.6" />
+      {/* Grid inside spec block */}
+      {grid.map(([x, y], i) => (
         <rect key={i} x={x} y={y} width={sq} height={sq}
-          stroke="currentColor" strokeOpacity={op * 0.7} strokeWidth="0.75" />
+          stroke="currentColor" strokeOpacity={op * 0.55} strokeWidth="0.9" />
       ))}
-      {/* Bridge bracket marks */}
-      <polyline
-        points={`${gx0 + gridCols * (sq + gap) - gap},${gy0} ${bridgeMidX},${midY} ${gx0 + gridCols * (sq + gap) - gap},${gy0 + gridRows * (sq + gap) - gap}`}
-        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="0.75" fill="none" />
-      {/* Arrow shaft */}
-      <line x1={bridgeMidX} y1={midY} x2={298} y2={midY}
-        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="0.75" />
-      <polyline points="293,125 298,130 293,135"
-        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="0.75" />
-      {/* Narrative lines — right */}
-      {narLines.map(([x, y, w], i) => (
-        <line key={i} x1={x} y1={y} x2={x + w} y2={y}
-          stroke="currentColor" strokeOpacity={op * (0.5 + i * 0.08)} strokeWidth="1.25" />
+      {/* Spec → transform arrow */}
+      <line x1={specX + specW} y1={specCy} x2={tfX} y2={tfCy}
+        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="1.1" />
+      <polyline points={`${tfX - 5},${tfCy - 4} ${tfX},${tfCy} ${tfX - 5},${tfCy + 4}`}
+        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="1.1" />
+      {/* Transform block — accent fill */}
+      <rect x={tfX} y={tfY} width={tfW} height={tfH}
+        fill="currentColor" fillOpacity={op * 0.1} />
+      <rect x={tfX} y={tfY} width={tfW} height={tfH}
+        stroke="currentColor" strokeOpacity={op} strokeWidth="1.5" />
+      <line x1={tfX + 9} y1={tfY + 9} x2={tfX + tfW - 9} y2={tfY + tfH - 9}
+        stroke="currentColor" strokeOpacity={op * 0.45} strokeWidth="1.1" />
+      <line x1={tfX + tfW - 9} y1={tfY + 9} x2={tfX + 9} y2={tfY + tfH - 9}
+        stroke="currentColor" strokeOpacity={op * 0.45} strokeWidth="1.1" />
+      {/* Fan lines transform → market outputs */}
+      {outYs.map((oy, i) => (
+        <line key={i} x1={tfX + tfW} y1={tfCy} x2={outX} y2={oy + outH / 2}
+          stroke="currentColor" strokeOpacity={op * 0.38} strokeWidth="1" />
       ))}
-      {/* Bracket right side */}
-      <polyline
-        points={`${303},${97 - 6} ${303 - 8},${97 - 6} ${303 - 8},${173 + 6} ${303},${173 + 6}`}
-        stroke="currentColor" strokeOpacity={op * 0.4} strokeWidth="0.75" fill="none" />
+      {/* Market output blocks */}
+      {outYs.map((oy, i) => (
+        <rect key={i} x={outX} y={oy} width={outW} height={outH}
+          stroke="currentColor" strokeOpacity={op * (0.7 + i * 0.09)} strokeWidth="1.3" />
+      ))}
+      {/* Inner text line in each output */}
+      {outYs.map((oy, i) => (
+        <line key={i} x1={outX + 8} y1={oy + outH / 2}
+          x2={outX + [72, 56, 64][i]} y2={oy + outH / 2}
+          stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="1" />
+      ))}
     </svg>
   );
 }
 
-// Card 04 — Content at Scale: hexagonal engine with radial output nodes
+// Card 04 — Content at Scale: 4-stage video loop with feedback arc
 function DiagramContentScale({ hovered }: { hovered: boolean }) {
-  const op = hovered ? 0.62 : 0.42;
-  const cx = 250, cy = 130;
-  // Flat-top hexagon vertices at r=34
-  const hexR = 34;
-  const hexVerts = Array.from({ length: 6 }, (_, i) => {
-    const a = (i * 60 - 30) * (Math.PI / 180);
-    return [cx + hexR * Math.cos(a), cy + hexR * Math.sin(a)];
-  });
-  const hexPath = hexVerts.map((p, i) => `${i === 0 ? "M" : "L"}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ") + " Z";
-  // 6 outer nodes at r=95
-  const outerR = 95;
-  const outerNodes = Array.from({ length: 6 }, (_, i) => {
-    const a = (i * 60) * (Math.PI / 180);
-    return [cx + outerR * Math.cos(a), cy + outerR * Math.sin(a)];
-  });
+  const op = hovered ? 0.82 : 0.64;
+  const blockW = 72, blockH = 44, blockGap = 14;
+  const totalW = 4 * blockW + 3 * blockGap;
+  const startX = Math.round((460 - totalW) / 2);
+  const blockY = 88;
+  const blockCy = blockY + blockH / 2;
+  const loopY = blockY + blockH + 30;
+  const lastBx = startX + 3 * (blockW + blockGap);
+  const loopEndX = lastBx + blockW / 2;
+  const loopStartX = startX + blockW / 2;
   return (
-    <svg width="100%" viewBox="0 0 500 260" fill="none" aria-hidden="true">
-      {/* Outer ring connecting nodes */}
-      <polygon
-        points={outerNodes.map(p => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ")}
-        stroke="currentColor" strokeOpacity={op * 0.35} strokeWidth="0.75"
-        strokeDasharray="4 5" />
-      {/* Spoke lines from hex center to outer nodes */}
-      {outerNodes.map(([nx, ny], i) => (
-        <line key={i} x1={cx} y1={cy} x2={nx} y2={ny}
-          stroke="currentColor" strokeOpacity={op * 0.3} strokeWidth="0.75" />
+    <svg width="100%" viewBox="0 0 460 240" fill="none" aria-hidden="true">
+      {/* Publish block accent fill (last block) */}
+      <rect x={lastBx} y={blockY} width={blockW} height={blockH}
+        fill="currentColor" fillOpacity={op * 0.1} />
+      {/* Stage blocks */}
+      {[0, 1, 2, 3].map(i => {
+        const bx = startX + i * (blockW + blockGap);
+        const isLast = i === 3;
+        return (
+          <rect key={i} x={bx} y={blockY} width={blockW} height={blockH}
+            stroke="currentColor"
+            strokeOpacity={op * (isLast ? 1 : 0.72)}
+            strokeWidth={isLast ? 1.7 : 1.2} />
+        );
+      })}
+      {/* Arrows between blocks */}
+      {[0, 1, 2].map(i => {
+        const x1 = startX + (i + 1) * (blockW + blockGap) - blockGap;
+        const x2 = x1 + blockGap;
+        return (
+          <g key={i}>
+            <line x1={x1} y1={blockCy} x2={x2} y2={blockCy}
+              stroke="currentColor" strokeOpacity={op * 0.54} strokeWidth="1.1" />
+            <polyline points={`${x2 - 5},${blockCy - 3.5} ${x2},${blockCy} ${x2 - 5},${blockCy + 3.5}`}
+              stroke="currentColor" strokeOpacity={op * 0.54} strokeWidth="1.1" />
+          </g>
+        );
+      })}
+      {/* Feedback loop */}
+      <line x1={loopEndX} y1={blockY + blockH} x2={loopEndX} y2={loopY}
+        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.1" />
+      <line x1={loopEndX} y1={loopY} x2={loopStartX} y2={loopY}
+        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.1" />
+      <line x1={loopStartX} y1={loopY} x2={loopStartX} y2={blockY + blockH}
+        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.1" />
+      <polyline
+        points={`${loopStartX - 3.5},${blockY + blockH + 7} ${loopStartX},${blockY + blockH} ${loopStartX + 3.5},${blockY + blockH + 7}`}
+        stroke="currentColor" strokeOpacity={op * 0.44} strokeWidth="1.1" />
+      {/* Loop midpoint accent dot */}
+      <circle cx={(loopStartX + loopEndX) / 2} cy={loopY} r={4}
+        fill="currentColor" fillOpacity={op * 0.5} />
+      {/* Accent dots inside publish block */}
+      {[0, 1, 2].map(i => (
+        <circle key={i} cx={lastBx + 14 + i * 14} cy={blockCy} r={3}
+          fill="currentColor" fillOpacity={op * (0.38 + i * 0.14)} />
       ))}
-      {/* Outer node circles */}
-      {outerNodes.map(([nx, ny], i) => (
-        <circle key={i} cx={nx} cy={ny} r={6}
-          stroke="currentColor" strokeOpacity={op} strokeWidth="1.25" />
-      ))}
-      {/* Center hexagon */}
-      <path d={hexPath}
-        stroke="currentColor" strokeOpacity={op} strokeWidth="1.25"
-        fill="#171612" />
-      {/* Inner hex dot */}
-      <circle cx={cx} cy={cy} r={6}
-        fill="currentColor" fillOpacity={op * 0.7} />
     </svg>
   );
 }
 
-// Card 05 — Global Marketing Infrastructure: connected block blueprint
+// Card 05 — Global Marketing Infrastructure: blueprint grid + connected blocks
 function DiagramInfrastructure({ hovered }: { hovered: boolean }) {
-  const op = hovered ? 0.62 : 0.42;
-  // 6 blocks: hub + 5 modules
-  const hub  = { x: 200, y: 107, w: 100, h: 46 };
-  const blocks = [
-    { x: 200, y: 30,  w: 100, h: 40 },  // website (top)
-    { x: 330, y: 68,  w:  90, h: 38 },  // brand (right-top)
-    { x: 330, y: 150, w:  90, h: 38 },  // social (right-bottom)
-    { x: 80,  y: 68,  w:  90, h: 38 },  // events (left-top)
-    { x: 80,  y: 150, w:  90, h: 38 },  // sales (left-bottom)
-  ];
-  // Connection endpoints: center of hub → center of each block
-  const hubCx = hub.x + hub.w / 2, hubCy = hub.y + hub.h / 2;
-  // Faint grid lines (blueprint feel)
+  const op = hovered ? 0.82 : 0.64;
   const gridLines: [number, number, number, number][] = [];
-  for (let x = 20; x <= 480; x += 40) gridLines.push([x, 20, x, 240]);
-  for (let y = 30; y <= 230; y += 40) gridLines.push([20, y, 480, y]);
+  for (let x = 25; x <= 460; x += 45) gridLines.push([x, 18, x, 222]);
+  for (let y = 28; y <= 222; y += 45) gridLines.push([25, y, 460, y]);
+  const hub = { x: 178, y: 98, w: 104, h: 44 };
+  const hubCx = hub.x + hub.w / 2, hubCy = hub.y + hub.h / 2;
+  const sats = [
+    { x: 178, y: 34,  w: 104, h: 34 },
+    { x: 316, y: 68,  w:  86, h: 34 },
+    { x: 316, y: 136, w:  86, h: 34 },
+    { x: 58,  y: 68,  w:  86, h: 34 },
+    { x: 58,  y: 136, w:  86, h: 34 },
+  ];
   return (
-    <svg width="100%" viewBox="0 0 500 260" fill="none" aria-hidden="true">
-      {/* Blueprint grid */}
+    <svg width="100%" viewBox="0 0 460 240" fill="none" aria-hidden="true">
+      {/* Blueprint grid — very faint */}
       {gridLines.map(([x1, y1, x2, y2], i) => (
         <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
-          stroke="currentColor" strokeOpacity={op * 0.15} strokeWidth="0.5" />
+          stroke="currentColor" strokeOpacity={op * 0.1} strokeWidth="0.5" />
       ))}
-      {/* Connection lines from hub to each module */}
-      {blocks.map((b, i) => {
+      {/* Connection lines hub → satellites */}
+      {sats.map((b, i) => {
         const bCx = b.x + b.w / 2, bCy = b.y + b.h / 2;
         return (
           <line key={i} x1={hubCx} y1={hubCy} x2={bCx} y2={bCy}
-            stroke="currentColor" strokeOpacity={op * 0.45} strokeWidth="1" />
+            stroke="currentColor" strokeOpacity={op * 0.4} strokeWidth="1.1" />
         );
       })}
-      {/* Junction dots */}
-      {blocks.map((b, i) => {
-        const bCx = b.x + b.w / 2, bCy = b.y + b.h / 2;
-        const mx = (hubCx + bCx) / 2, my = (hubCy + bCy) / 2;
-        return <circle key={i} cx={mx} cy={my} r={2.5}
-          fill="currentColor" fillOpacity={op * 0.6} />;
-      })}
-      {/* Module blocks */}
-      {blocks.map((b, i) => (
+      {/* Satellite blocks */}
+      {sats.map((b, i) => (
         <rect key={i} x={b.x} y={b.y} width={b.w} height={b.h}
-          stroke="currentColor" strokeOpacity={op * 0.8} strokeWidth="1" />
+          stroke="currentColor" strokeOpacity={op * 0.7} strokeWidth="1.1" />
       ))}
-      {/* Inner detail lines in module blocks */}
-      {blocks.map((b, i) => (
-        <line key={i}
-          x1={b.x + 8} y1={b.y + b.h / 2}
-          x2={b.x + b.w - 8} y2={b.y + b.h / 2}
-          stroke="currentColor" strokeOpacity={op * 0.45} strokeWidth="0.75" />
+      {/* Inner line in each satellite */}
+      {sats.map((b, i) => (
+        <line key={i} x1={b.x + 8} y1={b.y + b.h / 2} x2={b.x + b.w - 8} y2={b.y + b.h / 2}
+          stroke="currentColor" strokeOpacity={op * 0.4} strokeWidth="1" />
       ))}
       {/* Hub block */}
       <rect x={hub.x} y={hub.y} width={hub.w} height={hub.h}
-        stroke="currentColor" strokeOpacity={op} strokeWidth="1.5" />
-      {/* Hub inner cross */}
+        stroke="currentColor" strokeOpacity={op} strokeWidth="1.7" />
       <line x1={hubCx} y1={hub.y + 10} x2={hubCx} y2={hub.y + hub.h - 10}
-        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="0.75" />
-      <line x1={hub.x + 12} y1={hubCy} x2={hub.x + hub.w - 12} y2={hubCy}
-        stroke="currentColor" strokeOpacity={op * 0.5} strokeWidth="0.75" />
+        stroke="currentColor" strokeOpacity={op * 0.45} strokeWidth="1" />
+      <line x1={hub.x + 14} y1={hubCy} x2={hub.x + hub.w - 14} y2={hubCy}
+        stroke="currentColor" strokeOpacity={op * 0.45} strokeWidth="1" />
     </svg>
   );
 }
@@ -310,8 +343,8 @@ function CaseCard({ c, prefersReduced }: { c: Case; prefersReduced: boolean }) {
       </div>
 
       {/* Zone 2 — diagram */}
-      <div className="flex-none flex items-center justify-center text-cream h-[160px] py-2 lg:h-auto lg:flex-1 lg:min-h-[260px]">
-        <div className="w-[58vw] min-w-[190px] max-w-[250px] lg:w-[88%] lg:max-w-[460px] mx-auto">
+      <div className="flex-none flex items-center justify-center text-cream h-[160px] pb-6 lg:h-auto lg:flex-1 lg:min-h-[240px] lg:pb-12">
+        <div className="w-[62vw] min-w-[200px] max-w-[260px] lg:w-[90%] lg:max-w-[460px] mx-auto rounded border border-cream/10 bg-cream/[0.03]">
           <Diagram hovered={hovered} />
         </div>
       </div>

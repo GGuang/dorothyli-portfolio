@@ -27,7 +27,7 @@ const CHALLENGES = [
   },
   {
     title: "Platform algorithm dependency",
-    body: "Sustained reach required understanding platform signals and adjusting creative formats to stay in distribution — not just making good videos.",
+    body: "Sustained reach required understanding platform signals and adjusting creative formats, not just making good individual videos.",
   },
   {
     title: "UGC was untapped",
@@ -58,7 +58,7 @@ const OUTPUTS = [
   {
     title: "Creative-to-publishing loop",
     label: "Production Loop",
-    body: "Video ideas moved through a semi-structured loop, from brainstorming and voting to scripting, shooting, editing, effects, publishing, and performance review.",
+    body: "Ideas moved through brainstorming, voting, scripting, shooting, editing, effects, publishing, and performance review.",
     image: "/cases/content-at-scale/creative-publishing-loop.png",
     imagePosition: "center center",
     imageVersion: "v4",
@@ -482,9 +482,9 @@ export default function ContentAtScalePage() {
 
             <p className="font-sans text-[15px] lg:text-[16px] leading-[1.72] text-ink/70 mb-10 max-w-[620px]">
               CREYI needed to produce short-video content at volume across brand campaigns and
-              platform accounts. The challenge was moving beyond individual viral hits toward
-              a reliable creative system — one that could read platform signals, produce
-              format-consistent content quickly, and compound into account-level growth.
+              platform accounts. The challenge was building a reliable creative system that could
+              read platform signals, produce format-consistent content quickly, and compound into
+              account-level growth.
             </p>
 
             {/* Keyword cluster */}
@@ -565,7 +565,7 @@ export default function ContentAtScalePage() {
           </h2>
 
           <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/62 max-w-[600px] mb-12 lg:mb-16">
-            The available work samples are partial, but they show the core pattern of this period: video ideas moving through a creative production loop, then becoming campaign content and platform-native short-video output.
+            Partial samples show the core pattern: video ideas moving through a production loop into campaign content and platform-native short-video output.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
@@ -586,10 +586,10 @@ export default function ContentAtScalePage() {
               From individual videos to repeatable content growth.
             </h2>
             <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/70">
-              The format system enabled production of 50+ high-performing videos, accumulating over
-              230M views and driving 540% UGC growth on key campaigns. Brand collaborations built
-              on the same creative infrastructure reached 1B+ combined views — demonstrating that
-              the system itself, not any single video, was the asset.
+              The format system enabled 50+ high-performing videos, accumulating over 230M views and
+              driving 540% UGC growth on key campaigns. Brand collaborations on the same creative
+              infrastructure reached 1B+ combined views, demonstrating that the system itself, not
+              any single video, was the asset.
             </p>
           </div>
         </section>

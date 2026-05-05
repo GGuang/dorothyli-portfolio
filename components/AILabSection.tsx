@@ -16,7 +16,7 @@ const ENTRIES: Entry[] = [
     meta: "AI WORKFLOW · INDEPENDENT PRACTICE / POCSTARS",
     title: "AI Marketing Team",
     description:
-      "Designed a local agent-based workflow system for repeatable B2B marketing tasks, supported by roles, skills, SOPs, references, templates, and human review.",
+      "A local agent-based workflow for repeatable B2B marketing tasks, built around roles, SOPs, and human review.",
     href: "/cases/ai-marketing-team",
   },
   {
@@ -32,7 +32,7 @@ const ENTRIES: Entry[] = [
     meta: "AI BUILD · DOROTHYLI.ME",
     title: "This Portfolio",
     description:
-      "An AI-assisted portfolio build, using visual extraction, structured prompts, Claude Code, and iterative design judgment to turn positioning into a working site.",
+      "Built with Claude Code and structured prompts, applying design judgment to turn positioning into a working site.",
     href: null,
   },
 ];
@@ -194,9 +194,7 @@ export function AILabSection() {
               Built with AI, guided by marketing judgment.
             </h2>
             <p className="font-sans font-[400] text-[16px] lg:text-[18px] leading-[1.6] text-ink/80 max-w-[480px] lg:max-w-[520px]">
-              Selected experiments in agent workflows, automation, and
-              AI-assisted content systems, built to make marketing work faster,
-              clearer, and more repeatable.
+              Selected experiments in agent workflows, automation, and AI-assisted content systems.
             </p>
           </div>
 

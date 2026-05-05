@@ -32,11 +32,11 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Dorothy Li — B2B Marketing Leader",
+  title: "Dorothy Li | B2B Product & Global Marketing",
   description:
-    "Building overseas marketing infrastructure for technology companies — from brand to demand, content to systems.",
+    "Building overseas marketing infrastructure for technology companies: from brand to demand, content to systems.",
   openGraph: {
-    title: "Dorothy Li — B2B Marketing Leader",
+    title: "Dorothy Li | B2B Product & Global Marketing",
     description:
       "Building overseas marketing infrastructure for technology companies.",
     url: "https://dorothyli.me",
