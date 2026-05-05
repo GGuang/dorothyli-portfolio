@@ -67,8 +67,8 @@ const OUTPUTS = [
     label: "Blueprint",
     body: "A four-step design logic mapped recurring marketing tasks into skills, agent roles, and a connected team structure.",
     image: "/cases/ai-marketing-team/ai-marketing-team-blueprint.png",
-    imagePosition: "center top",
-    imageVersion: "v1",
+    imagePosition: "center center",
+    imageVersion: "v2",
     imageFit: "contain" as const,
   },
   {
