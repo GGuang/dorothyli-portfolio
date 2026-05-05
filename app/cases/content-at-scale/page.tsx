@@ -11,10 +11,9 @@ import { Footer } from "@/components/Footer";
  *   web/public/cases/content-at-scale/
  *
  * Required filenames:
- *   video-format-system.png        — format template doc or creative brief system
- *   roewe-rx5-campaign.png         — Roewe RX5 brand campaign video or content
- *   viral-video-samples.png        — grid or collage of viral short-video examples
- *   video-led-content-account.png  — account overview or analytics dashboard
+ *   creative-publishing-loop.png   — production loop diagram or workflow overview
+ *   roewe-rx5-campaign.png         — Roewe RX5 Douyin campaign video or content
+ *   viral-video-samples.png        — grid or collage of high-reach short-video examples
  */
 
 const CONTEXT_KEYWORDS = [
@@ -57,31 +56,24 @@ const STAGES = [
 
 const OUTPUTS = [
   {
-    title: "Video format system",
-    label: "Creative System",
-    body: "Developed a repeatable format framework — hook, story arc, CTA — that could be applied across product categories, brand campaigns, and platform contexts to produce at volume without losing quality.",
-    image: "/cases/content-at-scale/video-format-system.png",
+    title: "Creative-to-publishing loop",
+    label: "Production Loop",
+    body: "Video ideas moved through a semi-structured loop, from brainstorming and voting to scripting, shooting, editing, effects, publishing, and performance review.",
+    image: "/cases/content-at-scale/creative-publishing-loop.png",
     imagePosition: "center top",
   },
   {
-    title: "Roewe RX5 brand campaign",
-    label: "Brand Campaign",
-    body: "Led content production for the Roewe RX5 campaign, applying the format system to automotive storytelling. The campaign combined brand narrative with platform-native creative to drive reach and UGC participation.",
+    title: "Roewe RX5 launch campaign",
+    label: "Campaign",
+    body: "The Roewe RX5 Douyin launch campaign used scenario-based short videos to connect product communication, platform storytelling, and audience participation.",
     image: "/cases/content-at-scale/roewe-rx5-campaign.png",
     imagePosition: "center top",
   },
   {
-    title: "Viral video library",
-    label: "Content Output",
-    body: "Produced 50+ high-performing short videos across categories. Format templates allowed fast iteration — testing hooks, visual styles, and pacing to identify what extended reach and triggered organic sharing.",
+    title: "Viral video samples",
+    label: "Video Samples",
+    body: "Selected video cases show how creative hooks, emotional scenarios, and platform-native editing helped individual videos reach large audiences.",
     image: "/cases/content-at-scale/viral-video-samples.png",
-    imagePosition: "center top",
-  },
-  {
-    title: "Video-led content account",
-    label: "Account Growth",
-    body: "Built and grew a short-video account using the format engine as its backbone. Consistent format logic, platform signal monitoring, and UGC activation compounded into sustained account-level growth.",
-    image: "/cases/content-at-scale/video-led-content-account.png",
     imagePosition: "center top",
   },
 ];
@@ -562,13 +554,17 @@ export default function ContentAtScalePage() {
           <p className="section-label mb-8 lg:mb-12">04 / Output</p>
 
           <h2
-            className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em] mb-12 lg:mb-16 max-w-[520px]"
+            className="font-serif font-[300] text-ink leading-[1.1] tracking-[-0.025em] mb-6 max-w-[520px]"
             style={{ fontSize: "clamp(22px, 2.8vw, 38px)" }}
           >
             Creative formats and campaigns delivered.
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-10">
+          <p className="font-sans text-[14px] lg:text-[15px] leading-[1.72] text-ink/62 max-w-[600px] mb-12 lg:mb-16">
+            The available work samples are partial, but they show the core pattern of this period: video ideas moving through a creative production loop, then becoming campaign content and platform-native short-video output.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
             {OUTPUTS.map((output, i) => (
               <OutputCard key={i} {...output} index={i} />
             ))}
