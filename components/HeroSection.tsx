@@ -14,7 +14,7 @@ const WORDS = [
   "Search Visibility",
   "Sales Enablement",
   "Demand Pathways",
-  "Marketing Systems",
+  "GTM Content Systems",
 ];
 
 const LONGEST_WORD = WORDS.reduce((a, b) => (a.length >= b.length ? a : b));
